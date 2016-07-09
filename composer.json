@@ -1,0 +1,31 @@
+{
+  "name": "Pepeverde/Libs",
+  "description": "Librerie per lo sviluppo di applicazioni",
+  "type": "library",
+  "require": {
+    "drak/doctrine1": "dev-master",
+    "swiftmailer/swiftmailer": "~5.4",
+    "sentry/sentry": "~0.22",
+    "aura/session": "~2.0",
+    "apt142/htmltotext": "dev-master",
+    "pelago/emogrifier": "@dev",
+    "behat/transliterator": "~1.0",
+    "twig/twig": "~1.24"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "4.8.*"
+  },
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Manuel Dalla Lana",
+      "email": "manuel@pepeverde.agency"
+    }
+  ],
+  "minimum-stability": "stable",
+  "autoload": {
+    "psr-4": {
+      "Pepeverde\\": "src/Pepeverde/"
+    }
+  }
+}
