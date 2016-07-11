@@ -1,5 +1,5 @@
 {
-  "name": "Pepeverde/Libs",
+  "name": "pepeverde/libs",
   "description": "Librerie per lo sviluppo di applicazioni",
   "type": "library",
   "require": {
