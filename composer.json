@@ -3,6 +3,7 @@
   "description": "Librerie per lo sviluppo di applicazioni",
   "type": "library",
   "require": {
+    "endelwar/zigra": "0.6.*",
     "drak/doctrine1": "dev-master",
     "swiftmailer/swiftmailer": "~5.4",
     "sentry/sentry": "~0.22",
