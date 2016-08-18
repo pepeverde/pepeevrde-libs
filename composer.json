@@ -2,7 +2,7 @@
   "name": "pepeverde/libs",
   "description": "Librerie per lo sviluppo di applicazioni",
   "type": "library",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "require": {
     "drak/doctrine1": "dev-master",
     "swiftmailer/swiftmailer": "~5.4",
