@@ -6,7 +6,7 @@
   "require": {
     "drak/doctrine1": "dev-master",
     "swiftmailer/swiftmailer": "~5.4",
-    "sentry/sentry": "~0.22",
+    "sentry/sentry": "~1.1",
     "aura/session": "~2.0",
     "apt142/htmltotext": "dev-master",
     "pelago/emogrifier": "@dev",
