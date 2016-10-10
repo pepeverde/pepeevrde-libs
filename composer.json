@@ -2,16 +2,16 @@
   "name": "pepeverde/libs",
   "description": "Librerie per lo sviluppo di applicazioni",
   "type": "library",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "require": {
     "drak/doctrine1": "dev-master",
     "swiftmailer/swiftmailer": "~5.4",
-    "sentry/sentry": "~1.1",
+    "sentry/sentry": "~1.5",
     "aura/session": "~2.0",
     "apt142/htmltotext": "dev-master",
     "pelago/emogrifier": "@dev",
-    "behat/transliterator": "~1.0",
-    "twig/twig": "~1.24"
+    "behat/transliterator": "~1.1",
+    "twig/twig": "~1.26"
   },
   "require-dev": {
     "phpunit/phpunit": "4.8.*"
@@ -23,7 +23,7 @@
       "email": "manuel@pepeverde.agency"
     }
   ],
-  "minimum-stability": "stable",
+  "minimum-stability": "dev",
   "autoload": {
     "psr-4": {
       "Pepeverde\\": "src/Pepeverde/"
