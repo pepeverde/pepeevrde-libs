@@ -2,7 +2,7 @@
 
 namespace Pepeverde;
 
-use HtmlToText\HtmlToText;
+use Html2Text\Html2Text;
 use Pelago\Emogrifier;
 
 /**
@@ -136,8 +136,7 @@ class Mailer2
         $this->bodyHtml = $twig_template->render($this->templateVars);
         $emogrifier = new Emogrifier($this->bodyHtml);
         $this->bodyHtml = $emogrifier->emogrify();
-        $converter = new HtmlToText($this->bodyHtml);
-        $this->bodyText = $converter->convert();
+        $this->bodyText = Html2Text::convert($this->bodyHtml);
 
         return $this;
     }
