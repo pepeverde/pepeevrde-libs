@@ -8,16 +8,23 @@ use Raven_ErrorHandler;
 
 class Error
 {
-    protected static $ravenClient = null;
-    private static $sentryConfig = null;
+    /** @var Raven_Client */
+    protected static $ravenClient;
 
+    /** @var array */
+    private static $sentryConfig;
+
+    /**
+     * @param array|null $ravenConfig
+     * @param string $appVersion
+     * @return Raven_Client
+     */
     public static function getRavenInstance($ravenConfig = null, $appVersion = 'dev')
     {
-        if (!isset(self::$ravenClient)) {
-            if ($ravenConfig == null) {
+        if (null === self::$ravenClient) {
+            self::$sentryConfig = $ravenConfig;
+            if ($ravenConfig === null) {
                 self::$sentryConfig = Registry::get('config.sentry');
-            } else {
-                self::$sentryConfig = $ravenConfig;
             }
 
             $sentryServer = self::$sentryConfig['sentry-server'];
@@ -34,15 +41,23 @@ class Error
         return self::$ravenClient;
     }
 
+    /**
+     * @param array|null $ravenConfig
+     * @param string $appVersion
+     */
     public static function enableErrorHandler($ravenConfig = null, $appVersion = 'dev')
     {
-        $raven = self::getRavenInstance($ravenConfig, $appVersion);
-        $error_handler = new Raven_ErrorHandler($raven);
+        $sentryClient = self::getRavenInstance($ravenConfig, $appVersion);
+        $error_handler = new Raven_ErrorHandler($sentryClient);
         $error_handler->registerExceptionHandler();
         $error_handler->registerErrorHandler();
         $error_handler->registerShutdownFunction();
     }
 
+    /**
+     * @param \Exception $e
+     * @param bool $display
+     */
     public static function report(\Exception $e, $display = true)
     {
         $raven = self::getRavenInstance();
@@ -58,15 +73,22 @@ class Error
         }
     }
 
+    /**
+     * @param string $message
+     * @param array $params
+     * @param array $data
+     * @param bool $stack
+     * @param null $vars
+     */
     public static function message(
         $message,
         $params = array(),
-        $level_or_options = array(),
+        $data = array(),
         $stack = false,
         $vars = null
     ) {
         $raven = self::getRavenInstance();
-        $raven->captureMessage($message, $params, $level_or_options, $stack, $vars);
+        $raven->captureMessage($message, $params, $data, $stack, $vars);
         if ($raven->getLastError() !== null) {
             printf('There was an error sending the event to Sentry: %s', $raven->getLastError());
         }

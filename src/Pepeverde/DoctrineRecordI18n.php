@@ -6,13 +6,13 @@ class DoctrineRecordI18n
 {
     /**
      * @param \Doctrine_Record $record
-     * @param $name
+     * @param string $name
      * @return string|null
      */
     public static function get(\Doctrine_Record $record, $name)
     {
         $language = Registry::get('language');
-        if (isset($record['Translation'][$language]) && '' != $record['Translation'][$language][$name]) {
+        if (isset($record['Translation'][$language]) && '' !== $record['Translation'][$language][$name]) {
             return $record['Translation'][$language][$name];
         }
         $defaultLanguage = Registry::get('default_language');
@@ -26,7 +26,7 @@ class DoctrineRecordI18n
 
     /**
      * @param \Doctrine_Record $record
-     * @param $name
+     * @param string $name
      * @return bool
      */
     public static function exists(\Doctrine_Record $record, $name)

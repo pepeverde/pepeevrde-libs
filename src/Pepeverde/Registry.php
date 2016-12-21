@@ -43,6 +43,10 @@ class Registry
         return $registry->get($key, $alt);
     }
 
+    /**
+     * @param string $key
+     * @return mixed
+     */
     public static function has($key)
     {
         $registry = self::getRegistry();
