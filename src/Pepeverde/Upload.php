@@ -17,17 +17,15 @@ class Upload
      */
     public static function uploadFile($post_file, $destination, $name = null)
     {
-        if ($post_file['error'] == 0) {
+        if ($post_file['error'] === 0) {
             try {
-                if (!is_dir($destination)) {
-                    if (!mkdir($destination, 0777, true)) {
-                        throw new \Exception('impossibile creare directory: ' . dirname($destination));
-                    }
+                if (!@mkdir($destination, 0777, true) && !is_dir($destination)) {
+                    throw new \RuntimeException('impossibile creare directory: ' . dirname($destination));
                 }
-            } catch (\Exception $e) {
+            } catch (\RuntimeException $e) {
                 Error::report($e);
             }
-            if (null == $name) {
+            if (null === $name) {
                 $name = $post_file['name'];
             }
             $name_fileinfo = self::utf8Pathinfo($name);
@@ -51,6 +49,10 @@ class Upload
         return false;
     }
 
+    /**
+     * @param string $name
+     * @return mixed|string
+     */
     public static function cleanName($name)
     {
         $remove_pattern = '/[^_\-.\-a-zA-Z0-9\s]/u';
@@ -64,6 +66,10 @@ class Upload
         return $name;
     }
 
+    /**
+     * @param string $filename
+     * @return mixed|string
+     */
     public static function urlify($filename)
     {
         $sluggableText = Transliterator::transliterate($filename, '-');
@@ -73,6 +79,10 @@ class Upload
         return $urlized;
     }
 
+    /**
+     * @param array[] $vector
+     * @return array
+     */
     public static function flipArray($vector)
     {
         $result = array();
@@ -85,6 +95,10 @@ class Upload
         return $result;
     }
 
+    /**
+     * @param string $filepath
+     * @return array
+     */
     public static function utf8Pathinfo($filepath)
     {
         preg_match('%^(.*?)[\\\\/]*(([^/\\\\]*?)(\.([^\.\\\\/]+?)|))[\\\\/\.]*$%im', $filepath, $m);

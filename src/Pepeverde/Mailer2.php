@@ -16,7 +16,6 @@ class Mailer2
     const MAIL_FROM_NAME = 'example@example.com';
 
     private $subject;
-    private $template;
 
     /** @var \Swift_Mailer */
     private $swiftMailer;
@@ -42,13 +41,12 @@ class Mailer2
      */
     public function __construct($template, array $templateVars, array $swiftOptions)
     {
-        $this->template = $template;
         $this->templateVars = $templateVars;
         $this->mailFromEmail = static::MAIL_FROM_EMAIL;
         $this->mailFromName = static::MAIL_FROM_NAME;
         $this->swiftOptions = $swiftOptions;
 
-        self::initializeTemplate($this->template);
+        $this->initializeTemplate($template);
     }
 
     /**
@@ -93,15 +91,15 @@ class Mailer2
      */
     public function sendMessage($to, $subject, $cc = null, $bcc = null)
     {
-        self::initializeSwiftMailer($this->swiftOptions);
+        $this->initializeSwiftMailer($this->swiftOptions);
 
         $this->subject = $subject;
 
         $this->swiftMessage->setTo($to);
-        if (!is_null($cc)) {
+        if (null !== $cc) {
             $this->swiftMessage->addCc($cc);
         }
-        if (!is_null($bcc)) {
+        if (null !== $bcc) {
             $this->swiftMessage->setBcc($bcc);
         }
 
@@ -115,30 +113,34 @@ class Mailer2
 
     /**
      * @param $template
-     * @return Mailer2
+     * @return $this
      */
     private function initializeTemplate($template)
     {
-        $templatePathParts = pathinfo($template);
+        try {
+            $templatePathParts = pathinfo($template);
 
-        $twig_options = array(
-            'cache' => false,
-            'auto_reload' => true
-        );
-        $twig_loader = new \Twig_Loader_Filesystem($templatePathParts['dirname']);
-        $twig = new \Twig_Environment($twig_loader, $twig_options);
+            $twig_options = array(
+                'cache' => false,
+                'auto_reload' => true
+            );
+            $twig_loader = new \Twig_Loader_Filesystem($templatePathParts['dirname']);
+            $twig = new \Twig_Environment($twig_loader, $twig_options);
 
-        $twig->getExtension('core')->setTimezone('Europe/Rome');
-        $twig->getExtension('core')->setDateFormat('d/m/Y', '%d days');
-        $twig->getExtension('core')->setNumberFormat(2, ',', '');
-        $twig_template = $twig->loadTemplate($templatePathParts['basename']);
+            $twig->getExtension('Twig_Extension_Core')->setTimezone('Europe/Rome');
+            $twig->getExtension('Twig_Extension_Core')->setDateFormat('d/m/Y', '%d days');
+            $twig->getExtension('Twig_Extension_Core')->setNumberFormat(2, ',', '');
+            $twig_template = $twig->load($templatePathParts['basename']);
 
-        $this->bodyHtml = $twig_template->render($this->templateVars);
-        $emogrifier = new Emogrifier($this->bodyHtml);
-        $this->bodyHtml = $emogrifier->emogrify();
-        $this->bodyText = Html2Text::convert($this->bodyHtml);
+            $this->bodyHtml = $twig_template->render($this->templateVars);
+            $emogrifier = new Emogrifier($this->bodyHtml);
+            $this->bodyHtml = $emogrifier->emogrify();
+            $this->bodyText = Html2Text::convert($this->bodyHtml);
 
-        return $this;
+            return $this;
+        } catch (\Exception $e) {
+            Error::report($e);
+        }
     }
 
     /**
@@ -152,7 +154,7 @@ class Mailer2
         $this->swiftMessage = \Swift_Message::newInstance()
             ->setFrom(array($this->mailFromEmail => $this->mailFromName));
 
-        if (!is_null($this->mailReplyToEmail)) {
+        if (null !== $this->mailReplyToEmail) {
             $this->swiftMessage->addReplyTo($this->mailReplyToEmail);
         }
 
