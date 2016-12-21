@@ -7,12 +7,12 @@
     "endelwar/zigra": "0.6.*",
     "drak/doctrine1": "dev-master",
     "swiftmailer/swiftmailer": "~5.4",
-    "sentry/sentry": "~1.5",
-    "aura/session": "~2.0",
+    "sentry/sentry": "~1.6",
+    "aura/session": "~2.1",
     "soundasleep/html2text": "~0.3",
     "pelago/emogrifier": "~1.1",
     "behat/transliterator": "~1.1",
-    "twig/twig": "~1.26"
+    "twig/twig": "~1.29"
   },
   "require-dev": {
     "phpunit/phpunit": "4.8.*"
