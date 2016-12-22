@@ -28,5 +28,10 @@
     "psr-4": {
       "Pepeverde\\": "src/Pepeverde/"
     }
-  }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Pepeverde\\": "tests/Pepeverde"
+    }
+  },
 }
