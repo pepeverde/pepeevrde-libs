@@ -20,16 +20,16 @@ class Language
     /**
      * @return array
      */
-    public static function getLanguagesInfo()
+    public function all()
     {
         return self::$languages;
     }
 
     /**
      * @param $language
-     * @return bool|mixed
+     * @return array|false
      */
-    public static function getLanguageInfo($language)
+    public function info($language)
     {
         if (array_key_exists($language, self::$languages)) {
             return self::$languages[$language];
