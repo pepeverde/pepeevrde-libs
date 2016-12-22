@@ -33,5 +33,5 @@
     "psr-4": {
       "Pepeverde\\": "tests/Pepeverde"
     }
-  },
+  }
 }
