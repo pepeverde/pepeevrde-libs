@@ -2,9 +2,9 @@
   "name": "pepeverde/libs",
   "description": "Librerie per lo sviluppo di applicazioni",
   "type": "library",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "require": {
-    "endelwar/zigra": "0.6.*",
+    "endelwar/zigra": "~0.6",
     "drak/doctrine1": "dev-master",
     "swiftmailer/swiftmailer": "~5.4",
     "sentry/sentry": "~1.6",
