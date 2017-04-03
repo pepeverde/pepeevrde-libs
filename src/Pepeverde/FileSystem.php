@@ -17,4 +17,16 @@ class FileSystem
 
         return iterator_count($di) === 0;
     }
+
+    /**
+     * @param string $name
+     * @param int $retinaType
+     * @return string
+     */
+    public static function getRetinaName($name, $retinaType = 2)
+    {
+        $v = pathinfo($name);
+        $name2x = $v['filename'] . '@'.$retinaType.'x.' . $v['extension'];
+        return $name2x;
+    }
 }
