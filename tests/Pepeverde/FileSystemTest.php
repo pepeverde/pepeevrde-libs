@@ -2,6 +2,8 @@
 
 namespace Pepeverde;
 
+use phpDocumentor\Reflection\File;
+
 class FileSystemTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()
@@ -33,5 +35,31 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
     public function testWrongDir()
     {
         FileSystem::isDirEmpty(__DIR__ . '/iDontExist');
+    }
+
+
+    public function testRightName()
+    {
+        $this->assertEquals('nome@2x.jpg', FileSystem::getRetinaName('nome.jpg', 2));
+    }
+
+    public function testWrongName()
+    {
+        $this->assertNotEquals('nome@3x.jpg', FileSystem::getRetinaName('nome.jpg', 2));
+    }
+
+    public function testRightEmptyRetinaType()
+    {
+        $this->assertEquals('nome@2x.jpg', FileSystem::getRetinaName('nome.jpg'));
+    }
+
+    public function testWrongEmptyRetinaType()
+    {
+        $this->assertNotEquals('nome@3x.jpg', FileSystem::getRetinaName('nome.jpg'));
+    }
+
+    public function testUTF8Japanese()
+    {
+        $this->assertEquals('いろはにほへとちりぬるを@3x.png', FileSystem::getRetinaName('いろはにほへとちりぬるを.png', 3));
     }
 }
