@@ -21,15 +21,12 @@ class FileSystem
     /**
      * @param string $name
      * @param int $retinaType
-     * @return null|string
+     * @return string
      */
     public static function getRetinaName($name, $retinaType = 2)
     {
-        if(!empty($name)){
-            $v = pathinfo($name);
-            $name2x = $v['filename'] . '@'.$retinaType.'x.' . $v['extension'];
-            return $name2x;
-        }
-        return null;
+        $v = pathinfo($name);
+        $name2x = $v['filename'] . '@'.$retinaType.'x.' . $v['extension'];
+        return $name2x;
     }
 }

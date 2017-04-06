@@ -37,11 +37,6 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
         FileSystem::isDirEmpty(__DIR__ . '/iDontExist');
     }
 
-    public function testEmptyName()
-    {
-        $this->assertEquals('', FileSystem::getRetinaName('', 2));
-    }
-
 
     public function testRightName()
     {
