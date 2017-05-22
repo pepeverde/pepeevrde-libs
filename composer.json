@@ -4,7 +4,7 @@
   "type": "library",
   "version": "0.4.2",
   "require": {
-    "endelwar/zigra": "~0.6",
+    "endelwar/zigra": "~0.7",
     "drak/doctrine1": "dev-master",
     "swiftmailer/swiftmailer": "~5.4",
     "sentry/sentry": "~1.6",
