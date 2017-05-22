@@ -10,9 +10,9 @@ use \Behat\Transliterator\Transliterator;
 class Upload
 {
     /**
-     * @param $post_file
-     * @param $destination
-     * @param null $name
+     * @param array $post_file $_FILES array for single file
+     * @param string $destination path to put file into
+     * @param string|null $name optional new name of uploaded file
      * @return bool|string
      */
     public static function uploadFile($post_file, $destination, $name = null)
@@ -36,9 +36,9 @@ class Upload
             try {
                 if (move_uploaded_file($post_file['tmp_name'], $destination . $fullname)) {
                     return $fullname;
-                } else {
-                    return false;
                 }
+
+                return false;
             } catch (\Exception $e) {
                 Error::report($e);
             }
@@ -51,7 +51,7 @@ class Upload
 
     /**
      * @param string $name
-     * @return mixed|string
+     * @return string
      */
     public static function cleanName($name)
     {

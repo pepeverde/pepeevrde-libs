@@ -28,7 +28,7 @@ class Mailer2
 
     private $mailFromEmail;
     private $mailFromName;
-    private $mailReplyToEmail = null;
+    private $mailReplyToEmail;
 
     private $templateVars;
     private $bodyHtml;
