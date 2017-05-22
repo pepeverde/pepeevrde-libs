@@ -2,7 +2,7 @@
   "name": "pepeverde/libs",
   "description": "Librerie per lo sviluppo di applicazioni",
   "type": "library",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "require": {
     "endelwar/zigra": "~0.7",
     "drak/doctrine1": "dev-master",
