@@ -33,7 +33,7 @@ class Error
                     // pass along the version of your application
                     'release' => $appVersion,
                     'extra' => array(
-                        'php_version' => phpversion()
+                        'php_version' => PHP_VERSION
                     ),
                 ));
         }
@@ -82,8 +82,8 @@ class Error
      */
     public static function message(
         $message,
-        $params = array(),
-        $data = array(),
+        array $params = array(),
+        array $data = array(),
         $stack = false,
         $vars = null
     ) {
