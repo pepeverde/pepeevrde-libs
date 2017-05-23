@@ -7,6 +7,7 @@ class TextTest extends \PHPUnit_Framework_TestCase
     /** @var Text */
     private $Text;
     private $text_br = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br>Mauris volutpat, velit interdum sagittis vestibulum, velit nulla vehicula nulla, nec faucibus est diam sed orci.<br />Phasellus finibus, felis vel posuere dictum, elit arcu vestibulum dolor, non auctor ligula neque eu ante.<br    >';
+    private $text_10chars = 'Lorem ipsu';
 
     protected function setUp()
     {
@@ -33,6 +34,7 @@ class TextTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Lorem ipsum dolor sit amet, consectetur ad...', $this->Text->truncate($this->text_br, 42));
         $this->assertEquals('Lorem ipsum dolor sit amet, consectetur ad', $this->Text->truncate($this->text_br, 42, ''));
         $this->assertEquals('Lorem ipsum dolor sit amet, consectetur adipiscing', $this->Text->truncate($this->text_br, 42, '', true));
+        $this->assertEquals('Lorem ipsu', $this->Text->truncate($this->text_10chars));
     }
 
 /*
