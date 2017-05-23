@@ -2,7 +2,7 @@
   "name": "pepeverde/libs",
   "description": "Librerie per lo sviluppo di applicazioni",
   "type": "library",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "require": {
     "php": ">=5.6.0",
     "endelwar/zigra": "~0.7",
