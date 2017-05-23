@@ -2,20 +2,22 @@
 
 namespace Pepeverde;
 
-use phpDocumentor\Reflection\File;
-
 class FileSystemTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
         parent::setUp();
-        mkdir(__DIR__ . '/../../build/emptydir', 0777, true);
+        if (!is_dir(__DIR__ . '/../../build/emptydir')) {
+            mkdir(__DIR__ . '/../../build/emptydir', 0777, true);
+        }
     }
 
     public function tearDown()
     {
         parent::tearDown();
-        rmdir(__DIR__ . '/../../build/emptydir');
+        if (is_dir(__DIR__ . '/../../build/emptydir')) {
+            rmdir(__DIR__ . '/../../build/emptydir');
+        }
     }
 
     public function testFullDir()
