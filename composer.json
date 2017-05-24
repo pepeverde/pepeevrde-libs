@@ -5,6 +5,8 @@
   "version": "0.6.0",
   "require": {
     "php": ">=5.6.0",
+    "ext-mbstring": "*",
+    "lib-pcre": "*",
     "endelwar/zigra": "~0.7",
     "drak/doctrine1": "dev-master",
     "swiftmailer/swiftmailer": "~5.4",

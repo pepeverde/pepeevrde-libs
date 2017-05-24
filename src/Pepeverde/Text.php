@@ -95,6 +95,6 @@ class Text
             ) ? '</' . implode(
                     '></',
                     $tags
-                ) . '>' : '') . (strlen($string) > $length ? $separator : '');
+                ) . '>' : '') . (mb_strlen($string) > $length ? $separator : '');
     }
 }

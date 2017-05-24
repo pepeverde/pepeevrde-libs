@@ -7,39 +7,15 @@ class SeoUtil
     protected $stopWordFilePath = __DIR__ . '/../../resources/stopword/';
 
     /**
-     * Standardize whitespace in a string
-     *
-     * Replace line breaks, carriage returns, tabs with a space, then remove double spaces.
-     *
-     * @param string $string String input to standardize.
-     *
-     * @return string
-     */
-    public function standardizeWhitespace($string)
-    {
-        return trim(preg_replace('/(\s)+/', ' ', str_replace(array("\t", "\n", "\r", "\f"), ' ', $string)));
-    }
-
-    /**
      * @param string $lang
      * @return array
      * @throws \RuntimeException
      */
     private function loadStopWords($lang = 'it')
     {
-        $stopWordFile = $this->stopWordFilePath . $lang . '.txt';
+        $stopWordFile = $this->stopWordFilePath . $lang . '.php';
         if (is_file($stopWordFile)) {
-            $stopwords = [];
-
-            $rawStopWords = file($stopWordFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-
-            foreach ($rawStopWords as $singleWord) {
-                $tmp_word = explode('#', $singleWord);
-                $tmp_word = strtolower(trim($tmp_word[0]));
-                if (strlen($tmp_word) > 0) {
-                    $stopwords[] = $tmp_word;
-                }
-            }
+            $stopwords = require $stopWordFile;
             sort($stopwords);
 
             return $stopwords;
@@ -56,10 +32,10 @@ class SeoUtil
     private function stripUnwantedCharsFromText($text, $stopwords)
     {
         // strip html tags
-        $tmp_string = strip_tags(strtolower($text));
+        $tmp_string = strip_tags(mb_strtolower($text));
 
         // remove stopwords
-        $pattern = '/\b(?:' . implode('|', $stopwords) . ')\b/i';
+        $pattern = '/\b(?:' . implode('|', $stopwords) . ')\b/iu';
         $tmp_string = preg_replace($pattern, '', $tmp_string);
 
         // replace (multiple) space like chars with pipe
@@ -79,7 +55,7 @@ class SeoUtil
 
         $tmp_array = explode('|', $tmp_string);
 
-        return array_unique(array_filter($tmp_array, 'strlen'));
+        return array_unique(array_filter($tmp_array, 'mb_strlen'));
     }
 
     /**
@@ -139,10 +115,9 @@ class SeoUtil
     {
         if (is_int($limit) && $limit > 0) {
             $stopWords = $this->loadStopWords($lang);
-            $cleanText = $this->standardizeWhitespace($text);
-            $cleanTextAsArray = $this->stripUnwantedCharsFromText($cleanText, $stopWords);
+            $cleanTextAsArray = $this->stripUnwantedCharsFromText($text, $stopWords);
 
-            return array_slice($cleanTextAsArray, 0, 10);
+            return array_slice($cleanTextAsArray, 0, $limit);
         }
 
         return [];
