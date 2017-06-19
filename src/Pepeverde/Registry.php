@@ -49,8 +49,18 @@ class Registry
      */
     public static function has($key)
     {
-        $registry = self::getRegistry();
+        return isset($_SESSION['zigra\registry'][$key]);
+    }
 
-        return $registry->has($key);
+    /**
+     * @return array
+     */
+    public static function getAll()
+    {
+        if (isset($_SESSION['zigra\registry'])) {
+            return $_SESSION['zigra\registry'];
+        }
+
+        return [];
     }
 }
