@@ -4,7 +4,7 @@ namespace Pepeverde;
 
 class SeoUtil
 {
-    protected $stopWordFilePath = __DIR__ . '/../../resources/stopword/';
+    private $stopWordFilePath = __DIR__ . '/../../resources/stopword/';
 
     /**
      * @param string $lang
