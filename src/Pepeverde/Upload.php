@@ -85,7 +85,7 @@ class Upload
      */
     public static function flipArray($vector)
     {
-        $result = array();
+        $result = [];
         foreach ($vector as $key1 => $value1) {
             foreach ($value1 as $key2 => $value2) {
                 $result[$key2][$key1] = $value2;
@@ -102,7 +102,7 @@ class Upload
     public static function utf8Pathinfo($filepath)
     {
         preg_match('%^(.*?)[\\\\/]*(([^/\\\\]*?)(\.([^\.\\\\/]+?)|))[\\\\/\.]*$%im', $filepath, $m);
-        $ret = array();
+        $ret = [];
         if ($m[1]) {
             $ret['dirname'] = $m[1];
         }

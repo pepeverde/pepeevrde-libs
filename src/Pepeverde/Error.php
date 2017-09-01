@@ -29,13 +29,13 @@ class Error
 
             $sentryServer = self::$sentryConfig['sentry-server'];
             self::$ravenClient = new Raven_Client($sentryServer,
-                array(
+                [
                     // pass along the version of your application
                     'release' => $appVersion,
-                    'extra' => array(
+                    'extra' => [
                         'php_version' => PHP_VERSION
-                    ),
-                ));
+                    ],
+                ]);
         }
 
         return self::$ravenClient;
@@ -79,8 +79,8 @@ class Error
      */
     public static function message(
         $message,
-        array $params = array(),
-        array $data = array(),
+        array $params = [],
+        array $data = [],
         $stack = false,
         $vars = null
     ) {

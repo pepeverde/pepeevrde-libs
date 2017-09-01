@@ -120,10 +120,10 @@ class Mailer2
         try {
             $templatePathParts = pathinfo($template);
 
-            $twig_options = array(
+            $twig_options = [
                 'cache' => false,
                 'auto_reload' => true
-            );
+            ];
             $twig_loader = new \Twig_Loader_Filesystem($templatePathParts['dirname']);
             $twig = new \Twig_Environment($twig_loader, $twig_options);
 
@@ -152,7 +152,7 @@ class Mailer2
         $this->swiftTransport = \Swift_SmtpTransport::newInstance($sm_config['host'], $sm_config['port']);
         $this->swiftMailer = \Swift_Mailer::newInstance($this->swiftTransport);
         $this->swiftMessage = \Swift_Message::newInstance()
-            ->setFrom(array($this->mailFromEmail => $this->mailFromName));
+            ->setFrom([$this->mailFromEmail => $this->mailFromName]);
 
         if (null !== $this->mailReplyToEmail) {
             $this->swiftMessage->addReplyTo($this->mailReplyToEmail);
