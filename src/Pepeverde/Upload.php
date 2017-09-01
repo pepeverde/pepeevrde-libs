@@ -59,7 +59,7 @@ class Upload
 
         $name = preg_replace($remove_pattern, '', $name); // remove unneeded chars
         $name = str_replace('_', ' ', $name); // treat underscores as spaces
-        $name = preg_replace('/^\s+|\s+$/', '', $name); // trim leading/trailing spaces
+        $name = trim($name); // trim leading/trailing spaces
         $name = preg_replace('/[-\s]+/', '-', $name); // convert spaces to hyphens
         $name = strtolower($name); // convert to lowercase
 
@@ -72,7 +72,7 @@ class Upload
      */
     public static function urlify($filename)
     {
-        $sluggableText = Transliterator::transliterate($filename, '-');
+        $sluggableText = Transliterator::transliterate($filename);
         $urlized = strtolower(trim(preg_replace("/[^a-zA-Z0-9\/_|+ -]/", '', $sluggableText), '-'));
         $urlized = preg_replace("/[\/_|+ -]+/", '-', $urlized);
 

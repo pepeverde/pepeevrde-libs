@@ -136,11 +136,11 @@ class Mailer2
             $emogrifier = new Emogrifier($this->bodyHtml);
             $this->bodyHtml = $emogrifier->emogrify();
             $this->bodyText = Html2Text::convert($this->bodyHtml);
-
-            return $this;
         } catch (\Exception $e) {
             Error::report($e);
         }
+
+        return $this;
     }
 
     /**

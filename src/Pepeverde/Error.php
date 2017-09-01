@@ -4,7 +4,6 @@ namespace Pepeverde;
 
 use Zigra_Exception;
 use Raven_Client;
-use Raven_ErrorHandler;
 
 class Error
 {
