@@ -48,10 +48,7 @@ class Error
     public static function enableErrorHandler($ravenConfig = null, $appVersion = 'dev')
     {
         $sentryClient = self::getRavenInstance($ravenConfig, $appVersion);
-        $error_handler = new Raven_ErrorHandler($sentryClient);
-        $error_handler->registerExceptionHandler();
-        $error_handler->registerErrorHandler();
-        $error_handler->registerShutdownFunction();
+        $sentryClient->install();
     }
 
     /**
