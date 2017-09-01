@@ -22,7 +22,7 @@ class Text
      */
     public function wordwrap($string, $length = 80, $separator = "\n", $preserve = false)
     {
-        $sentences = array();
+        $sentences = [];
 
         $previous = mb_regex_encoding();
         mb_regex_encoding('UTF-8');
@@ -74,7 +74,7 @@ class Text
     {
         // TODO use mbstring functions
         $i = 0;
-        $tags = array();
+        $tags = [];
 
         preg_match_all('/<[^>]+>([^<]*)/', $string, $m, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
         foreach ($m as $o) {

@@ -5,17 +5,17 @@ namespace Pepeverde;
 class Language
 {
     /** @var array */
-    protected static $languages = array(
-        'it_IT' => array(
+    protected static $languages = [
+        'it_IT' => [
             'name' => 'Italiano'
-        ),
-        'en_US' => array(
+        ],
+        'en_US' => [
             'name' => 'Inglese'
-        ),
-        'de_DE' => array(
+        ],
+        'de_DE' => [
             'name' => 'Tedesco'
-        ),
-    );
+        ],
+    ];
 
     /**
      * @return array
