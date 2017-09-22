@@ -15,7 +15,8 @@
     "soundasleep/html2text": "~0.3",
     "pelago/emogrifier": "~1.1",
     "behat/transliterator": "~1.1",
-    "twig/twig": "~1.34"
+    "twig/twig": "~1.34",
+    "vlucas/phpdotenv": "~2.2"
   },
   "require-dev": {
     "phpunit/phpunit": "~5.0"
