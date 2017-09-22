@@ -2,6 +2,7 @@
 
 namespace Pepeverde\Test;
 
+use Dotenv\Dotenv;
 use Pepeverde\Helper;
 
 class HelperTest extends \PHPUnit_Framework_TestCase
@@ -9,6 +10,8 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         parent::setUp();
+        $dotenv = new Dotenv(__DIR__ . '/../resources/env/');
+        $dotenv->load();
     }
 
     public function testStringVariable()
