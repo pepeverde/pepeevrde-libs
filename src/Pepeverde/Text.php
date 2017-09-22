@@ -4,6 +4,44 @@ namespace Pepeverde;
 
 class Text
 {
+    public static function startsWith($haystack, $needles)
+    {
+        foreach ((array)$needles as $needle) {
+            if ($needle !== '' && static::substr($haystack, 0, strlen($needle)) === (string)$needle) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static function substr($string, $start, $length = null)
+    {
+        return mb_substr($string, $start, $length, 'UTF-8');
+    }
+
+    public static function endsWith($haystack, $needles)
+    {
+        foreach ((array)$needles as $needle) {
+            if (static::substr($haystack, -strlen($needle)) === (string)$needle) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static function contains($haystack, $needles)
+    {
+        foreach ((array)$needles as $needle) {
+            if ($needle !== '' && mb_strpos($haystack, $needle) !== false) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * @param $string
      * @return mixed

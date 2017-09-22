@@ -26,7 +26,8 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function testNullVariable()
     {
-        $this->assertEquals('default', Helper::env('NULL', 'default'));
+        $this->assertNull(Helper::env('NULL', 'default'));
+        $this->assertNull(Helper::env('NULL2', 'default'));
     }
 
     public function testTrueVariable()
@@ -42,11 +43,13 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     public function testEmptyStringVariable()
     {
         $this->assertEquals('', Helper::env('EMPTY', 'default'));
+        $this->assertEquals('', Helper::env('EMPTY2', 'default'));
     }
 
     public function testIntegerVariable()
     {
         $this->assertEquals(5, Helper::env('INTEGER', 'default'));
+        $this->assertEquals(5.5, Helper::env('FLOAT', 'default'));
     }
 
     public function testUTF8JapaneseVariable()
@@ -54,33 +57,9 @@ class HelperTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('いろはにほへとちりぬるを', Helper::env('JAPANESE', 'default'));
     }
 
-    public function testValidStartsWith()
+    public function testNotExitentKeyVariable()
     {
-        $this->assertTrue(Helper::startsWith('start', 's'));
-    }
-
-    public function testNotValidStartsWith()
-    {
-        $this->assertFalse(Helper::startsWith('start', 't'));
-    }
-
-    public function testValidEndsWith()
-    {
-        $this->assertTrue(Helper::endsWith('start', 't'));
-    }
-
-    public function testNotValidEndsWith()
-    {
-        $this->assertFalse(Helper::endsWith('start', 'r'));
-    }
-
-    public function testValidContains()
-    {
-        $this->assertTrue(Helper::contains('start', 't'));
-    }
-
-    public function testNotValidContains()
-    {
-        $this->assertFalse(Helper::endsWith('start', 'k'));
+        $this->assertEquals('default', Helper::env('Idontexist', 'default'));
+        $this->assertNull(Helper::env('Idontexist'));
     }
 }
