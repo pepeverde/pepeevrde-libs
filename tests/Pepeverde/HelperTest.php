@@ -1,9 +1,15 @@
 <?php
 
-namespace Pepeverde;
+namespace Pepeverde\Test;
+
+use Pepeverde\Helper;
 
 class HelperTest extends \PHPUnit_Framework_TestCase
 {
+    public function setUp()
+    {
+        parent::setUp();
+    }
 
     public function testStringVariable()
     {

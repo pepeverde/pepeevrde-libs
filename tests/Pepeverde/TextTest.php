@@ -1,6 +1,8 @@
 <?php
 
-namespace Pepeverde;
+namespace Pepeverde\Test;
+
+use Pepeverde\Text;
 
 class TextTest extends \PHPUnit_Framework_TestCase
 {
