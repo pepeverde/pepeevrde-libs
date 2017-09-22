@@ -2,7 +2,7 @@
   "name": "pepeverde/libs",
   "description": "Librerie per lo sviluppo di applicazioni",
   "type": "library",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "require": {
     "php": ">=5.6.0",
     "ext-mbstring": "*",
