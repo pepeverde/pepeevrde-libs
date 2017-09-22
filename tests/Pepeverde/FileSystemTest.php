@@ -1,10 +1,12 @@
 <?php
 
-namespace Pepeverde;
+namespace Pepeverde\Test;
+
+use Pepeverde\FileSystem;
 
 class FileSystemTest extends \PHPUnit_Framework_TestCase
 {
-    protected function setUp()
+    public function setUp()
     {
         parent::setUp();
         if (!is_dir(__DIR__ . '/../../build/emptydir')) {
@@ -27,7 +29,6 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
 
     public function testEmptyDir()
     {
-
         $this->assertTrue(FileSystem::isDirEmpty(__DIR__ . '/../../build/emptydir'));
     }
 
@@ -43,7 +44,6 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals('', FileSystem::getRetinaName('', 2));
     }
-
 
     public function testRightName()
     {

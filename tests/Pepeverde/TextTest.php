@@ -1,6 +1,8 @@
 <?php
 
-namespace Pepeverde;
+namespace Pepeverde\Test;
+
+use Pepeverde\Text;
 
 class TextTest extends \PHPUnit_Framework_TestCase
 {
@@ -9,7 +11,7 @@ class TextTest extends \PHPUnit_Framework_TestCase
     private $text_br = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br>Mauris volutpat, velit interdum sagittis vestibulum, velit nulla vehicula nulla, nec faucibus est diam sed orci.<br />Phasellus finibus, felis vel posuere dictum, elit arcu vestibulum dolor, non auctor ligula neque eu ante.<br    >';
     private $text_10chars = 'Lorem ipsu';
 
-    protected function setUp()
+    public function setUp()
     {
         parent::setUp();
         $this->Text = new Text();
@@ -37,16 +39,46 @@ class TextTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Lorem ipsu', $this->Text->truncate($this->text_10chars));
     }
 
-/*
-    public function testTruncateHtml()
+    public function testValidStartsWith()
     {
-        $text4 = '<IMG src="mypic.jpg" /> This image tag is not XHTML conform!<br><hr/><b>But the following image tag should be conform <img src="mypic.jpg" alt="Me, myself and I" /></b><br />Great, or?';
-        $text5 = '0<b>1<i>2<span class="myclass">3</span>4<u>5</u>6</i>7</b>8<b>9</b>0';
-        $text6 = '<p><strong>Extra dates have been announced for this year\'s tour.</strong></p><p>Tickets for the new shows in</p>';
-
-        $this->assertSame('', $this->Text->truncateHtml($text4));
-        $this->assertSame('', $this->Text->truncateHtml($text5));
-        $this->assertSame('', $this->Text->truncateHtml($text6));
+        $this->assertTrue(Text::startsWith('start', 's'));
     }
-*/
+
+    /*
+        public function testTruncateHtml()
+        {
+            $text4 = '<IMG src="mypic.jpg" /> This image tag is not XHTML conform!<br><hr/><b>But the following image tag should be conform <img src="mypic.jpg" alt="Me, myself and I" /></b><br />Great, or?';
+            $text5 = '0<b>1<i>2<span class="myclass">3</span>4<u>5</u>6</i>7</b>8<b>9</b>0';
+            $text6 = '<p><strong>Extra dates have been announced for this year\'s tour.</strong></p><p>Tickets for the new shows in</p>';
+
+            $this->assertSame('', $this->Text->truncateHtml($text4));
+            $this->assertSame('', $this->Text->truncateHtml($text5));
+            $this->assertSame('', $this->Text->truncateHtml($text6));
+        }
+    */
+
+    public function testNotValidStartsWith()
+    {
+        $this->assertFalse(Text::startsWith('start', 't'));
+    }
+
+    public function testValidEndsWith()
+    {
+        $this->assertTrue(Text::endsWith('start', 't'));
+    }
+
+    public function testNotValidEndsWith()
+    {
+        $this->assertFalse(Text::endsWith('start', 'r'));
+    }
+
+    public function testValidContains()
+    {
+        $this->assertTrue(Text::contains('start', 't'));
+    }
+
+    public function testNotValidContains()
+    {
+        $this->assertFalse(Text::endsWith('start', 'k'));
+    }
 }

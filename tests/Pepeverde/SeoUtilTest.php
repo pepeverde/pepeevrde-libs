@@ -1,7 +1,9 @@
 <?php
 
-namespace Pepeverde;
+namespace Pepeverde\Test;
 
+
+use Pepeverde\SeoUtil;
 
 class SeoUtilTest extends \PHPUnit_Framework_TestCase
 {
