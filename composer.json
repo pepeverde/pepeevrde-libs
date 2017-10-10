@@ -2,7 +2,7 @@
   "name": "pepeverde/libs",
   "description": "Librerie per lo sviluppo di applicazioni",
   "type": "library",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "repositories": [
     {
       "type": "vcs",
