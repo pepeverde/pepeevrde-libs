@@ -33,4 +33,63 @@ class FileSystem
 
         return null;
     }
+
+    /**
+     * @param string $path
+     * @return bool|string
+     */
+    public static function getFileTypeFromPath($path)
+    {
+        if(!is_file($path)){
+            return false;
+        }
+        return self::getFileTypeFromMime(mime_content_type($path));
+    }
+
+    /**
+     * @param string $mime
+     * @return string
+     */
+    private static function getFileTypeFromMime($mime)
+    {
+        switch ($mime) {
+            case 'application/pdf':
+                return 'pdf';
+            case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+            case 'application/vnd.openxmlformats-officedocument.spreadsheetml.template':
+            case 'application/vnd.ms-excel':
+                return 'excel';
+            case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+            case 'application/vnd.openxmlformats-officedocument.wordprocessingml.template':
+            case 'application/msword':
+                return 'word';
+            case 'application/zip':
+            case 'application/x-rar-compressed':
+            case 'application/x-7z-compressed':
+                return 'archive';
+            case 'image/jpeg':
+            case 'image/png':
+                return 'image';
+            default:
+                return 'file';
+        }
+    }
+
+    /**
+     * @param int|string|null $size
+     * @param int $precision
+     * @return string
+     */
+    public static function formatSize($size, $precision = 2)
+    {
+        if ($size === 0 || $size === '0') {
+            return '0';
+        }
+
+        $size = (float)$size;
+
+        $base = log($size) / log(1024);
+        $suffixes = array('B', 'kB', 'MB', 'GB', 'TB', 'PB');
+        return round(1024 ** ($base - floor($base)), $precision) . $suffixes[(int)floor($base)];
+    }
 }
