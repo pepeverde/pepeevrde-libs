@@ -33,6 +33,8 @@ class Mailer2
     private $templateVars;
     private $bodyHtml;
     private $bodyText;
+    /** @var array */
+    private $attachments = [];
 
     /**
      * @param string $template
@@ -83,6 +85,17 @@ class Mailer2
     }
 
     /**
+     * @param array $attachments
+     * @return Mailer2
+     */
+    public function setAttachments(array $attachments)
+    {
+        $this->attachments = $attachments;
+
+        return $this;
+    }
+
+    /**
      * @param string $to
      * @param string $subject
      * @param null $cc
@@ -107,6 +120,7 @@ class Mailer2
 
         $this->swiftMessage->setBody($this->bodyHtml, 'text/html');
         $this->swiftMessage->addPart($this->bodyText, 'text/plain');
+        $this->manageAttachments();
 
         return $this->swiftMailer->send($this->swiftMessage);
     }
@@ -156,6 +170,27 @@ class Mailer2
 
         if (null !== $this->mailReplyToEmail) {
             $this->swiftMessage->addReplyTo($this->mailReplyToEmail);
+        }
+
+        return $this;
+    }
+
+    private function manageAttachments()
+    {
+        try {
+            if(!empty($this->attachments)){
+                foreach ($this->attachments as $id => $file_path){
+                    if(!is_file($file_path)){
+                        unset($this->attachments[$id]);
+                    }
+                    else{
+                        $this->swiftMessage->attach(\Swift_Attachment::fromPath($file_path));
+                    }
+                }
+            }
+
+        } catch (\Exception $e) {
+            Error::report($e);
         }
 
         return $this;
