@@ -14,18 +14,18 @@
     "ext-mbstring": "*",
     "lib-pcre": "*",
     "endelwar/zigra": "~0.7",
-    "pepeverde/doctrine1": "^1.3.5",
+    "pepeverde/doctrine1": "^1.3.8",
     "swiftmailer/swiftmailer": "~5.4",
-    "sentry/sentry": "~1.7",
+    "sentry/sentry": "~1.8",
     "aura/session": "~2.1",
     "soundasleep/html2text": "~0.3",
     "pelago/emogrifier": "~1.1",
     "behat/transliterator": "~1.1",
-    "twig/twig": "~1.34",
+    "twig/twig": "~1.35",
     "vlucas/phpdotenv": "~2.4"
   },
   "require-dev": {
-    "phpunit/phpunit": "~5.0"
+    "phpunit/phpunit": "~5.7"
   },
   "license": "proprietary",
   "authors": [
