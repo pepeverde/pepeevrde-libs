@@ -18,7 +18,7 @@
     "swiftmailer/swiftmailer": "~5.4",
     "sentry/sentry": "~1.8",
     "aura/session": "~2.1",
-    "soundasleep/html2text": "~0.3",
+    "soundasleep/html2text": "~0.5",
     "pelago/emogrifier": "~1.1",
     "behat/transliterator": "~1.1",
     "twig/twig": "~1.35",
