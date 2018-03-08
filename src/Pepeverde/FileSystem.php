@@ -94,7 +94,7 @@ class FileSystem
         return round(1024 ** ($base - floor($base)), $precision) . $suffixes[(int)floor($base)];
     }
 
-    public function deleteDir($path)
+    public static function deleteDir($path)
     {
         if (is_dir($path)) {
             $iterator = new RecursiveIteratorIterator(
