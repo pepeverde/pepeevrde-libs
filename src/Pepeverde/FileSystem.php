@@ -4,6 +4,7 @@ namespace Pepeverde;
 
 use FilesystemIterator;
 use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
 class FileSystem
 {
@@ -91,5 +92,27 @@ class FileSystem
         $base = log($size) / log(1024);
         $suffixes = array('B', 'kB', 'MB', 'GB', 'TB', 'PB');
         return round(1024 ** ($base - floor($base)), $precision) . $suffixes[(int)floor($base)];
+    }
+
+    public function deleteDir($path)
+    {
+        if (is_dir($path)) {
+            $iterator = new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS),
+                RecursiveIteratorIterator::CHILD_FIRST
+            );
+
+            foreach ($iterator as $file) {
+                if ($file->isDir()) {
+                    rmdir($file->getPathname());
+                } else {
+                    unlink($file->getPathname());
+                }
+            }
+
+            rmdir($path);
+        } else {
+            unlink($path);
+        }
     }
 }
