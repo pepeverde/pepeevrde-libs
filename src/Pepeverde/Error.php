@@ -43,6 +43,7 @@ class Error
     /**
      * @param array|null $ravenConfig
      * @param string $appVersion
+     * @throws \Raven_Exception
      */
     public static function enableErrorHandler($ravenConfig = null, $appVersion = 'dev')
     {
