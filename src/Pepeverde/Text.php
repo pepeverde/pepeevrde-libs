@@ -4,6 +4,22 @@ namespace Pepeverde;
 
 class Text
 {
+    /**
+     * @param string $string
+     * @param int $start
+     * @param int|null $length
+     * @return string
+     */
+    public static function substr($string, $start, $length = null)
+    {
+        return mb_substr($string, $start, $length, 'UTF-8');
+    }
+
+    /**
+     * @param string $haystack
+     * @param array|string $needles
+     * @return bool
+     */
     public static function startsWith($haystack, $needles)
     {
         foreach ((array)$needles as $needle) {
@@ -15,11 +31,11 @@ class Text
         return false;
     }
 
-    public static function substr($string, $start, $length = null)
-    {
-        return mb_substr($string, $start, $length, 'UTF-8');
-    }
-
+    /**
+     * @param string $haystack
+     * @param array|string $needles
+     * @return bool
+     */
     public static function endsWith($haystack, $needles)
     {
         foreach ((array)$needles as $needle) {
@@ -31,6 +47,11 @@ class Text
         return false;
     }
 
+    /**
+     * @param string $haystack
+     * @param array|string $needles
+     * @return bool
+     */
     public static function contains($haystack, $needles)
     {
         foreach ((array)$needles as $needle) {
@@ -44,7 +65,7 @@ class Text
 
     /**
      * @param $string
-     * @return mixed
+     * @return null|string|string[]
      */
     public function br2nl($string)
     {
@@ -70,8 +91,8 @@ class Text
 
         foreach ($pieces as $piece) {
             while (!$preserve && mb_strlen($piece, 'UTF-8') > $length) {
-                $sentences[] = mb_substr($piece, 0, $length, 'UTF-8');
-                $piece = mb_substr($piece, $length, 2048, 'UTF-8');
+                $sentences[] = static::substr($piece, 0, $length);
+                $piece = static::substr($piece, $length, 2048);
             }
 
             $sentences[] = $piece;
@@ -90,13 +111,11 @@ class Text
     public function truncate($string, $length = 30, $separator = '...', $preserve = false)
     {
         if (mb_strlen($string, 'UTF-8') > $length) {
-            if ($preserve) {
-                if (false !== ($breakpoint = mb_strpos($string, ' ', $length, 'UTF-8'))) {
-                    $length = $breakpoint;
-                }
+            if (true === $preserve && false !== ($breakpoint = mb_strpos($string, ' ', $length, 'UTF-8'))) {
+                $length = $breakpoint;
             }
 
-            return rtrim(mb_substr($string, 0, $length, 'UTF-8')) . $separator;
+            return rtrim(static::substr($string, 0, $length)) . $separator;
         }
 
         return $string;
@@ -113,22 +132,23 @@ class Text
         // TODO use mbstring functions
         $i = 0;
         $tags = [];
+        $m = [];
 
         preg_match_all('/<[^>]+>([^<]*)/', $string, $m, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
         foreach ($m as $o) {
             if ($o[0][1] - $i >= $length) {
                 break;
             }
-            $t = substr(strtok($o[0][0], " \t\n\r\0\x0B>"), 1);
+            $t = static::substr(strtok($o[0][0], " \t\n\r\0\x0B>"), 1);
             if ($t[0] !== '/') {
                 $tags[] = $t;
-            } elseif (end($tags) === substr($t, 1)) {
+            } elseif (end($tags) === static::substr($t, 1)) {
                 array_pop($tags);
             }
             $i += $o[1][1] - $o[0][1];
         }
 
-        return substr($string, 0, $length = min(strlen($string), $length + $i)) . (count(
+        return static::substr($string, 0, $length = min(strlen($string), $length + $i)) . (count(
                 $tags = array_reverse($tags)
             ) ? '</' . implode(
                     '></',
