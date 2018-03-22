@@ -2,7 +2,7 @@
   "name": "pepeverde/libs",
   "description": "Librerie per lo sviluppo di applicazioni",
   "type": "library",
-  "version": "0.11.3",
+  "version": "0.12.0",
   "license": "proprietary",
   "authors": [
     {
