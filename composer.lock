@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "c9f4fa94718bfe706b598ed8ee846025",
+    "content-hash": "e394a0ddb22fc2546650aa77faeb0980",
     "packages": [
         {
             "name": "aura/session",
@@ -114,23 +114,26 @@
         },
         {
             "name": "endelwar/zigra",
-            "version": "0.7.5",
+            "version": "0.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pepeverde/zigra.git",
-                "reference": "cd45cfec615a1de04def139ef6a329857bbac156"
+                "reference": "6b7aebcc1ae6ad73d654cb63a41fb382de5e3d62"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pepeverde/zigra/zipball/cd45cfec615a1de04def139ef6a329857bbac156",
-                "reference": "cd45cfec615a1de04def139ef6a329857bbac156",
+                "url": "https://api.github.com/repos/pepeverde/zigra/zipball/6b7aebcc1ae6ad73d654cb63a41fb382de5e3d62",
+                "reference": "6b7aebcc1ae6ad73d654cb63a41fb382de5e3d62",
                 "shasum": ""
             },
             "require": {
                 "aura/session": "^2.1",
                 "ircmaxell/password-compat": "~1.0.4",
-                "php": ">=5.3.7",
-                "swiftmailer/swiftmailer": "~5.4.6"
+                "php": ">=5.6",
+                "swiftmailer/swiftmailer": "~5.4.9"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.10"
             },
             "type": "library",
             "autoload": {
@@ -156,7 +159,7 @@
                 "framework",
                 "routing"
             ],
-            "time": "2017-08-07T10:54:40+00:00"
+            "time": "2018-03-22T10:04:28+00:00"
         },
         {
             "name": "ircmaxell/password-compat",
@@ -285,6 +288,7 @@
                     "sfYaml": "lib/Doctrine/Parser/sfYaml"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "LGPL-2.0-or-later"
             ],
@@ -304,9 +308,6 @@
                 "database",
                 "orm"
             ],
-            "support": {
-                "source": "https://github.com/pepeverde/doctrine1/tree/v1.3.8"
-            },
             "time": "2018-01-27T09:41:02+00:00"
         },
         {

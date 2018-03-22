@@ -16,7 +16,7 @@
     "lib-pcre": "*",
     "aura/session": "~2.1",
     "behat/transliterator": "~1.1",
-    "endelwar/zigra": "~0.7",
+    "endelwar/zigra": "0.8.*",
     "pelago/emogrifier": "~1.2",
     "pepeverde/doctrine1": "^1.3.8",
     "sentry/sentry": "~1.8",
