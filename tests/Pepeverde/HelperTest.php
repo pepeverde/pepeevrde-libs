@@ -21,6 +21,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function testDoubleQuotedStringVariable()
     {
+        var_dump(Helper::env('DOUBLE_DOUBLE_QUOTES_STRING'));
         $this->assertEquals('string', Helper::env('DOUBLE_QUOTES_STRING', 'default'));
     }
 
@@ -54,7 +55,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function testUTF8JapaneseVariable()
     {
-        $this->assertEquals('いろはにほへとちりぬるを', Helper::env('JAPANESE', 'default'));
+        $this->assertEquals('ジャパニーズ', Helper::env('JAPANESE', 'default'));
     }
 
     public function testNotExitentKeyVariable()

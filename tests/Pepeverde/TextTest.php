@@ -79,6 +79,6 @@ class TextTest extends \PHPUnit_Framework_TestCase
 
     public function testNotValidContains()
     {
-        $this->assertFalse(Text::endsWith('start', 'k'));
+        $this->assertFalse(Text::contains('start', 'k'));
     }
 }
