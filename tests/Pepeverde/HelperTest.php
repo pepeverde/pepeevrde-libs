@@ -21,7 +21,6 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function testDoubleQuotedStringVariable()
     {
-        var_dump(Helper::env('DOUBLE_DOUBLE_QUOTES_STRING'));
         $this->assertEquals('string', Helper::env('DOUBLE_QUOTES_STRING', 'default'));
     }
 
@@ -33,12 +32,12 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function testTrueVariable()
     {
-        $this->assertEquals(true, Helper::env('TRUE', 'default'));
+        $this->assertTrue(Helper::env('TRUE', 'default'));
     }
 
     public function testFalseVariable()
     {
-        $this->assertEquals(false, Helper::env('FALSE', 'default'));
+        $this->assertFalse(Helper::env('FALSE', 'default'));
     }
 
     public function testEmptyStringVariable()

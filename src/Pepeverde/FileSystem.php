@@ -41,9 +41,10 @@ class FileSystem
      */
     public static function getFileTypeFromPath($path)
     {
-        if(!is_file($path)){
+        if (!is_file($path)) {
             return false;
         }
+
         return self::getFileTypeFromMime(mime_content_type($path));
     }
 
@@ -90,7 +91,8 @@ class FileSystem
         $size = (float)$size;
 
         $base = log($size) / log(1024);
-        $suffixes = array('B', 'kB', 'MB', 'GB', 'TB', 'PB');
+        $suffixes = ['B', 'kB', 'MB', 'GB', 'TB', 'PB'];
+
         return round(1024 ** ($base - floor($base)), $precision) . $suffixes[(int)floor($base)];
     }
 

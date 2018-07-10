@@ -1,11 +1,11 @@
 <?php
+
 namespace Pepeverde;
 
-use \Behat\Transliterator\Transliterator;
+use Behat\Transliterator\Transliterator;
 
 /**
  * Class Upload
- * @package Pepeverde
  */
 class Upload
 {

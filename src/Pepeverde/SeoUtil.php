@@ -8,8 +8,8 @@ class SeoUtil
 
     /**
      * @param string $lang
-     * @return array
      * @throws \RuntimeException
+     * @return array
      */
     private function loadStopWords($lang = 'it')
     {
@@ -108,8 +108,8 @@ class SeoUtil
      * @param string $text
      * @param int $limit
      * @param string $lang
-     * @return array
      * @throws \RuntimeException
+     * @return array
      */
     public function extractKeywords($text, $limit = 10, $lang = 'it')
     {
@@ -127,8 +127,8 @@ class SeoUtil
      * @param string $text
      * @param int $limit
      * @param string $lang
-     * @return string
      * @throws \RuntimeException
+     * @return string
      */
     public function extractKeywordsAsString($text, $limit = 10, $lang = 'it')
     {

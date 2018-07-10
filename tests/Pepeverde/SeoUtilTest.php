@@ -2,7 +2,6 @@
 
 namespace Pepeverde\Test;
 
-
 use Pepeverde\SeoUtil;
 
 class SeoUtilTest extends \PHPUnit_Framework_TestCase
@@ -10,12 +9,12 @@ class SeoUtilTest extends \PHPUnit_Framework_TestCase
     private $text = 'Avendo avuto troppe 💩 visite nel sito, abbiamo provveduto à chiuderlo tutto!';
     private $textWillBeEmpty = 'Avendo 💩 avuto troppe ♻, ® <br> <p class="test">€</p> 
 $           ♣ nel ¾ abbiamo tutto!#';
-    private $problematicText = array(
+    private $problematicText = [
         0 => 'PermasteelisaCampus è un programma completamente gratuito indirizzato a coloro che mirano a diventare dei professionisti nel settore industriale e dei servizi di ingegneria e che saranno progressivamente in grado di gestire - da un punto di vista tecnico e gestionale - progetti complessi, dando il proprio supporto in tutte le fasi di studio, realizzazione, implementazione e produzione di commesse di medie e grandi dimensioni in ambito nazionale ed internazionale.',
         1 => 'I servizi fotografici per la moda e advertising richiedono un accurato processo di pianificazione. Ci occupiamo dell’intero progetto, dalla ricerca delle location al casting per i modelli, fino al servizio fotografico e la post produzione degli scatti selezionati.',
-    );
-    private $expectedFromProblematicText = array(
-        0 => array(
+    ];
+    private $expectedFromProblematicText = [
+        0 => [
             'PermasteelisaCampus',
             'programma',
             'gratuito',
@@ -49,8 +48,8 @@ $           ♣ nel ¾ abbiamo tutto!#';
             'ambito',
             'nazionale',
             'internazionale'
-        ),
-        1 => array(
+        ],
+        1 => [
             'servizi',
             'fotografici',
             'moda',
@@ -71,8 +70,8 @@ $           ♣ nel ¾ abbiamo tutto!#';
             'produzione',
             'scatti',
             'selezionati'
-        ),
-    );
+        ],
+    ];
 
     public function testExtractKeywords()
     {
