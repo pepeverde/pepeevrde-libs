@@ -26,7 +26,7 @@ class Helper
                 return null;
         }
 
-        if (strlen($value) > 1 && Text::startsWith($value, '"') && Text::endsWith($value, '"')) {
+        if (mb_strlen($value) > 1 && Text::startsWith($value, '"') && Text::endsWith($value, '"')) {
             return substr($value, 1, -1);
         }
 

@@ -2,7 +2,6 @@
 
 namespace Pepeverde\Test;
 
-
 use Pepeverde\FileInfo;
 
 class FileInfoTest extends \PHPUnit_Framework_TestCase

@@ -23,6 +23,8 @@ class LanguageTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider languageProvider
+     * @param mixed $languageCode
+     * @param mixed $expectedName
      */
     public function testInfo($languageCode, $expectedName)
     {
@@ -36,28 +38,27 @@ class LanguageTest extends \PHPUnit_Framework_TestCase
 
     public function testAll()
     {
-        $languages = array(
-            'it_IT' => array(
+        $languages = [
+            'it_IT' => [
                 'name' => 'Italiano'
-            ),
-            'en_US' => array(
+            ],
+            'en_US' => [
                 'name' => 'Inglese'
-            ),
-            'de_DE' => array(
+            ],
+            'de_DE' => [
                 'name' => 'Tedesco'
-            ),
-        );
+            ],
+        ];
 
         $this->assertEquals($languages, $this->Language->all());
     }
 
     public function languageProvider()
     {
-        return array(
-            array('it_IT', 'Italiano'),
-            array('en_US', 'Inglese'),
-            array('de_DE', 'Tedesco'),
-        );
+        return [
+            ['it_IT', 'Italiano'],
+            ['en_US', 'Inglese'],
+            ['de_DE', 'Tedesco'],
+        ];
     }
-
 }

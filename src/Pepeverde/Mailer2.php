@@ -178,17 +178,15 @@ class Mailer2
     private function manageAttachments()
     {
         try {
-            if(!empty($this->attachments)){
-                foreach ($this->attachments as $id => $file_path){
-                    if(!is_file($file_path)){
+            if (!empty($this->attachments)) {
+                foreach ($this->attachments as $id => $file_path) {
+                    if (!is_file($file_path)) {
                         unset($this->attachments[$id]);
-                    }
-                    else{
+                    } else {
                         $this->swiftMessage->attach(\Swift_Attachment::fromPath($file_path));
                     }
                 }
             }
-
         } catch (\Exception $e) {
             Error::report($e);
         }
