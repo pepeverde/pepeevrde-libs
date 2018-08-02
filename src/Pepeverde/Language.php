@@ -15,6 +15,12 @@ class Language
         'de_DE' => [
             'name' => 'Tedesco'
         ],
+        'es_ES' => [
+            'name' => 'Spagnolo'
+        ],
+        'fr_FR' => [
+            'name' => 'Francese'
+        ],
     ];
 
     /**
