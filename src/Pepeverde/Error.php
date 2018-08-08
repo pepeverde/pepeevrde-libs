@@ -16,9 +16,11 @@ class Error
     /**
      * @param array|null $ravenConfig
      * @param string $appVersion
+     * @param string $environment
+     * @param array $extra
      * @return Raven_Client
      */
-    public static function getRavenInstance($ravenConfig = null, $appVersion = 'dev')
+    public static function getRavenInstance($ravenConfig = null, $appVersion = 'dev', $environment = 'develop', array $extra = [])
     {
         if (null === self::$ravenClient) {
             self::$sentryConfig = $ravenConfig;
@@ -26,15 +28,24 @@ class Error
                 self::$sentryConfig = Registry::get('config.sentry');
             }
 
+            if (null === $ravenConfig) {
+                throw new \RuntimeException('No Sentry configuration available');
+            }
+
             $sentryServer = self::$sentryConfig['sentry-server'];
-            self::$ravenClient = new Raven_Client($sentryServer,
-                [
-                    // pass along the version of your application
-                    'release' => $appVersion,
-                    'extra' => [
-                        'php_version' => PHP_VERSION
-                    ],
-                ]);
+
+            $sentryClientConfig = [
+                // pass along the version of your application
+                'release' => $appVersion,
+                // pass along your environment
+                'environment' => $environment,
+                'tags' => [
+                    'php_version' => PHP_VERSION
+                ],
+                'extra' => $extra,
+            ];
+
+            self::$ravenClient = new Raven_Client($sentryServer, $sentryClientConfig);
         }
 
         return self::$ravenClient;
@@ -43,22 +54,25 @@ class Error
     /**
      * @param array|null $ravenConfig
      * @param string $appVersion
+     * @param string $environment
+     * @param array $extra
      * @throws \Raven_Exception
      */
-    public static function enableErrorHandler($ravenConfig = null, $appVersion = 'dev')
+    public static function enableErrorHandler($ravenConfig = null, $appVersion = 'dev', $environment = 'develop', array $extra = [])
     {
-        $sentryClient = self::getRavenInstance($ravenConfig, $appVersion);
+        $sentryClient = self::getRavenInstance($ravenConfig, $appVersion, $environment, $extra);
         $sentryClient->install();
     }
 
     /**
      * @param \Exception $e
      * @param bool $display
+     * @param array $data
      */
-    public static function report(\Exception $e, $display = true)
+    public static function report(\Exception $e, $display = true, array $data = [])
     {
         $raven = self::getRavenInstance();
-        $event_id = $raven->getIdent($raven->captureException($e));
+        $event_id = $raven->getIdent($raven->captureException($e, $data));
         if ($raven->getLastError() !== null) {
             printf('There was an error sending the event to Sentry: %s', $raven->getLastError());
         }
@@ -83,7 +97,8 @@ class Error
         array $data = [],
         $stack = false,
         $vars = null
-    ) {
+    )
+    {
         $raven = self::getRavenInstance();
         $raven->captureMessage($message, $params, $data, $stack, $vars);
         if ($raven->getLastError() !== null) {

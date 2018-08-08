@@ -4,6 +4,8 @@ namespace Pepeverde;
 
 /**
  * Class Version
+ *
+ * @deprecated
  */
 class Version
 {
