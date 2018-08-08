@@ -48,6 +48,12 @@ class LanguageTest extends \PHPUnit_Framework_TestCase
             'de_DE' => [
                 'name' => 'Tedesco'
             ],
+            'es_ES' => [
+                'name' => 'Spagnolo'
+            ],
+            'fr_FR' => [
+                'name' => 'Francese'
+            ],
         ];
 
         $this->assertEquals($languages, $this->Language->all());
@@ -59,6 +65,8 @@ class LanguageTest extends \PHPUnit_Framework_TestCase
             ['it_IT', 'Italiano'],
             ['en_US', 'Inglese'],
             ['de_DE', 'Tedesco'],
+            ['es_ES', 'Spagnolo'],
+            ['fr_FR', 'Francese'],
         ];
     }
 }
