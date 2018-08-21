@@ -20,7 +20,7 @@ class Error
      * @param array $extra
      * @return Raven_Client
      */
-    public static function getRavenInstance($ravenConfig = null, $appVersion = 'dev', $environment = 'develop', array $extra = [])
+    public static function getRavenInstance($ravenConfig = null, $appVersion = 'dev', $environment = 'development', array $extra = [])
     {
         if (null === self::$ravenClient) {
             self::$sentryConfig = $ravenConfig;
