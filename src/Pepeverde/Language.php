@@ -7,20 +7,25 @@ class Language
     /** @var array */
     protected static $languages = [
         'it_IT' => [
-            'name' => 'Italiano'
+            'name' => 'Italiano',
+            'natural_name' => 'Italiano'
         ],
         'en_US' => [
-            'name' => 'Inglese'
+            'name' => 'Inglese',
+            'natural_name' => 'English'
         ],
         'de_DE' => [
-            'name' => 'Tedesco'
+            'name' => 'Tedesco',
+            'natural_name' => 'Deutsch'
         ],
         'es_ES' => [
-            'name' => 'Spagnolo'
+            'name' => 'Spagnolo',
+            'natural_name' => 'Español'
         ],
         'fr_FR' => [
-            'name' => 'Francese'
-        ],
+            'name' => 'Francese',
+            'natural_name' => 'Français'
+        ]
     ];
 
     /**
