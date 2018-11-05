@@ -67,7 +67,6 @@ class Registry implements Zigra_RegistryInterface
      *
      * @param string $key the variable's name
      * @param string $value the variable's value
-     * @return void
      */
     public static function add($key, $value)
     {

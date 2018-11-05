@@ -97,8 +97,7 @@ class Error
         array $data = [],
         $stack = false,
         $vars = null
-    )
-    {
+    ) {
         $raven = self::getRavenInstance();
         $raven->captureMessage($message, $params, $data, $stack, $vars);
         if ($raven->getLastError() !== null) {
