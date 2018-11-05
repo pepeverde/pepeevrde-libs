@@ -67,11 +67,9 @@ class Registry implements Zigra_RegistryInterface
      *
      * @param string $key the variable's name
      * @param string $value the variable's value
-     * @return mixed
      */
     public static function add($key, $value)
     {
-        // TODO: Implement add() method.
         if (self::has($key) && is_array(self::$vars[$key])) {
             self::$vars[$key][] = $value;
         }
