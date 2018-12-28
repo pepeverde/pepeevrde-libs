@@ -78,12 +78,16 @@ class FileSystem
     }
 
     /**
-     * @param int|string|null $size
+     * @param int|float|string|null $size
      * @param int $precision
      * @return string
      */
     public static function formatSize($size, $precision = 2)
     {
+        if (!is_numeric($size)) {
+            return '0';
+        }
+
         if ($size === 0 || $size === '0') {
             return '0';
         }
