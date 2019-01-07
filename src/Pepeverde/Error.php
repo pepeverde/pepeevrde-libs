@@ -58,7 +58,7 @@ class Error
      * @param array $extra
      * @throws \Raven_Exception
      */
-    public static function enableErrorHandler($ravenConfig = null, $appVersion = 'dev', $environment = 'develop', array $extra = [])
+    public static function enableErrorHandler($ravenConfig = null, $appVersion = 'dev', $environment = 'development', array $extra = [])
     {
         $sentryClient = self::getRavenInstance($ravenConfig, $appVersion, $environment, $extra);
         $sentryClient->install();
