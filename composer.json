@@ -2,12 +2,16 @@
   "name": "pepeverde/libs",
   "description": "Librerie per lo sviluppo di applicazioni",
   "type": "library",
-  "version": "0.15.1",
+  "version": "0.15.2",
   "license": "proprietary",
   "authors": [
     {
       "name": "Manuel Dalla Lana",
       "email": "manuel@pepeverde.agency"
+    },
+    {
+      "name": "Matteo Agostinetto",
+      "email": "tecnico@pepeverde.agency"
     }
   ],
   "require": {
@@ -27,7 +31,7 @@
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^2.12|^2.13",
-    "phpunit/phpunit": "^5.7.27|^6.5|^7.2"
+    "phpunit/phpunit": "^5.7.27|^6.5|^7.5"
   },
   "autoload": {
     "psr-4": {
