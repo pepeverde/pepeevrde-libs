@@ -63,7 +63,7 @@ class SessionFactory
      */
     private function getFilesystemSession()
     {
-        ini_set('Session.save_handler', 'files');
+        ini_set('session.save_handler', 'files');
 
         $session = $this->commonFactory();
 
@@ -81,7 +81,7 @@ class SessionFactory
      */
     private function getRedisSession()
     {
-        ini_set('Session.save_handler', 'redis');
+        ini_set('session.save_handler', 'redis');
 
         $session = $this->commonFactory();
 
@@ -123,7 +123,7 @@ class SessionFactory
      */
     private function commonFactory()
     {
-        ini_set('Session.gc_maxlifetime', $this->session_config['lifetime']);
+        ini_set('session.gc_maxlifetime', $this->session_config['lifetime']);
         $session_factory = new \Aura\Session\SessionFactory();
         $session = $session_factory->newInstance($_COOKIE);
         $session->setCookieParams($this->session_config);
