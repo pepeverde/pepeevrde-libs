@@ -139,7 +139,7 @@ class FileSystem
             throw new RuntimeException('Dimensions must be set to be checked');
         }
 
-        return ($uploaded_dimensions['width'] <= $required_image_dimensions['width']) && ($uploaded_dimensions['height'] <= $required_image_dimensions['height']);
+        return ($uploaded_dimensions['width'] >= $required_image_dimensions['width']) && ($uploaded_dimensions['height'] >= $required_image_dimensions['height']);
     }
 
     public static function checkIfIsImage($image_type, $allowed_types)
@@ -190,9 +190,9 @@ class FileSystem
                             ];
                         }
                         $error[] = 'l\'immagine selezionata non rispetta le dimensioni richieste, file non caricato.';
+                    } else {
+                        $error[] = 'il file caricato non è un\'immagine, file non caricato.';
                     }
-
-                    $error[] = 'il file caricato non è un\'immagine, file non caricato.';
                 }
             } catch (ImageException $e) {
                 $error[] = 'il file caricato non è un\'immagine valida, file non caricato.';
