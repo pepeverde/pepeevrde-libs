@@ -2,9 +2,13 @@
 
 namespace Pepeverde;
 
+use Exception;
 use FilesystemIterator;
+use Imagecow\Image;
+use Imagecow\ImageException;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use RuntimeException;
 
 class FileSystem
 {
@@ -112,13 +116,98 @@ class FileSystem
                 if ($file->isDir()) {
                     rmdir($file->getPathname());
                 } else {
-                    unlink($file->getPathname());
+                    self::deleteFile($file->getPathname());
                 }
             }
 
             rmdir($path);
         } else {
-            unlink($path);
+            self::deleteFile($path);
         }
+    }
+
+    public static function deleteFile($path_to_file)
+    {
+        if (is_file($path_to_file)) {
+            unlink($path_to_file);
+        }
+    }
+
+    public static function checkImageDimensions(array $uploaded_dimensions, array $required_image_dimensions)
+    {
+        if (!isset($uploaded_dimensions['width'], $uploaded_dimensions['height'], $required_image_dimensions['width'], $required_image_dimensions['height'])) {
+            throw new RuntimeException('Dimensions must be set to be checked');
+        }
+
+        return ($uploaded_dimensions['width'] <= $required_image_dimensions['width']) && ($uploaded_dimensions['height'] <= $required_image_dimensions['height']);
+    }
+
+    public static function checkIfIsImage($image_type, $allowed_types)
+    {
+        if (in_array($image_type, $allowed_types, true)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param Image $image
+     * @param array $uploaded_dimensions
+     * @return array
+     */
+    public static function setDimensionsVariables(&$image, $uploaded_dimensions)
+    {
+        $uploaded_check = [
+            'width' => 0,
+            'height' => 0,
+        ];
+        if ($uploaded_dimensions['width'] === true) {
+            $uploaded_check['width'] = $image->getWidth();
+        }
+
+        if ($uploaded_dimensions['height'] === true) {
+            $uploaded_check['height'] = $image->getHeight();
+        }
+
+        return $uploaded_check;
+    }
+
+    public static function uploadAndVerifyImage($path_to_upload, array &$error, array $required_dimensions, $uploaded_dimensions, $allowed_types)
+    {
+        $image_name = null;
+        if ($_FILES['image']['error'] !== 4) {
+            try {
+                if ($image_name = Upload::uploadFile($_FILES['image'], $path_to_upload, $_FILES['image']['name'])) {
+                    $image = Image::fromFile($path_to_upload . '/' . $image_name);
+                    if (self::checkIfIsImage($image->getMimeType(), $allowed_types)) {
+                        //setto le dimensioni richieste per l'immagine
+                        $uploaded_check = self::setDimensionsVariables($image, $uploaded_dimensions);
+                        if (self::checkImageDimensions($uploaded_check, $required_dimensions)) {
+                            return [
+                                'result' => true,
+                                'image_name' => $image_name,
+                            ];
+                        }
+                        $error[] = 'l\'immagine selezionata non rispetta le dimensioni richieste, file non caricato.';
+                    }
+
+                    $error[] = 'il file caricato non è un\'immagine, file non caricato.';
+                }
+            } catch (ImageException $e) {
+                $error[] = 'il file caricato non è un\'immagine valida, file non caricato.';
+            } catch (\ImagickException $e) {
+                $error[] = 'il file caricato non è un\'immagine valida, file non caricato.';
+            } catch (Exception $e) {
+                $error[] = $e->getMessage();
+                Error::report($e, false);
+            }
+        }
+
+        return [
+            'result' => false,
+            'image_name' => $image_name,
+            'error' => $error
+        ];
     }
 }
