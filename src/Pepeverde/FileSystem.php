@@ -133,6 +133,11 @@ class FileSystem
         }
     }
 
+    /**
+     * @param array $uploaded_dimensions
+     * @param array $required_image_dimensions
+     * @return bool
+     */
     public static function checkImageDimensions(array $uploaded_dimensions, array $required_image_dimensions)
     {
         if (!isset($uploaded_dimensions['width'], $uploaded_dimensions['height'], $required_image_dimensions['width'], $required_image_dimensions['height'])) {
@@ -142,7 +147,26 @@ class FileSystem
         return ($uploaded_dimensions['width'] >= $required_image_dimensions['width']) && ($uploaded_dimensions['height'] >= $required_image_dimensions['height']);
     }
 
-    public static function checkIfIsImage($image_type, $allowed_types)
+    /**
+     * @param array $uploaded_dimensions
+     * @param array $required_image_dimensions
+     * @return bool
+     */
+    public static function checkFixedImageDimensions(array $uploaded_dimensions, array $required_image_dimensions)
+    {
+        if (!isset($uploaded_dimensions['width'], $uploaded_dimensions['height'], $required_image_dimensions['width'], $required_image_dimensions['height'])) {
+            throw new RuntimeException('Dimensions must be set to be checked');
+        }
+
+        return ((int)$uploaded_dimensions['width'] === (int)$required_image_dimensions['width']) && ((int)$uploaded_dimensions['height'] === (int)$required_image_dimensions['height']);
+    }
+
+    /**
+     * @param $image_type
+     * @param array $allowed_types
+     * @return bool
+     */
+    public static function checkIfIsImage($image_type, array $allowed_types)
     {
         if (in_array($image_type, $allowed_types, true)) {
             return true;
@@ -173,17 +197,73 @@ class FileSystem
         return $uploaded_check;
     }
 
-    public static function uploadAndVerifyImage($path_to_upload, array &$error, array $required_dimensions, $uploaded_dimensions, $allowed_types)
+    /**
+     * @param array $post_files
+     * @param string $path_to_upload
+     * @param array $error
+     * @param array $required_dimensions
+     * @param array $uploaded_dimensions
+     * @param array $allowed_types
+     * @return array
+     */
+    public static function uploadAndVerifyImage(array $post_files, $path_to_upload, array &$error, array $required_dimensions, array $uploaded_dimensions, array $allowed_types)
     {
         $image_name = null;
-        if ($_FILES['image']['error'] !== 4) {
+        if ($post_files['error'] !== 4) {
             try {
-                if ($image_name = Upload::uploadFile($_FILES['image'], $path_to_upload, $_FILES['image']['name'])) {
+                if ($image_name = Upload::uploadFile($post_files, $path_to_upload, $post_files['name'])) {
                     $image = Image::fromFile($path_to_upload . '/' . $image_name);
                     if (self::checkIfIsImage($image->getMimeType(), $allowed_types)) {
                         //setto le dimensioni richieste per l'immagine
                         $uploaded_check = self::setDimensionsVariables($image, $uploaded_dimensions);
                         if (self::checkImageDimensions($uploaded_check, $required_dimensions)) {
+                            return [
+                                'result' => true,
+                                'image_name' => $image_name,
+                            ];
+                        }
+                        $error[] = 'l\'immagine selezionata non rispetta le dimensioni richieste, file non caricato.';
+                    } else {
+                        $error[] = 'il file caricato non è un\'immagine, file non caricato.';
+                    }
+                }
+            } catch (ImageException $e) {
+                $error[] = 'il file caricato non è un\'immagine valida, file non caricato.';
+            } catch (\ImagickException $e) {
+                $error[] = 'il file caricato non è un\'immagine valida, file non caricato.';
+            } catch (Exception $e) {
+                $error[] = $e->getMessage();
+                Error::report($e, false);
+            }
+        }
+
+        return [
+            'result' => false,
+            'image_name' => $image_name,
+            'error' => $error
+        ];
+    }
+
+    /**
+     * @param array $post_files
+     * @param string $path_to_upload
+     * @param array $error
+     * @param array $required_dimensions
+     * @param array $uploaded_dimensions
+     * @param array $allowed_types
+     * @return array
+     */
+    public static function uploadAndVerifyFixedImage(array $post_files, $path_to_upload, array &$error, array $required_dimensions, array $uploaded_dimensions, array $allowed_types)
+    {
+        $image_name = null;
+        if ($post_files['error'] !== 4) {
+            try {
+                if ($image_name = Upload::uploadFile($post_files, $path_to_upload, $post_files['name'])) {
+                    $image = Image::fromFile($path_to_upload . '/' . $image_name);
+                    if (self::checkIfIsImage($image->getMimeType(), $allowed_types)) {
+                        //setto le dimensioni richieste per l'immagine
+                        $uploaded_check = self::setDimensionsVariables($image, $uploaded_dimensions);
+                        if (self::checkFixedImageDimensions($uploaded_check, $required_dimensions)) {
                             return [
                                 'result' => true,
                                 'image_name' => $image_name,
