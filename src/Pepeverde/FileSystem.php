@@ -290,4 +290,23 @@ class FileSystem
             'error' => $error
         ];
     }
+
+    /**
+     * @param Image $image
+     * @param array $cropdata
+     * @param string $savepath
+     * @param $image_name
+     * @return Image
+     */
+    public static function cropImage($image, $cropdata, $savepath, $image_name)
+    {
+        if (!file_exists($savepath) && !mkdir($savepath, 0777, true) && !is_dir($savepath)) {
+            throw new \RuntimeException(sprintf('Directory "%s" was not created', $savepath));
+        }
+
+        $image->crop($cropdata['width'], $cropdata['height'], $cropdata['x'], $cropdata['y'])
+            ->save($savepath . $image_name);
+
+        return $image;
+    }
 }
