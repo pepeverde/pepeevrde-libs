@@ -39,7 +39,7 @@ class Error
         $environment = 'development',
         array $extra = [],
         bool $send_default_pii = false
-    )
+    ): void
     {
         if (null === $sentryConfig) {
             throw new \RuntimeException('No Sentry configuration available');
@@ -53,7 +53,7 @@ class Error
      * @param bool       $display
      * @param array      $data
      */
-    public static function report(\Exception $e, $display = true, array $data = [])
+    public static function report(\Exception $e, $display = true, array $data = []): void
     {
         if (!empty($data)) {
             \Sentry\configureScope(static function (\Sentry\State\Scope $scope) use ($data): void {
@@ -78,14 +78,14 @@ class Error
     /**
      * @param string $message
      */
-    public static function message($message)
+    public static function message($message): void
     {
         \Sentry\captureMessage($message);
     }
 
-    public static function setUser($username, $email = null)
+    public static function setUser($username, $email = null): void
     {
-        \Sentry\configureScope(function (\Sentry\State\Scope $scope) use ($username, $email): void {
+        \Sentry\configureScope(static function (\Sentry\State\Scope $scope) use ($username, $email): void {
             $scope->setUser([
                 'username' => $username,
                 'email' => $email

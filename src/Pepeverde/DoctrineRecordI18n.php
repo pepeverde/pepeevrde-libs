@@ -2,14 +2,16 @@
 
 namespace Pepeverde;
 
+use Doctrine_Record;
+
 class DoctrineRecordI18n
 {
     /**
-     * @param \Doctrine_Record $record
+     * @param Doctrine_Record $record
      * @param string $name
      * @return string|null
      */
-    public static function get(\Doctrine_Record $record, $name)
+    public static function get(Doctrine_Record $record, $name): ?string
     {
         $language = Registry::get('language');
         if (isset($record['Translation'][$language]) && '' !== $record['Translation'][$language][$name]) {
@@ -17,19 +19,15 @@ class DoctrineRecordI18n
         }
         $defaultLanguage = Registry::get('default_language');
 
-        if (isset($record['Translation'][$defaultLanguage][$name])) {
-            return $record['Translation'][$defaultLanguage][$name];
-        }
-
-        return null;
+        return $record['Translation'][$defaultLanguage][$name] ?? null;
     }
 
     /**
-     * @param \Doctrine_Record $record
+     * @param Doctrine_Record $record
      * @param string $name
      * @return bool
      */
-    public static function exists(\Doctrine_Record $record, $name)
+    public static function exists(Doctrine_Record $record, $name): bool
     {
         $language = Registry::get('language');
         if (array_key_exists($name, $record['Translation'][$language])) {

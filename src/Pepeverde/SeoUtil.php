@@ -2,16 +2,18 @@
 
 namespace Pepeverde;
 
+use RuntimeException;
+
 class SeoUtil
 {
     private $stopWordFilePath = __DIR__ . '/../../resources/stopword/';
 
     /**
      * @param string $lang
-     * @throws \RuntimeException
+     * @throws RuntimeException
      * @return array
      */
-    private function loadStopWords($lang = 'it')
+    private function loadStopWords($lang = 'it'): array
     {
         $stopWordFile = $this->stopWordFilePath . $lang . '.php';
         if (is_file($stopWordFile)) {
@@ -21,7 +23,7 @@ class SeoUtil
             return $stopwords;
         }
 
-        throw new \RuntimeException('stop word file not found');
+        throw new RuntimeException('stop word file not found');
     }
 
     /**
@@ -29,7 +31,7 @@ class SeoUtil
      * @param array $stopwords
      * @return array
      */
-    private function stripUnwantedCharsFromText($text, $stopwords)
+    private function stripUnwantedCharsFromText($text, $stopwords): array
     {
         // strip html tags
         $tmp_string = strip_tags(mb_strtolower($text));
@@ -62,7 +64,7 @@ class SeoUtil
      * @param string $string
      * @return string
      */
-    private function stripEmoji($string)
+    private function stripEmoji($string): string
     {
         // Match Emoticons
         $regexEmoticons = '/[\x{1F600}-\x{1F64F}]/u';
@@ -108,10 +110,10 @@ class SeoUtil
      * @param string $text
      * @param int $limit
      * @param string $lang
-     * @throws \RuntimeException
+     * @throws RuntimeException
      * @return array
      */
-    public function extractKeywords($text, $limit = 10, $lang = 'it')
+    public function extractKeywords($text, $limit = 10, $lang = 'it'): array
     {
         if (is_int($limit) && $limit > 0) {
             $stopWords = $this->loadStopWords($lang);
@@ -127,10 +129,10 @@ class SeoUtil
      * @param string $text
      * @param int $limit
      * @param string $lang
-     * @throws \RuntimeException
+     * @throws RuntimeException
      * @return string
      */
-    public function extractKeywordsAsString($text, $limit = 10, $lang = 'it')
+    public function extractKeywordsAsString($text, $limit = 10, $lang = 'it'): string
     {
         return implode(',', $this->extractKeywords($text, $limit, $lang));
     }

@@ -2,26 +2,31 @@
 
 namespace Pepeverde;
 
+use Exception;
 use Html2Text\Html2Text;
 use Pelago\Emogrifier;
+use Swift_Attachment;
+use Swift_Mailer;
+use Swift_Message;
+use Swift_SmtpTransport;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 /**
  * Class Mailer2
- *
- * @version 20151103
  */
 class Mailer2
 {
-    const MAIL_FROM_EMAIL = 'example@example.com';
-    const MAIL_FROM_NAME = 'example@example.com';
+    public const MAIL_FROM_EMAIL = 'example@example.com';
+    public const MAIL_FROM_NAME = 'example@example.com';
 
     private $subject;
 
-    /** @var \Swift_Mailer */
+    /** @var Swift_Mailer */
     private $swiftMailer;
-    /** @var \Swift_Message */
+    /** @var Swift_Message */
     private $swiftMessage;
-    /** @var \Swift_SmtpTransport */
+    /** @var Swift_SmtpTransport */
     private $swiftTransport;
     /** @var array */
     private $swiftOptions;
@@ -55,7 +60,7 @@ class Mailer2
      * @param $name
      * @return Mailer2
      */
-    public function setEmailFromName($name)
+    public function setEmailFromName($name): Mailer2
     {
         $this->mailFromName = $name;
 
@@ -66,7 +71,7 @@ class Mailer2
      * @param $email
      * @return Mailer2
      */
-    public function setEmailFromEmail($email)
+    public function setEmailFromEmail($email): Mailer2
     {
         $this->mailFromEmail = $email;
 
@@ -77,7 +82,7 @@ class Mailer2
      * @param $email
      * @return Mailer2
      */
-    public function setEmailReplyToEmail($email)
+    public function setEmailReplyToEmail($email): Mailer2
     {
         $this->mailReplyToEmail = $email;
 
@@ -88,7 +93,7 @@ class Mailer2
      * @param array $attachments
      * @return Mailer2
      */
-    public function setAttachments(array $attachments)
+    public function setAttachments(array $attachments): Mailer2
     {
         $this->attachments = $attachments;
 
@@ -129,7 +134,7 @@ class Mailer2
      * @param $template
      * @return $this
      */
-    private function initializeTemplate($template)
+    private function initializeTemplate($template): self
     {
         try {
             $templatePathParts = pathinfo($template);
@@ -138,8 +143,8 @@ class Mailer2
                 'cache' => false,
                 'auto_reload' => true
             ];
-            $twig_loader = new \Twig_Loader_Filesystem($templatePathParts['dirname']);
-            $twig = new \Twig_Environment($twig_loader, $twig_options);
+            $twig_loader = new FilesystemLoader($templatePathParts['dirname']);
+            $twig = new Environment($twig_loader, $twig_options);
 
             $twig->getExtension('Twig_Extension_Core')->setTimezone('Europe/Rome');
             $twig->getExtension('Twig_Extension_Core')->setDateFormat('d/m/Y', '%d days');
@@ -150,7 +155,7 @@ class Mailer2
             $emogrifier = new Emogrifier($this->bodyHtml);
             $this->bodyHtml = $emogrifier->emogrify();
             $this->bodyText = Html2Text::convert($this->bodyHtml);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Error::report($e);
         }
 
@@ -161,11 +166,11 @@ class Mailer2
      * @param array $sm_config
      * @return Mailer2
      */
-    private function initializeSwiftMailer(array $sm_config)
+    private function initializeSwiftMailer(array $sm_config): Mailer2
     {
-        $this->swiftTransport = \Swift_SmtpTransport::newInstance($sm_config['host'], $sm_config['port']);
-        $this->swiftMailer = \Swift_Mailer::newInstance($this->swiftTransport);
-        $this->swiftMessage = \Swift_Message::newInstance()
+        $this->swiftTransport = Swift_SmtpTransport::newInstance($sm_config['host'], $sm_config['port']);
+        $this->swiftMailer = Swift_Mailer::newInstance($this->swiftTransport);
+        $this->swiftMessage = Swift_Message::newInstance()
             ->setFrom([$this->mailFromEmail => $this->mailFromName]);
 
         if (null !== $this->mailReplyToEmail) {
@@ -175,7 +180,7 @@ class Mailer2
         return $this;
     }
 
-    private function manageAttachments()
+    private function manageAttachments(): Mailer2
     {
         try {
             if (!empty($this->attachments)) {
@@ -183,11 +188,11 @@ class Mailer2
                     if (!is_file($file_path)) {
                         unset($this->attachments[$id]);
                     } else {
-                        $this->swiftMessage->attach(\Swift_Attachment::fromPath($file_path));
+                        $this->swiftMessage->attach(Swift_Attachment::fromPath($file_path));
                     }
                 }
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Error::report($e);
         }
 

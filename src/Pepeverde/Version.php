@@ -12,7 +12,7 @@ class Version
     /**
      * @return string
      */
-    public static function getVersion()
+    public static function getVersion(): string
     {
         return Registry::get('app.version', 'dev');
     }

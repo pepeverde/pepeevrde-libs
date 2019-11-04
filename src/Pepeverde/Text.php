@@ -10,7 +10,7 @@ class Text
      * @param int|null $length
      * @return string
      */
-    public static function substr($string, $start, $length = null)
+    public static function substr($string, $start, $length = null): string
     {
         return mb_substr($string, $start, $length, 'UTF-8');
     }
@@ -20,7 +20,7 @@ class Text
      * @param array|string $needles
      * @return bool
      */
-    public static function startsWith($haystack, $needles)
+    public static function startsWith($haystack, $needles): bool
     {
         foreach ((array)$needles as $needle) {
             if ($needle !== '' && static::substr($haystack, 0, strlen($needle)) === (string)$needle) {
@@ -36,7 +36,7 @@ class Text
      * @param array|string $needles
      * @return bool
      */
-    public static function endsWith($haystack, $needles)
+    public static function endsWith($haystack, $needles): bool
     {
         foreach ((array)$needles as $needle) {
             if (static::substr($haystack, -strlen($needle)) === (string)$needle) {
@@ -52,7 +52,7 @@ class Text
      * @param array|string $needles
      * @return bool
      */
-    public static function contains($haystack, $needles)
+    public static function contains($haystack, $needles): bool
     {
         foreach ((array)$needles as $needle) {
             if ($needle !== '' && mb_strpos($haystack, $needle) !== false) {
@@ -79,7 +79,7 @@ class Text
      * @param bool $preserve
      * @return string
      */
-    public function wordwrap($string, $length = 80, $separator = "\n", $preserve = false)
+    public function wordwrap($string, $length = 80, $separator = "\n", $preserve = false): string
     {
         $sentences = [];
 
@@ -108,7 +108,7 @@ class Text
      * @param bool $preserve
      * @return string
      */
-    public function truncate($string, $length = 30, $separator = '...', $preserve = false)
+    public function truncate($string, $length = 30, $separator = '...', $preserve = false): string
     {
         if (mb_strlen($string, 'UTF-8') > $length) {
             if (true === $preserve && false !== ($breakpoint = mb_strpos($string, ' ', $length, 'UTF-8'))) {
@@ -127,7 +127,7 @@ class Text
      * @param string $separator
      * @return string
      */
-    public function truncateHtml($string, $length = 300, $separator = '&hellip;')
+    public function truncateHtml($string, $length = 300, $separator = '&hellip;'): string
     {
         // TODO use mbstring functions
         $i = 0;
