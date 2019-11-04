@@ -3,19 +3,20 @@
 namespace Pepeverde\Test;
 
 use Pepeverde\Language;
+use PHPUnit\Framework\TestCase;
 
-class LanguageTest extends \PHPUnit_Framework_TestCase
+class LanguageTest extends TestCase
 {
     /** @var Language */
     private $Language;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->Language = new Language();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         unset($this->Language);
@@ -26,7 +27,7 @@ class LanguageTest extends \PHPUnit_Framework_TestCase
      * @param mixed $languageCode
      * @param mixed $expectedName
      */
-    public function testInfoName($languageCode, $expectedName)
+    public function testInfoName($languageCode, $expectedName): void
     {
         $this->assertEquals($expectedName, $this->Language->info($languageCode)['name']);
     }
@@ -36,17 +37,17 @@ class LanguageTest extends \PHPUnit_Framework_TestCase
      * @param mixed $languageCode
      * @param mixed $expectedName
      */
-    public function testInfoNaturalName($languageCode, $expectedName)
+    public function testInfoNaturalName($languageCode, $expectedName): void
     {
         $this->assertEquals($expectedName, $this->Language->info($languageCode)['natural_name']);
     }
 
-    public function testInfoNotExists()
+    public function testInfoNotExists(): void
     {
         $this->assertFalse($this->Language->info('tlh_001'));
     }
 
-    public function testAll()
+    public function testAll(): void
     {
         $languages = [
             'it_IT' => [
@@ -74,7 +75,7 @@ class LanguageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($languages, $this->Language->all());
     }
 
-    public function languageProvider()
+    public function languageProvider(): array
     {
         return [
             ['it_IT', 'Italiano'],
@@ -85,7 +86,7 @@ class LanguageTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function naturalLanguageProvider()
+    public function naturalLanguageProvider(): array
     {
         return [
             ['it_IT', 'Italiano'],
