@@ -117,4 +117,11 @@ class RegistryTest extends TestCase
         $this->assertInstanceOf(Registry::class, $firstCall);
         $this->assertSame($firstCall, $secondCall);
     }
+
+    public function testCloning()
+    {
+        $this->expectException(\Error::class);
+        $registry = Registry::getRegistry();
+        $cloneRegistry = clone $registry;
+    }
 }
