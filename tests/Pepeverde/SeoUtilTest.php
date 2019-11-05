@@ -3,8 +3,10 @@
 namespace Pepeverde\Test;
 
 use Pepeverde\SeoUtil;
+use PHPUnit\Framework\TestCase;
+use RuntimeException;
 
-class SeoUtilTest extends \PHPUnit_Framework_TestCase
+class SeoUtilTest extends TestCase
 {
     private $text = 'Avendo avuto troppe 💩 visite nel sito, abbiamo provveduto à chiuderlo tutto!';
     private $textWillBeEmpty = 'Avendo 💩 avuto troppe ♻, ® <br> <p class="test">€</p> 
@@ -73,17 +75,17 @@ $           ♣ nel ¾ abbiamo tutto!#';
         ],
     ];
 
-    public function testExtractKeywords()
+    public function testExtractKeywords(): void
     {
         $expected = ['visite', 'sito', 'provveduto', 'chiuderlo'];
 
         $seoUtil = new SeoUtil();
         $result = $seoUtil->extractKeywords($this->text);
-        $this->assertSame(count($expected), count($result));
+        $this->assertCount(count($expected), $result);
         $this->assertEquals($expected, $result);
     }
 
-    public function testExtractKeywordsAsString()
+    public function testExtractKeywordsAsString(): void
     {
         $expected = 'visite,sito,provveduto,chiuderlo';
 
@@ -92,7 +94,7 @@ $           ♣ nel ¾ abbiamo tutto!#';
         $this->assertEquals($expected, $result);
     }
 
-    public function testEmptyResult()
+    public function testEmptyResult(): void
     {
         $expected = [];
         $seoUtil = new SeoUtil();
@@ -102,11 +104,11 @@ $           ♣ nel ¾ abbiamo tutto!#';
         $expected = [];
         $seoUtil = new SeoUtil();
         $result = $seoUtil->extractKeywords($this->textWillBeEmpty);
-        $this->assertSame(count($expected), count($result));
+        $this->assertCount(count($expected), $result);
         $this->assertEquals($expected, $result);
     }
 
-    public function testSpecificString()
+    public function testSpecificString(): void
     {
         $seoUtil = new SeoUtil();
         foreach ($this->problematicText as $key => $string) {
@@ -116,12 +118,10 @@ $           ♣ nel ¾ abbiamo tutto!#';
         }
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
-    public function testMissingStopWordFile()
+    public function testMissingStopWordFile(): void
     {
+        $this->expectException(RuntimeException::class);
         $seoUtil = new SeoUtil();
-        $result = $seoUtil->extractKeywords($this->text, 10, 'ja');
+        $seoUtil->extractKeywords($this->text, 10, 'ja');
     }
 }

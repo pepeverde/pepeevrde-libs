@@ -6,6 +6,7 @@ use Exception;
 use FilesystemIterator;
 use Imagecow\Image;
 use Imagecow\ImageException;
+use ImagickException;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RuntimeException;
@@ -16,7 +17,7 @@ class FileSystem
      * @param string $dir
      * @return bool
      */
-    public static function isDirEmpty($dir)
+    public static function isDirEmpty($dir): bool
     {
         $di = new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS);
 
@@ -26,9 +27,9 @@ class FileSystem
     /**
      * @param string $name
      * @param int $retinaType
-     * @return string
+     * @return string|null
      */
-    public static function getRetinaName($name, $retinaType = 2)
+    public static function getRetinaName($name, $retinaType = 2): ?string
     {
         if (!empty($name)) {
             $v = pathinfo($name);
@@ -56,7 +57,7 @@ class FileSystem
      * @param string $mime
      * @return string
      */
-    private static function getFileTypeFromMime($mime)
+    private static function getFileTypeFromMime($mime): ?string
     {
         switch ($mime) {
             case 'application/pdf':
@@ -86,7 +87,7 @@ class FileSystem
      * @param int $precision
      * @return string
      */
-    public static function formatSize($size, $precision = 2)
+    public static function formatSize($size, $precision = 2): string
     {
         if (!is_numeric($size)) {
             return '0';
@@ -104,7 +105,7 @@ class FileSystem
         return round(1024 ** ($base - floor($base)), $precision) . $suffixes[(int)floor($base)];
     }
 
-    public static function deleteDir($path)
+    public static function deleteDir($path): void
     {
         if (is_dir($path)) {
             $iterator = new RecursiveIteratorIterator(
@@ -126,7 +127,7 @@ class FileSystem
         }
     }
 
-    public static function deleteFile($path_to_file)
+    public static function deleteFile($path_to_file): void
     {
         if (is_file($path_to_file)) {
             unlink($path_to_file);
@@ -138,7 +139,7 @@ class FileSystem
      * @param array $required_image_dimensions
      * @return bool
      */
-    public static function checkImageDimensions(array $uploaded_dimensions, array $required_image_dimensions)
+    public static function checkImageDimensions(array $uploaded_dimensions, array $required_image_dimensions): bool
     {
         if (!isset($uploaded_dimensions['width'], $uploaded_dimensions['height'], $required_image_dimensions['width'], $required_image_dimensions['height'])) {
             throw new RuntimeException('Dimensions must be set to be checked');
@@ -152,7 +153,7 @@ class FileSystem
      * @param array $required_image_dimensions
      * @return bool
      */
-    public static function checkFixedImageDimensions(array $uploaded_dimensions, array $required_image_dimensions)
+    public static function checkFixedImageDimensions(array $uploaded_dimensions, array $required_image_dimensions): bool
     {
         if (!isset($uploaded_dimensions['width'], $uploaded_dimensions['height'], $required_image_dimensions['width'], $required_image_dimensions['height'])) {
             throw new RuntimeException('Dimensions must be set to be checked');
@@ -166,7 +167,7 @@ class FileSystem
      * @param array $allowed_types
      * @return bool
      */
-    public static function checkIfIsImage($image_type, array $allowed_types)
+    public static function checkIfIsImage($image_type, array $allowed_types): bool
     {
         if (in_array($image_type, $allowed_types, true)) {
             return true;
@@ -180,7 +181,7 @@ class FileSystem
      * @param array $uploaded_dimensions
      * @return array
      */
-    public static function setDimensionsVariables(&$image, $uploaded_dimensions)
+    public static function setDimensionsVariables(&$image, $uploaded_dimensions): array
     {
         $uploaded_check = [
             'width' => 0,
@@ -206,7 +207,7 @@ class FileSystem
      * @param array $allowed_types
      * @return array
      */
-    public static function uploadAndVerifyImage(array $post_files, $path_to_upload, array &$error, array $required_dimensions, array $uploaded_dimensions, array $allowed_types)
+    public static function uploadAndVerifyImage(array $post_files, $path_to_upload, array &$error, array $required_dimensions, array $uploaded_dimensions, array $allowed_types): array
     {
         $image_name = null;
         if ($post_files['error'] !== 4) {
@@ -229,7 +230,7 @@ class FileSystem
                 }
             } catch (ImageException $e) {
                 $error[] = 'il file caricato non è un\'immagine valida, file non caricato.';
-            } catch (\ImagickException $e) {
+            } catch (ImagickException $e) {
                 $error[] = 'il file caricato non è un\'immagine valida, file non caricato.';
             } catch (Exception $e) {
                 $error[] = $e->getMessage();
@@ -253,7 +254,7 @@ class FileSystem
      * @param array $allowed_types
      * @return array
      */
-    public static function uploadAndVerifyFixedImage(array $post_files, $path_to_upload, array &$error, array $required_dimensions, array $uploaded_dimensions, array $allowed_types)
+    public static function uploadAndVerifyFixedImage(array $post_files, $path_to_upload, array &$error, array $required_dimensions, array $uploaded_dimensions, array $allowed_types): array
     {
         $image_name = null;
         if ($post_files['error'] !== 4) {
@@ -276,7 +277,7 @@ class FileSystem
                 }
             } catch (ImageException $e) {
                 $error[] = 'il file caricato non è un\'immagine valida, file non caricato.';
-            } catch (\ImagickException $e) {
+            } catch (ImagickException $e) {
                 $error[] = 'il file caricato non è un\'immagine valida, file non caricato.';
             } catch (Exception $e) {
                 $error[] = $e->getMessage();
@@ -298,10 +299,10 @@ class FileSystem
      * @param $image_name
      * @return Image
      */
-    public static function cropImage($image, $cropdata, $savepath, $image_name)
+    public static function cropImage($image, $cropdata, $savepath, $image_name): Image
     {
         if (!file_exists($savepath) && !mkdir($savepath, 0777, true) && !is_dir($savepath)) {
-            throw new \RuntimeException(sprintf('Directory "%s" was not created', $savepath));
+            throw new RuntimeException(sprintf('Directory "%s" was not created', $savepath));
         }
 
         $image->crop($cropdata['width'], $cropdata['height'], $cropdata['x'], $cropdata['y'])

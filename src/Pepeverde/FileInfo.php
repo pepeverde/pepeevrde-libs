@@ -2,14 +2,17 @@
 
 namespace Pepeverde;
 
-class FileInfo extends \SplFileInfo
+use finfo;
+use SplFileInfo;
+
+class FileInfo extends SplFileInfo
 {
     /**
      * @return string
      */
-    public function getMimeType()
+    public function getMimeType(): string
     {
-        $finfo = new \finfo();
+        $finfo = new finfo();
 
         return $finfo->file($this->getRealPath());
     }

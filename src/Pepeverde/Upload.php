@@ -3,6 +3,8 @@
 namespace Pepeverde;
 
 use Behat\Transliterator\Transliterator;
+use Exception;
+use RuntimeException;
 
 /**
  * Class Upload
@@ -20,9 +22,9 @@ class Upload
         if ($post_file['error'] === 0) {
             try {
                 if (!@mkdir($destination, 0777, true) && !is_dir($destination)) {
-                    throw new \RuntimeException('impossibile creare directory: ' . dirname($destination));
+                    throw new RuntimeException('impossibile creare directory: ' . dirname($destination));
                 }
-            } catch (\RuntimeException $e) {
+            } catch (RuntimeException $e) {
                 Error::report($e);
             }
             if (null === $name) {
@@ -39,7 +41,7 @@ class Upload
                 }
 
                 return false;
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 Error::report($e);
             }
 
@@ -53,7 +55,7 @@ class Upload
      * @param string $name
      * @return string
      */
-    public static function cleanName($name)
+    public static function cleanName($name): string
     {
         $remove_pattern = '/[^_\-.\-a-zA-Z0-9\s]/u';
 
@@ -83,7 +85,7 @@ class Upload
      * @param array[] $vector
      * @return array
      */
-    public static function flipArray($vector)
+    public static function flipArray($vector): array
     {
         $result = [];
         foreach ($vector as $key1 => $value1) {
@@ -99,7 +101,7 @@ class Upload
      * @param string $filepath
      * @return array
      */
-    public static function utf8Pathinfo($filepath)
+    public static function utf8Pathinfo($filepath): array
     {
         preg_match('%^(.*?)[\\\\/]*(([^/\\\\]*?)(\.([^\.\\\\/]+?)|))[\\\\/\.]*$%im', $filepath, $m);
         $ret = [];

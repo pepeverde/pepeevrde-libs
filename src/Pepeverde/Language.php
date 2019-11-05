@@ -31,7 +31,7 @@ class Language
     /**
      * @return array
      */
-    public function all()
+    public function all(): array
     {
         return self::$languages;
     }

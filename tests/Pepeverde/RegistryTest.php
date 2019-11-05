@@ -3,27 +3,28 @@
 namespace Pepeverde\Test;
 
 use Pepeverde\Registry;
+use PHPUnit\Framework\TestCase;
 
-class RegistryTest extends \PHPUnit_Framework_TestCase
+class RegistryTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         Registry::clear();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Registry::clear();
     }
 
-    public function testRegistryGetInstance()
+    public function testRegistryGetInstance(): void
     {
         // getting instance initializes instance
         $registry = Registry::getRegistry();
         $this->assertInstanceOf(Registry::class, $registry);
     }
 
-    public function testGet()
+    public function testGet(): void
     {
         Registry::set('foo', 'bar');
         $bar = Registry::get('foo');
@@ -36,7 +37,7 @@ class RegistryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('defaultValue', Registry::get('foo2', 'defaultValue'));
     }
 
-    public function testSet()
+    public function testSet(): void
     {
         // setting value initializes instance
         Registry::set('foo', 'bar');
@@ -48,14 +49,14 @@ class RegistryTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($nullValue);
     }
 
-    public function testSetAgain()
+    public function testSetAgain(): void
     {
         $this->assertTrue(Registry::set('foo', 'bar'));
         $this->assertFalse(Registry::set('foo', 42));
         $this->assertEquals('bar', Registry::get('foo'));
     }
 
-    public function testAdd()
+    public function testAdd(): void
     {
         Registry::set('foo', ['bar']);
         Registry::add('foo', 42);
@@ -64,7 +65,7 @@ class RegistryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(['foo' => ['bar', 42, 3.14]], Registry::getAll());
     }
 
-    public function testHas()
+    public function testHas(): void
     {
         Registry::set('foo', 'bar');
         $this->assertTrue(Registry::has('foo'));
@@ -77,7 +78,7 @@ class RegistryTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse(Registry::has(0));
     }
 
-    public function testRemove()
+    public function testRemove(): void
     {
         Registry::set('foo', 'bar');
         Registry::set('foo2', 'bar2');
@@ -85,7 +86,7 @@ class RegistryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(['foo' => 'bar'], Registry::getAll());
     }
 
-    public function testGetAll()
+    public function testGetAll(): void
     {
         $this->assertEquals([], Registry::getAll());
 
@@ -98,7 +99,7 @@ class RegistryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(['foo' => 'bar', 'foo2' => 42, 'foo3' => 3.14], $registryInstance->getAll());
     }
 
-    public function testGetKeys()
+    public function testGetKeys(): void
     {
         $this->assertEquals([], Registry::getKeys());
 
@@ -108,12 +109,19 @@ class RegistryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(['foo', 'foo2', 'foo3'], Registry::getKeys());
     }
 
-    public function testUniqueness()
+    public function testUniqueness(): void
     {
         $firstCall = Registry::getRegistry();
         $secondCall = Registry::getRegistry();
 
         $this->assertInstanceOf(Registry::class, $firstCall);
         $this->assertSame($firstCall, $secondCall);
+    }
+
+    public function testCloning()
+    {
+        $this->expectException(\Error::class);
+        $registry = Registry::getRegistry();
+        $cloneRegistry = clone $registry;
     }
 }

@@ -2,6 +2,9 @@
 
 namespace Pepeverde\Session;
 
+use Aura\Session\Session;
+use RuntimeException;
+
 class SessionFactory
 {
     protected $session_config = [
@@ -27,12 +30,12 @@ class SessionFactory
         $this->session_config = array_merge($this->session_config, $user_session_config);
     }
 
-    public function setName($name)
+    public function setName($name): void
     {
         $this->sessionName = $name;
     }
 
-    public function setSavePath($savePath)
+    public function setSavePath($savePath): void
     {
         $this->savePath = $savePath;
     }
@@ -40,10 +43,10 @@ class SessionFactory
     /**
      * SessionFactory constructor.
      * @param string $type
-     * @throws \RuntimeException
-     * @return \Aura\Session\Session
+     * @throws RuntimeException
+     * @return Session
      */
-    public function getSession($type)
+    public function getSession($type): ?Session
     {
         switch ($type) {
             case 'filesystem':
@@ -53,22 +56,22 @@ class SessionFactory
                 return $this->getRedisSession();
                 break;
             default:
-                throw new \RuntimeException('Session type can be "filesystem" or "redis" only');
+                throw new RuntimeException('Session type can be "filesystem" or "redis" only');
         }
     }
 
     /**
-     * @throws \RuntimeException
-     * @return \Aura\Session\Session
+     * @throws RuntimeException
+     * @return Session
      */
-    private function getFilesystemSession()
+    private function getFilesystemSession(): Session
     {
         ini_set('session.save_handler', 'files');
 
         $session = $this->commonFactory();
 
         if (!@is_dir($this->savePath)) {
-            throw new \RuntimeException('Invalid filesystem savepath');
+            throw new RuntimeException('Invalid filesystem savepath');
         }
         $session->setSavePath($this->savePath);
 
@@ -76,10 +79,10 @@ class SessionFactory
     }
 
     /**
-     * @throws \RuntimeException
-     * @return \Aura\Session\Session
+     * @throws RuntimeException
+     * @return Session
      */
-    private function getRedisSession()
+    private function getRedisSession(): Session
     {
         ini_set('session.save_handler', 'redis');
 
@@ -89,7 +92,7 @@ class SessionFactory
 
         // throw exception if scheme and host are not present
         if (!isset($redisPardesUri['scheme'], $redisPardesUri['host'])) {
-            throw new \RuntimeException('Invalid Redis savepath');
+            throw new RuntimeException('Invalid Redis savepath');
         }
 
         $this->savePath = $redisPardesUri['scheme'] . '://' . $redisPardesUri['host'];
@@ -119,9 +122,9 @@ class SessionFactory
     }
 
     /**
-     * @return \Aura\Session\Session
+     * @return Session
      */
-    private function commonFactory()
+    private function commonFactory(): Session
     {
         ini_set('session.gc_maxlifetime', $this->session_config['lifetime']);
         $session_factory = new \Aura\Session\SessionFactory();
