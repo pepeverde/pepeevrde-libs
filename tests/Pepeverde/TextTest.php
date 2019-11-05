@@ -12,6 +12,8 @@ class TextTest extends TestCase
     private $text_br = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br>Mauris volutpat, velit interdum sagittis vestibulum, velit nulla vehicula nulla, nec faucibus est diam sed orci.<br />Phasellus finibus, felis vel posuere dictum, elit arcu vestibulum dolor, non auctor ligula neque eu ante.<br    >';
     private $text_10chars = 'Lorem ipsu';
 
+    private static $provideTestWordWrap;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -40,11 +42,6 @@ class TextTest extends TestCase
         $this->assertEquals('Lorem ipsu', $this->Text->truncate($this->text_10chars));
     }
 
-    public function testValidStartsWith(): void
-    {
-        $this->assertTrue(Text::startsWith('start', 's'));
-    }
-
     /*
         public function testTruncateHtml()
         {
@@ -57,6 +54,41 @@ class TextTest extends TestCase
             $this->assertSame('', $this->Text->truncateHtml($text6));
         }
     */
+
+    /**
+     * @param $input
+     * @param $expected
+     *
+     * @dataProvider provideTestWordWrap
+     * @small
+     */
+    public function testWordwrap($input, $expected)
+    {
+        $actual = call_user_func_array(
+            array(
+                $this->Text,
+                'wordwrap'
+            ),
+            $input
+        );
+        $this->assertEquals(
+            $expected,
+            $actual
+        );
+    }
+
+    public function provideTestWordWrap()
+    {
+        if (!isset(self::$provideTestWordWrap)) {
+            self::$provideTestWordWrap = require __DIR__ . '/../resources/string_tools_wordwrap_data.php';
+        }
+        return self::$provideTestWordWrap;
+    }
+
+    public function testValidStartsWith(): void
+    {
+        $this->assertTrue(Text::startsWith('start', 's'));
+    }
 
     public function testNotValidStartsWith(): void
     {
