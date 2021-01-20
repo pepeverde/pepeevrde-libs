@@ -12,14 +12,15 @@ class SessionFactory
         'httponly' => true,
     ];
 
-    private $sessionName = 'PHPSESSID';
+    private $sessionName;
     private $savePath;
 
     /**
      * SessionFactory constructor.
-     * @param array $user_session_config
+     * @param array  $user_session_config
+     * @param string $sessionName
      */
-    public function __construct(array $user_session_config = [])
+    public function __construct(array $user_session_config = [], $sessionName = 'PHPSESSID')
     {
         $is_https = false;
         if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
@@ -28,6 +29,7 @@ class SessionFactory
         $this->session_config['secure'] = $is_https;
 
         $this->session_config = array_merge($this->session_config, $user_session_config);
+        $this->sessionName = $sessionName;
     }
 
     public function setName($name): void
@@ -40,30 +42,18 @@ class SessionFactory
         $this->savePath = $savePath;
     }
 
-    /**
-     * SessionFactory constructor.
-     * @param string $type
-     * @throws RuntimeException
-     * @return Session
-     */
-    public function getSession($type): ?Session
+    public function getSession(string $type): Session
     {
         switch ($type) {
             case 'filesystem':
                 return $this->getFilesystemSession();
-                break;
             case 'redis':
                 return $this->getRedisSession();
-                break;
             default:
                 throw new RuntimeException('Session type can be "filesystem" or "redis" only');
         }
     }
 
-    /**
-     * @throws RuntimeException
-     * @return Session
-     */
     private function getFilesystemSession(): Session
     {
         ini_set('session.save_handler', 'files');
@@ -78,10 +68,6 @@ class SessionFactory
         return $session;
     }
 
-    /**
-     * @throws RuntimeException
-     * @return Session
-     */
     private function getRedisSession(): Session
     {
         ini_set('session.save_handler', 'redis');
@@ -121,12 +107,10 @@ class SessionFactory
         return $session;
     }
 
-    /**
-     * @return Session
-     */
     private function commonFactory(): Session
     {
         ini_set('session.gc_maxlifetime', $this->session_config['lifetime']);
+
         $session_factory = new \Aura\Session\SessionFactory();
         $session = $session_factory->newInstance($_COOKIE);
         $session->setCookieParams($this->session_config);
