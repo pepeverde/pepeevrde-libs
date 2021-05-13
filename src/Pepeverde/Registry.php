@@ -15,7 +15,7 @@ class Registry implements Zigra_RegistryInterface
     /**
      * @return Registry
      */
-    public static function getRegistry(): Registry
+    public static function getRegistry(): self
     {
         if (self::$instance === null) {
             self::$instance = new static();

@@ -65,10 +65,10 @@ class TextTest extends TestCase
     public function testWordwrap($input, $expected)
     {
         $actual = call_user_func_array(
-            array(
+            [
                 $this->Text,
                 'wordwrap'
-            ),
+            ],
             $input
         );
         $this->assertEquals(
@@ -82,6 +82,7 @@ class TextTest extends TestCase
         if (!isset(self::$provideTestWordWrap)) {
             self::$provideTestWordWrap = require __DIR__ . '/../resources/string_tools_wordwrap_data.php';
         }
+
         return self::$provideTestWordWrap;
     }
 

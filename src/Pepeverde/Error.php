@@ -12,8 +12,7 @@ class Error
         $environment,
         array $extra,
         bool $send_default_pii
-    ): void
-    {
+    ): void {
         \Sentry\init([
             'dsn' => $sentryConfig['sentry-server'],
             'release' => $appVersion,
@@ -39,8 +38,7 @@ class Error
         $environment = 'development',
         array $extra = [],
         bool $send_default_pii = false
-    ): void
-    {
+    ): void {
         if (null === $sentryConfig) {
             throw new \RuntimeException('No Sentry configuration available');
         }

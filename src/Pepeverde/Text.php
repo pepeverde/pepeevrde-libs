@@ -108,7 +108,7 @@ class Text
                 $current += $breaklen - 1;
                 $laststart = $lastspace = $current + 1;
             } // Keep track of spaces, if line break is necessary, do it
-            else if ($char === ' ') {
+            elseif ($char === ' ') {
                 if ($current - $laststart >= $width) {
                     $newtext .= mb_substr($str, $laststart, $current - $laststart, $encoding)
                         . $break;
@@ -116,14 +116,14 @@ class Text
                 }
                 $lastspace = $current;
             } // Special cut case, if no space has been seen
-            else if ($current - $laststart >= $width
+            elseif ($current - $laststart >= $width
                 && $cut && $laststart >= $lastspace
             ) {
                 $newtext .= mb_substr($str, $laststart, $current - $laststart, $encoding)
                     . $break;
                 $laststart = $lastspace = $current;
             } // Usual case that line got longer than expected
-            else if ($current - $laststart >= $width
+            elseif ($current - $laststart >= $width
                 && $laststart < $lastspace
             ) {
                 $newtext .= mb_substr($str, $laststart, $lastspace - $laststart, $encoding)
@@ -136,6 +136,7 @@ class Text
         if ($laststart !== $current) {
             $newtext .= mb_substr($str, $laststart, $current - $laststart, $encoding);
         }
+
         return $newtext;
     }
 
@@ -187,10 +188,10 @@ class Text
         }
 
         return static::substr($string, 0, $length = min(strlen($string), $length + $i)) . (count(
-                $tags = array_reverse($tags)
-            ) ? '</' . implode(
-                    '></',
-                    $tags
-                ) . '>' : '') . (mb_strlen($string) > $length ? $separator : '');
+            $tags = array_reverse($tags)
+        ) ? '</' . implode(
+            '></',
+            $tags
+        ) . '>' : '') . (mb_strlen($string) > $length ? $separator : '');
     }
 }

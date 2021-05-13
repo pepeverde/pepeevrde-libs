@@ -4,7 +4,7 @@ namespace Pepeverde;
 
 use Exception;
 use Html2Text\Html2Text;
-use Pelago\Emogrifier;
+use Pelago\Emogrifier\CssInliner;
 use Swift_Attachment;
 use Swift_Mailer;
 use Swift_Message;
@@ -60,7 +60,7 @@ class Mailer2
      * @param $name
      * @return Mailer2
      */
-    public function setEmailFromName($name): Mailer2
+    public function setEmailFromName($name): self
     {
         $this->mailFromName = $name;
 
@@ -71,7 +71,7 @@ class Mailer2
      * @param $email
      * @return Mailer2
      */
-    public function setEmailFromEmail($email): Mailer2
+    public function setEmailFromEmail($email): self
     {
         $this->mailFromEmail = $email;
 
@@ -82,7 +82,7 @@ class Mailer2
      * @param $email
      * @return Mailer2
      */
-    public function setEmailReplyToEmail($email): Mailer2
+    public function setEmailReplyToEmail($email): self
     {
         $this->mailReplyToEmail = $email;
 
@@ -93,21 +93,14 @@ class Mailer2
      * @param array $attachments
      * @return Mailer2
      */
-    public function setAttachments(array $attachments): Mailer2
+    public function setAttachments(array $attachments): self
     {
         $this->attachments = $attachments;
 
         return $this;
     }
 
-    /**
-     * @param string $to
-     * @param string $subject
-     * @param null $cc
-     * @param null $bcc
-     * @return mixed
-     */
-    public function sendMessage($to, $subject, $cc = null, $bcc = null)
+    public function sendMessage(string $to, string $subject, ?string $cc = null, ?string $bcc = null): int
     {
         $this->initializeSwiftMailer($this->swiftOptions);
 
@@ -130,11 +123,7 @@ class Mailer2
         return $this->swiftMailer->send($this->swiftMessage);
     }
 
-    /**
-     * @param $template
-     * @return $this
-     */
-    private function initializeTemplate($template): self
+    private function initializeTemplate($template): void
     {
         try {
             $templatePathParts = pathinfo($template);
@@ -152,21 +141,14 @@ class Mailer2
             $twig_template = $twig->load($templatePathParts['basename']);
 
             $this->bodyHtml = $twig_template->render($this->templateVars);
-            $emogrifier = new Emogrifier($this->bodyHtml);
-            $this->bodyHtml = $emogrifier->emogrify();
+            $this->bodyHtml = CssInliner::fromHtml($this->bodyHtml)->inlineCss()->render();
             $this->bodyText = Html2Text::convert($this->bodyHtml);
         } catch (Exception $e) {
             Error::report($e);
         }
-
-        return $this;
     }
 
-    /**
-     * @param array $sm_config
-     * @return Mailer2
-     */
-    private function initializeSwiftMailer(array $sm_config): Mailer2
+    private function initializeSwiftMailer(array $sm_config): void
     {
         $this->swiftTransport = Swift_SmtpTransport::newInstance($sm_config['host'], $sm_config['port']);
         $this->swiftMailer = Swift_Mailer::newInstance($this->swiftTransport);
@@ -176,11 +158,9 @@ class Mailer2
         if (null !== $this->mailReplyToEmail) {
             $this->swiftMessage->addReplyTo($this->mailReplyToEmail);
         }
-
-        return $this;
     }
 
-    private function manageAttachments(): Mailer2
+    private function manageAttachments(): void
     {
         try {
             if (!empty($this->attachments)) {
@@ -195,7 +175,5 @@ class Mailer2
         } catch (Exception $e) {
             Error::report($e);
         }
-
-        return $this;
     }
 }
