@@ -18,7 +18,7 @@ class Registry implements Zigra_RegistryInterface
     public static function getRegistry(): self
     {
         if (self::$instance === null) {
-            self::$instance = new static();
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -76,7 +76,7 @@ class Registry implements Zigra_RegistryInterface
     }
 
     /**
-     * @param string $key
+     * @param mixed $key
      * @return bool
      */
     public static function has($key)

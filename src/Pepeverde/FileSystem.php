@@ -57,7 +57,7 @@ class FileSystem
      * @param string $mime
      * @return string
      */
-    private static function getFileTypeFromMime($mime): ?string
+    private static function getFileTypeFromMime($mime): string
     {
         switch ($mime) {
             case 'application/pdf':
@@ -163,7 +163,7 @@ class FileSystem
     }
 
     /**
-     * @param $image_type
+     * @param string $image_type
      * @param array $allowed_types
      * @return bool
      */
@@ -296,7 +296,7 @@ class FileSystem
      * @param Image $image
      * @param array $cropdata
      * @param string $savepath
-     * @param $image_name
+     * @param string $image_name
      * @return Image
      */
     public static function cropImage($image, $cropdata, $savepath, $image_name): Image

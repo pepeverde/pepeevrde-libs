@@ -382,14 +382,6 @@ return [
         ],
         '123|==1234567890|==123'
     ],
-    38 => [
-        [
-            chr(0),
-            0,
-            ''
-        ],
-        false
-    ],
 
 // ext/standard/tests/strings/wordwrap_basic.phpt
 

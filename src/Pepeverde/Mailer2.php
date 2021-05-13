@@ -10,6 +10,7 @@ use Swift_Mailer;
 use Swift_Message;
 use Swift_SmtpTransport;
 use Twig\Environment;
+use Twig\Extension\CoreExtension;
 use Twig\Loader\FilesystemLoader;
 
 /**
@@ -57,7 +58,7 @@ class Mailer2
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @return Mailer2
      */
     public function setEmailFromName($name): self
@@ -68,7 +69,7 @@ class Mailer2
     }
 
     /**
-     * @param $email
+     * @param string $email
      * @return Mailer2
      */
     public function setEmailFromEmail($email): self
@@ -79,7 +80,7 @@ class Mailer2
     }
 
     /**
-     * @param $email
+     * @param string $email
      * @return Mailer2
      */
     public function setEmailReplyToEmail($email): self
@@ -135,9 +136,11 @@ class Mailer2
             $twig_loader = new FilesystemLoader($templatePathParts['dirname']);
             $twig = new Environment($twig_loader, $twig_options);
 
-            $twig->getExtension('Twig_Extension_Core')->setTimezone('Europe/Rome');
-            $twig->getExtension('Twig_Extension_Core')->setDateFormat('d/m/Y', '%d days');
-            $twig->getExtension('Twig_Extension_Core')->setNumberFormat(2, ',', '');
+            /** @var CoreExtension $Twig_Extension_Core */
+            $Twig_Extension_Core = $twig->getExtension('Twig_Extension_Core');
+            $Twig_Extension_Core->setTimezone('Europe/Rome');
+            $Twig_Extension_Core->setDateFormat('d/m/Y', '%d days');
+            $Twig_Extension_Core->setNumberFormat(2, ',', '');
             $twig_template = $twig->load($templatePathParts['basename']);
 
             $this->bodyHtml = $twig_template->render($this->templateVars);

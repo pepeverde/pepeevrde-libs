@@ -5,8 +5,8 @@ namespace Pepeverde;
 class Text
 {
     /**
-     * @param string   $string
-     * @param int      $start
+     * @param string $string
+     * @param int $start
      * @param int|null $length
      * @return string
      */
@@ -16,7 +16,7 @@ class Text
     }
 
     /**
-     * @param string       $haystack
+     * @param string $haystack
      * @param array|string $needles
      * @return bool
      */
@@ -32,7 +32,7 @@ class Text
     }
 
     /**
-     * @param string       $haystack
+     * @param string $haystack
      * @param array|string $needles
      * @return bool
      */
@@ -48,7 +48,7 @@ class Text
     }
 
     /**
-     * @param string       $haystack
+     * @param string $haystack
      * @param array|string $needles
      * @return bool
      */
@@ -64,7 +64,7 @@ class Text
     }
 
     /**
-     * @param $string
+     * @param string $string
      * @return null|string|string[]
      */
     public function br2nl($string)
@@ -74,9 +74,9 @@ class Text
 
     /**
      * @param string $str
-     * @param int    $width
+     * @param int $width
      * @param string $break
-     * @param bool   $cut
+     * @param bool $cut
      * @param string $encoding
      * @return string
      */
@@ -90,11 +90,13 @@ class Text
         }
 
         if ($breaklen === 0) {
-            return false;
+            throw new \RuntimeException('Break not specified');
         }
+
         if ($width === 0 && $cut) {
-            return false;
+            throw new \RuntimeException('Width too small');
         }
+
         $laststart = $lastspace = 0;
         $breakstart = mb_substr($break, 0, 1, $encoding);
         for ($current = 0; $current < $strlen; $current++) {
@@ -142,9 +144,9 @@ class Text
 
     /**
      * @param string $string
-     * @param int    $length
+     * @param int $length
      * @param string $separator
-     * @param bool   $preserve
+     * @param bool $preserve
      * @return string
      */
     public function truncate($string, $length = 30, $separator = '...', $preserve = false): string
@@ -162,7 +164,7 @@ class Text
 
     /**
      * @param string $string
-     * @param int    $length
+     * @param int $length
      * @param string $separator
      * @return string
      */
@@ -190,8 +192,8 @@ class Text
         return static::substr($string, 0, $length = min(strlen($string), $length + $i)) . (count(
             $tags = array_reverse($tags)
         ) ? '</' . implode(
-            '></',
-            $tags
-        ) . '>' : '') . (mb_strlen($string) > $length ? $separator : '');
+                '></',
+                $tags
+            ) . '>' : '') . (mb_strlen($string) > $length ? $separator : '');
     }
 }

@@ -37,8 +37,14 @@ class TextTest extends TestCase
     {
         $this->assertEquals('Lorem ipsum dolor sit amet, co...', $this->Text->truncate($this->text_br));
         $this->assertEquals('Lorem ipsum dolor sit amet, consectetur ad...', $this->Text->truncate($this->text_br, 42));
-        $this->assertEquals('Lorem ipsum dolor sit amet, consectetur ad', $this->Text->truncate($this->text_br, 42, ''));
-        $this->assertEquals('Lorem ipsum dolor sit amet, consectetur adipiscing', $this->Text->truncate($this->text_br, 42, '', true));
+        $this->assertEquals(
+            'Lorem ipsum dolor sit amet, consectetur ad',
+            $this->Text->truncate($this->text_br, 42, '')
+        );
+        $this->assertEquals(
+            'Lorem ipsum dolor sit amet, consectetur adipiscing',
+            $this->Text->truncate($this->text_br, 42, '', true)
+        );
         $this->assertEquals('Lorem ipsu', $this->Text->truncate($this->text_10chars));
     }
 
@@ -77,6 +83,23 @@ class TextTest extends TestCase
         );
     }
 
+    /**
+     * @param $input
+     * @param $expected
+     * @dataProvider provideExceptionData
+     */
+    public function testLimitCase($input, $exceptionClass)
+    {
+        $this->expectException($exceptionClass);
+        $actual = call_user_func_array(
+            [
+                $this->Text,
+                'wordwrap'
+            ],
+            $input
+        );
+    }
+
     public function provideTestWordWrap()
     {
         if (!isset(self::$provideTestWordWrap)) {
@@ -84,6 +107,21 @@ class TextTest extends TestCase
         }
 
         return self::$provideTestWordWrap;
+    }
+
+    public function provideExceptionData()
+    {
+        return [
+            38 => [
+                [
+                    chr(0),
+                    0,
+                    ''
+                ],
+                \RuntimeException::class
+            ],
+
+        ];
     }
 
     public function testValidStartsWith(): void
