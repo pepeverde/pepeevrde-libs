@@ -3,7 +3,7 @@
 namespace Pepeverde;
 
 use Exception;
-use Html2Text\Html2Text;
+use Soundasleep\Html2Text;
 use Pelago\Emogrifier\CssInliner;
 use Swift_Attachment;
 use Swift_Mailer;
