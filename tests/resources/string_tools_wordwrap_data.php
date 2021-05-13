@@ -192,7 +192,7 @@ return [
             'separator' => '---'
         ],
         // $expected
-        "This is a string which is longer than 75 characters but does not contain---UTF-8-encoded characters. So what?"
+        'This is a string which is longer than 75 characters but does not contain---UTF-8-encoded characters. So what?'
     ],
 
     // Default width, no UTF-8, multiple lines, wrapping, custom wrap char
@@ -219,21 +219,20 @@ return [
         "This is ä string which is lönger thän 75 \nchäräcters büt döes nöt cöntäin---UTF-8-encöded\n chäräcters. Sö whät?"
     ],
 
-
 // ---------- PHP tests to ensure compatibility ------------
 
 // ext/standard/tests/strings/wordwrap.phpt
 
     19 => [
         [
-            'string' => "12345 12345 12345 12345",
+            'string' => '12345 12345 12345 12345',
         ],
-        "12345 12345 12345 12345",
+        '12345 12345 12345 12345',
     ],
 
     20 => [
         [
-            'string' => "12345 12345 1234567890 1234567890",
+            'string' => '12345 12345 1234567890 1234567890',
             12
         ],
         "12345 12345\n1234567890\n1234567890",
@@ -241,155 +240,147 @@ return [
 
     21 => [
         [
-            'string' => "12345 12345 12345 12345",
+            'string' => '12345 12345 12345 12345',
             0
         ],
         "12345\n12345\n12345\n12345",
     ],
     22 => [
         [
-            'string' => "12345 12345 12345 12345",
+            'string' => '12345 12345 12345 12345',
             0,
-            "ab"
+            'ab'
         ],
-        "12345ab12345ab12345ab12345",
+        '12345ab12345ab12345ab12345',
     ],
     23 => [
         [
-            'string' => "12345 12345 1234567890 1234567890",
+            'string' => '12345 12345 1234567890 1234567890',
             12,
-            "ab"
+            'ab'
         ],
-        "12345 12345ab1234567890ab1234567890"
+        '12345 12345ab1234567890ab1234567890'
     ],
     24 => [
         [
-            'string' => "123ab123ab123",
+            'string' => '123ab123ab123',
             3,
-            "ab"
+            'ab'
         ],
-        "123ab123ab123"
+        '123ab123ab123'
     ],
     25 => [
         [
-            'string' => "123ab123ab123",
+            'string' => '123ab123ab123',
             5,
-            "ab"
+            'ab'
         ],
-        "123ab123ab123",
+        '123ab123ab123',
     ],
     26 => [
         [
-            'string' => "123  123ab123",
+            'string' => '123  123ab123',
             3,
-            "ab"
+            'ab'
         ],
-        "123ab 123ab123",
+        '123ab 123ab123',
     ],
     27 => [
         [
-            'string' => "123 123ab123",
+            'string' => '123 123ab123',
             5,
-            "ab"
+            'ab'
         ],
-        "123ab123ab123",
+        '123ab123ab123',
     ],
     28 => [
         [
-            'string' => "123 123 123",
+            'string' => '123 123 123',
             10,
-            "ab"
+            'ab'
         ],
-        "123 123ab123",
+        '123 123ab123',
     ],
     29 => [
         [
-            'string' => "123ab123ab123",
+            'string' => '123ab123ab123',
             3,
-            "ab",
+            'ab',
             1
         ],
-        "123ab123ab123",
+        '123ab123ab123',
     ],
     30 => [
         [
-            'string' => "123ab123ab123",
+            'string' => '123ab123ab123',
             5,
-            "ab",
+            'ab',
             1
         ],
-        "123ab123ab123",
+        '123ab123ab123',
     ],
     31 => [
         [
-            'string' => "123  123ab123",
+            'string' => '123  123ab123',
             3,
-            "ab",
+            'ab',
             1
         ],
-        "123ab 12ab3ab123",
+        '123ab 12ab3ab123',
     ],
     32 => [
         [
-            'string' => "123  123ab123",
+            'string' => '123  123ab123',
             5,
-            "ab",
+            'ab',
             1
         ],
-        "123 ab123ab123"
+        '123 ab123ab123'
     ],
     33 => [
         [
-            'string' => "123  123  123",
+            'string' => '123  123  123',
             8,
-            "ab",
+            'ab',
             1
         ],
-        "123  123ab 123"
+        '123  123ab 123'
     ],
     34 => [
         [
-            'string' => "123  12345  123",
+            'string' => '123  12345  123',
             8,
-            "ab",
+            'ab',
             1
         ],
-        "123 ab12345 ab123"
+        '123 ab12345 ab123'
     ],
     35 => [
         [
-            'string' => "1234",
+            'string' => '1234',
             1,
-            "ab",
+            'ab',
             1
         ],
-        "1ab2ab3ab4"
+        '1ab2ab3ab4'
     ],
     36 => [
         [
-            'string' => "12345 1234567890",
+            'string' => '12345 1234567890',
             5,
-            "|",
+            '|',
             1
         ],
-        "12345|12345|67890"
+        '12345|12345|67890'
     ],
     37 => [
         [
-            'string' => "123 1234567890 123",
+            'string' => '123 1234567890 123',
             10,
-            "|==",
+            '|==',
             1
         ],
-        "123|==1234567890|==123"
-    ],
-    38 => [
-        [
-            chr(0),
-            0,
-            ""
-        ],
-        false
+        '123|==1234567890|==123'
     ],
 
 // ext/standard/tests/strings/wordwrap_basic.phpt

@@ -37,7 +37,7 @@ class Language
     }
 
     /**
-     * @param $language
+     * @param string $language
      * @return array|false
      */
     public function info($language)

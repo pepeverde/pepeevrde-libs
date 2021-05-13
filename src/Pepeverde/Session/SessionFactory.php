@@ -85,7 +85,9 @@ class SessionFactory
         // check if port is specified
         if (
             isset($redisPardesUri['port']) &&
-            filter_var($redisPardesUri['port'], FILTER_VALIDATE_INT,
+            filter_var(
+                $redisPardesUri['port'],
+                FILTER_VALIDATE_INT,
                 [
                     'options' => [
                         'min_range' => 1,
