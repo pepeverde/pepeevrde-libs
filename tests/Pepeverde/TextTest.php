@@ -73,7 +73,7 @@ class TextTest extends TestCase
         $actual = call_user_func_array(
             [
                 $this->Text,
-                'wordwrap'
+                'wordwrap',
             ],
             $input
         );
@@ -94,7 +94,7 @@ class TextTest extends TestCase
         $actual = call_user_func_array(
             [
                 $this->Text,
-                'wordwrap'
+                'wordwrap',
             ],
             $input
         );
@@ -116,11 +116,10 @@ class TextTest extends TestCase
                 [
                     chr(0),
                     0,
-                    ''
+                    '',
                 ],
-                \RuntimeException::class
+                \RuntimeException::class,
             ],
-
         ];
     }
 

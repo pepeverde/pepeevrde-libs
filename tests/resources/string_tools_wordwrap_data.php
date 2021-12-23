@@ -28,7 +28,7 @@ return [
             'string' => 'This is a string which is longer than 80 characters but does not contain UTF-8-encoded characters. So what?',
         ],
         // $expected
-        "This is a string which is longer than 80 characters but does not contain\nUTF-8-encoded characters. So what?"
+        "This is a string which is longer than 80 characters but does not contain\nUTF-8-encoded characters. So what?",
     ],
 
     // Default width, no UTF-8, multiple lines, no wrapping
@@ -38,7 +38,7 @@ return [
             'string' => "This is a string which is longer than 80 \ncharacters but does not contain UTF-8-encoded\n characters. So what?",
         ],
         // $expected
-        "This is a string which is longer than 80 \ncharacters but does not contain UTF-8-encoded\n characters. So what?"
+        "This is a string which is longer than 80 \ncharacters but does not contain UTF-8-encoded\n characters. So what?",
     ],
 
     // Default width, UTF-8, multiple lines, no wrapping
@@ -48,7 +48,7 @@ return [
             'string' => "This is ä string which is lönger thän 80 \nchäräcters büt döes nöt cöntäin UTF-8-encöded\n chäräcters. Sö whät?",
         ],
         // $expected
-        "This is ä string which is lönger thän 80 \nchäräcters büt döes nöt cöntäin UTF-8-encöded\n chäräcters. Sö whät?"
+        "This is ä string which is lönger thän 80 \nchäräcters büt döes nöt cöntäin UTF-8-encöded\n chäräcters. Sö whät?",
     ],
 
     // Default width, no UTF-8, multiple lines, wrapping
@@ -58,7 +58,7 @@ return [
             'string' => "This is\n a string which is longer than 80 characters but does not contain UTF-8-encoded characters.\n So what?",
         ],
         // $expected
-        "This is\n a string which is longer than 80 characters but does not contain UTF-8-encoded\ncharacters.\n So what?"
+        "This is\n a string which is longer than 80 characters but does not contain UTF-8-encoded\ncharacters.\n So what?",
     ],
 
     // Default width, no UTF-8, multiple lines, wrapping
@@ -68,7 +68,7 @@ return [
             'string' => "This is\n ä string which is lönger thän 80 chäräcters büt döes nöt cöntäin UTF-8-encöded chäräcters. Sö whät?",
         ],
         // $expected
-        "This is\n ä string which is lönger thän 80 chäräcters büt döes nöt cöntäin UTF-8-encöded\nchäräcters. Sö whät?"
+        "This is\n ä string which is lönger thän 80 chäräcters büt döes nöt cöntäin UTF-8-encöded\nchäräcters. Sö whät?",
     ],
 
 // -----------------
@@ -103,7 +103,7 @@ return [
             'length' => 17,
         ],
         // $expected
-        "This is a string\nwhich is longer\nthan 80\ncharacters but\ndoes not contain\nUTF-8-encoded\ncharacters. So\nwhat?"
+        "This is a string\nwhich is longer\nthan 80\ncharacters but\ndoes not contain\nUTF-8-encoded\ncharacters. So\nwhat?",
     ],
 
     // Custom width, UTF-8, single line, wrapping
@@ -114,7 +114,7 @@ return [
             'length' => 17,
         ],
         // $expected
-        "This is ä string\nwhich is lönger\nthän 80\nchäräcters büt\ndöes nöt cöntäin\nUTF-8-encöded\nchäräcters. Sö\nwhät?"
+        "This is ä string\nwhich is lönger\nthän 80\nchäräcters büt\ndöes nöt cöntäin\nUTF-8-encöded\nchäräcters. Sö\nwhät?",
     ],
 
     // Default width, UTF-8, wrapping
@@ -124,7 +124,7 @@ return [
             'string' => 'This is ä string which is lönger thän 80 chäräcters büt döes nöt cöntäin UTF-8-encöded chäräcters. Sö whät?',
         ],
         // $expected
-        "This is ä string which is lönger thän 80 chäräcters büt döes nöt cöntäin\nUTF-8-encöded chäräcters. Sö whät?"
+        "This is ä string which is lönger thän 80 chäräcters büt döes nöt cöntäin\nUTF-8-encöded chäräcters. Sö whät?",
     ],
 
 // -----------------
@@ -139,7 +139,7 @@ return [
             'preserve' => true,
         ],
         // $expected
-        "This is a string which is longer than 80 characters but does\nnot contain UTF-8-encoded characters. So what?"
+        "This is a string which is longer than 80 characters but does\nnot contain UTF-8-encoded characters. So what?",
     ],
 
     // Preserve, single line, UTF-8
@@ -152,7 +152,7 @@ return [
             'preserve' => true,
         ],
         // $expected
-        "This is ä string which is lönger thän 75 chäräcters büt döes nöt cöntäin\nUTF-8-encöded chäräcters. Sö whät?"
+        "This is ä string which is lönger thän 75 chäräcters büt döes nöt cöntäin\nUTF-8-encöded chäräcters. Sö whät?",
     ],
 
     // No preserve, multiple lines, non UTF-8
@@ -165,7 +165,7 @@ return [
             'preserve' => false,
         ],
         // $expected
-        "This\nis a string which is longer than 75 characters but does not contain\nUTF-8-encoded characters. So what?"
+        "This\nis a string which is longer than 75 characters but does not contain\nUTF-8-encoded characters. So what?",
     ],
 
     // No preserve, multiple lines, UTF-8
@@ -178,7 +178,7 @@ return [
             'preserve' => false,
         ],
         // $expected
-        "This\nis ä string which is lönger thän 75 chäräcters büt döes nöt cöntäin\nUTF-8-encöded chäräcters. Sö whät?"
+        "This\nis ä string which is lönger thän 75 chäräcters büt döes nöt cöntäin\nUTF-8-encöded chäräcters. Sö whät?",
     ],
 
 // -----------------
@@ -189,10 +189,10 @@ return [
         [
             'string' => 'This is a string which is longer than 75 characters but does not contain UTF-8-encoded characters. So what?',
             'length' => 75,
-            'separator' => '---'
+            'separator' => '---',
         ],
         // $expected
-        'This is a string which is longer than 75 characters but does not contain---UTF-8-encoded characters. So what?'
+        'This is a string which is longer than 75 characters but does not contain---UTF-8-encoded characters. So what?',
     ],
 
     // Default width, no UTF-8, multiple lines, wrapping, custom wrap char
@@ -201,10 +201,10 @@ return [
         [
             'string' => "This is a string which is longer than 75 \ncharacters but does not contain UTF-8-encoded\n characters. So what?",
             'length' => 75,
-            'separator' => '---'
+            'separator' => '---',
         ],
         // $expected
-        "This is a string which is longer than 75 \ncharacters but does not contain---UTF-8-encoded\n characters. So what?"
+        "This is a string which is longer than 75 \ncharacters but does not contain---UTF-8-encoded\n characters. So what?",
     ],
 
     // Default width, UTF-8, multiple lines, wrapping, custom wrap char
@@ -213,10 +213,10 @@ return [
         [
             'string' => "This is ä string which is lönger thän 75 \nchäräcters büt döes nöt cöntäin UTF-8-encöded\n chäräcters. Sö whät?",
             'length' => 75,
-            'separator' => '---'
+            'separator' => '---',
         ],
         // $expected
-        "This is ä string which is lönger thän 75 \nchäräcters büt döes nöt cöntäin---UTF-8-encöded\n chäräcters. Sö whät?"
+        "This is ä string which is lönger thän 75 \nchäräcters büt döes nöt cöntäin---UTF-8-encöded\n chäräcters. Sö whät?",
     ],
 
 // ---------- PHP tests to ensure compatibility ------------
@@ -233,7 +233,7 @@ return [
     20 => [
         [
             'string' => '12345 12345 1234567890 1234567890',
-            12
+            12,
         ],
         "12345 12345\n1234567890\n1234567890",
     ],
@@ -241,7 +241,7 @@ return [
     21 => [
         [
             'string' => '12345 12345 12345 12345',
-            0
+            0,
         ],
         "12345\n12345\n12345\n12345",
     ],
@@ -249,7 +249,7 @@ return [
         [
             'string' => '12345 12345 12345 12345',
             0,
-            'ab'
+            'ab',
         ],
         '12345ab12345ab12345ab12345',
     ],
@@ -257,23 +257,23 @@ return [
         [
             'string' => '12345 12345 1234567890 1234567890',
             12,
-            'ab'
+            'ab',
         ],
-        '12345 12345ab1234567890ab1234567890'
+        '12345 12345ab1234567890ab1234567890',
     ],
     24 => [
         [
             'string' => '123ab123ab123',
             3,
-            'ab'
+            'ab',
         ],
-        '123ab123ab123'
+        '123ab123ab123',
     ],
     25 => [
         [
             'string' => '123ab123ab123',
             5,
-            'ab'
+            'ab',
         ],
         '123ab123ab123',
     ],
@@ -281,7 +281,7 @@ return [
         [
             'string' => '123  123ab123',
             3,
-            'ab'
+            'ab',
         ],
         '123ab 123ab123',
     ],
@@ -289,7 +289,7 @@ return [
         [
             'string' => '123 123ab123',
             5,
-            'ab'
+            'ab',
         ],
         '123ab123ab123',
     ],
@@ -297,7 +297,7 @@ return [
         [
             'string' => '123 123 123',
             10,
-            'ab'
+            'ab',
         ],
         '123 123ab123',
     ],
@@ -306,7 +306,7 @@ return [
             'string' => '123ab123ab123',
             3,
             'ab',
-            1
+            1,
         ],
         '123ab123ab123',
     ],
@@ -315,7 +315,7 @@ return [
             'string' => '123ab123ab123',
             5,
             'ab',
-            1
+            1,
         ],
         '123ab123ab123',
     ],
@@ -324,7 +324,7 @@ return [
             'string' => '123  123ab123',
             3,
             'ab',
-            1
+            1,
         ],
         '123ab 12ab3ab123',
     ],
@@ -333,54 +333,54 @@ return [
             'string' => '123  123ab123',
             5,
             'ab',
-            1
+            1,
         ],
-        '123 ab123ab123'
+        '123 ab123ab123',
     ],
     33 => [
         [
             'string' => '123  123  123',
             8,
             'ab',
-            1
+            1,
         ],
-        '123  123ab 123'
+        '123  123ab 123',
     ],
     34 => [
         [
             'string' => '123  12345  123',
             8,
             'ab',
-            1
+            1,
         ],
-        '123 ab12345 ab123'
+        '123 ab12345 ab123',
     ],
     35 => [
         [
             'string' => '1234',
             1,
             'ab',
-            1
+            1,
         ],
-        '1ab2ab3ab4'
+        '1ab2ab3ab4',
     ],
     36 => [
         [
             'string' => '12345 1234567890',
             5,
             '|',
-            1
+            1,
         ],
-        '12345|12345|67890'
+        '12345|12345|67890',
     ],
     37 => [
         [
             'string' => '123 1234567890 123',
             10,
             '|==',
-            1
+            1,
         ],
-        '123|==1234567890|==123'
+        '123|==1234567890|==123',
     ],
 
 // ext/standard/tests/strings/wordwrap_basic.phpt
@@ -416,7 +416,7 @@ return [
             'separator' => '<br />\n',
             'preserve' => true,
         ],
-        'The quick<br />\nbrown<br />\nfooooooooo<br />\nox<br />\njummmmmmmm<br />\nmmmmped<br />\nover the<br />\nlazzzzzzzz<br />\nzzzy<br />\ndooooooooo<br />\noooooooooo<br />\nooog.'
+        'The quick<br />\nbrown<br />\nfooooooooo<br />\nox<br />\njummmmmmmm<br />\nmmmmped<br />\nover the<br />\nlazzzzzzzz<br />\nzzzy<br />\ndooooooooo<br />\noooooooooo<br />\nooog.',
     ],
 
     43 => [
@@ -426,7 +426,7 @@ return [
             'separator' => '<br />\n',
             'preserve' => false,
         ],
-        'The quick<br />\nbrown<br />\nfoooooooooox<br />\njummmmmmmmmmmmped<br />\nover the<br />\nlazzzzzzzzzzzy<br />\ndoooooooooooooooooooooog.'
+        'The quick<br />\nbrown<br />\nfoooooooooox<br />\njummmmmmmmmmmmped<br />\nover the<br />\nlazzzzzzzzzzzy<br />\ndoooooooooooooooooooooog.',
     ],
 
 // ext/standard/tests/strings/wordwrap_variation5.phpt
@@ -445,7 +445,7 @@ return [
             'length' => 1,
             'separator' => ' ',
         ],
-        'Testing wordrap function'
+        'Testing wordrap function',
     ],
 
     46 => [
@@ -454,7 +454,7 @@ return [
             'length' => 1,
             'separator' => '  ',
         ],
-        'Testing  wordrap  function'
+        'Testing  wordrap  function',
     ],
 
     47 => [
@@ -464,7 +464,7 @@ return [
             'separator' => ' ',
             'cut' => false,
         ],
-        'Testing wordrap function'
+        'Testing wordrap function',
     ],
 
     48 => [
@@ -474,7 +474,7 @@ return [
             'separator' => '  ',
             'cut' => false,
         ],
-        'Testing  wordrap  function'
+        'Testing  wordrap  function',
     ],
 
     49 => [
@@ -484,7 +484,7 @@ return [
             'separator' => ' ',
             'cut' => true,
         ],
-        'T e s t i n g w o r d r a p f u n c t i o n'
+        'T e s t i n g w o r d r a p f u n c t i o n',
     ],
 
     50 => [
@@ -494,6 +494,6 @@ return [
             'separator' => '  ',
             'cut' => true,
         ],
-        'T  e  s  t  i  n  g  w  o  r  d  r  a  p  f  u  n  c  t  i  o  n'
+        'T  e  s  t  i  n  g  w  o  r  d  r  a  p  f  u  n  c  t  i  o  n',
     ],
 ];

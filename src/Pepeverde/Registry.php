@@ -5,7 +5,7 @@ namespace Pepeverde;
 use Zigra_RegistryInterface;
 
 /**
- * Class Registry
+ * Class Registry.
  */
 class Registry implements Zigra_RegistryInterface
 {
@@ -17,7 +17,7 @@ class Registry implements Zigra_RegistryInterface
      */
     public static function getRegistry(): self
     {
-        if (self::$instance === null) {
+        if (null === self::$instance) {
             self::$instance = new self();
         }
 
@@ -34,7 +34,7 @@ class Registry implements Zigra_RegistryInterface
 
     /**
      * @param string $key
-     * @param mixed $alt
+     *
      * @return mixed|null
      */
     public static function get($key, $alt = null)
@@ -48,7 +48,7 @@ class Registry implements Zigra_RegistryInterface
 
     /**
      * @param string $key
-     * @param mixed $value
+     *
      * @return bool
      */
     public static function set($key, $value)
@@ -63,9 +63,9 @@ class Registry implements Zigra_RegistryInterface
     }
 
     /**
-     * Add a variable in the $key array
+     * Add a variable in the $key array.
      *
-     * @param string $key the variable's name
+     * @param string $key   the variable's name
      * @param string $value the variable's value
      */
     public static function add($key, $value)
@@ -76,7 +76,6 @@ class Registry implements Zigra_RegistryInterface
     }
 
     /**
-     * @param mixed $key
      * @return bool
      */
     public static function has($key)
@@ -91,7 +90,6 @@ class Registry implements Zigra_RegistryInterface
 
     /**
      * @param string $key
-     * @return bool
      */
     public static function remove($key): bool
     {
@@ -133,6 +131,7 @@ class Registry implements Zigra_RegistryInterface
 
     /**
      * @param string $key
+     *
      * @return mixed|null
      */
     public function __get($key)
@@ -142,7 +141,6 @@ class Registry implements Zigra_RegistryInterface
 
     /**
      * @param string $key
-     * @param mixed $value
      */
     public function __set($key, $value)
     {
@@ -151,6 +149,7 @@ class Registry implements Zigra_RegistryInterface
 
     /**
      * @param string $key
+     *
      * @return bool
      */
     public function __isset($key)

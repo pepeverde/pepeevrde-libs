@@ -7,7 +7,7 @@ class Helper
     public static function env($key, $default = null)
     {
         $value = getenv($key);
-        if ($value === false) {
+        if (false === $value) {
             return $default;
         }
 

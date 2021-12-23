@@ -7,9 +7,6 @@ use SplFileInfo;
 
 class FileInfo extends SplFileInfo
 {
-    /**
-     * @return string
-     */
     public function getMimeType(): string
     {
         $finfo = new finfo();

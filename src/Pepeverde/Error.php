@@ -25,13 +25,6 @@ class Error
         });
     }
 
-    /**
-     * @param array|null $sentryConfig
-     * @param string     $appVersion
-     * @param string     $environment
-     * @param array      $extra
-     * @param bool       $send_default_pii
-     */
     public static function enableErrorHandler(
         array $sentryConfig = null,
         string $appVersion = 'dev',
@@ -39,7 +32,7 @@ class Error
         array $extra = [],
         bool $send_default_pii = false
     ): void {
-        if (null === $sentryConfig || (is_countable($sentryConfig) && count($sentryConfig) === 0)) {
+        if (null === $sentryConfig || (is_countable($sentryConfig) && 0 === count($sentryConfig))) {
             throw new \RuntimeException('No Sentry configuration available');
         }
 
@@ -80,7 +73,7 @@ class Error
                 \Sentry\UserDataBag::createFromArray(
                     [
                         'username' => $username,
-                        'email' => $email
+                        'email' => $email,
                     ]
                 )
             );

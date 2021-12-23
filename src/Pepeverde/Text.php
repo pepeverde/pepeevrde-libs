@@ -5,10 +5,9 @@ namespace Pepeverde;
 class Text
 {
     /**
-     * @param string $string
-     * @param int $start
+     * @param string   $string
+     * @param int      $start
      * @param int|null $length
-     * @return string
      */
     public static function substr($string, $start, $length = null): string
     {
@@ -16,14 +15,13 @@ class Text
     }
 
     /**
-     * @param string $haystack
+     * @param string       $haystack
      * @param array|string $needles
-     * @return bool
      */
     public static function startsWith($haystack, $needles): bool
     {
         foreach ((array)$needles as $needle) {
-            if ($needle !== '' && static::substr($haystack, 0, strlen($needle)) === (string)$needle) {
+            if ('' !== $needle && static::substr($haystack, 0, strlen($needle)) === (string)$needle) {
                 return true;
             }
         }
@@ -32,9 +30,8 @@ class Text
     }
 
     /**
-     * @param string $haystack
+     * @param string       $haystack
      * @param array|string $needles
-     * @return bool
      */
     public static function endsWith($haystack, $needles): bool
     {
@@ -48,14 +45,13 @@ class Text
     }
 
     /**
-     * @param string $haystack
+     * @param string       $haystack
      * @param array|string $needles
-     * @return bool
      */
     public static function contains($haystack, $needles): bool
     {
         foreach ((array)$needles as $needle) {
-            if ($needle !== '' && mb_strpos($haystack, $needle) !== false) {
+            if ('' !== $needle && false !== mb_strpos($haystack, $needle)) {
                 return true;
             }
         }
@@ -65,7 +61,8 @@ class Text
 
     /**
      * @param string $string
-     * @return null|string|string[]
+     *
+     * @return string|string[]|null
      */
     public function br2nl($string)
     {
@@ -74,32 +71,31 @@ class Text
 
     /**
      * @param string $str
-     * @param int $width
+     * @param int    $width
      * @param string $break
-     * @param bool $cut
+     * @param bool   $cut
      * @param string $encoding
-     * @return string
      */
     public function wordwrap($str, $width = 80, $break = "\n", $cut = false, $encoding = 'UTF-8'): string
     {
         $strlen = mb_strlen($str, $encoding);
         $breaklen = mb_strlen($break, $encoding);
         $newtext = '';
-        if ($strlen === 0) {
+        if (0 === $strlen) {
             return '';
         }
 
-        if ($breaklen === 0) {
+        if (0 === $breaklen) {
             throw new \RuntimeException('Break not specified');
         }
 
-        if ($width === 0 && $cut) {
+        if (0 === $width && $cut) {
             throw new \RuntimeException('Width too small');
         }
 
         $laststart = $lastspace = 0;
         $breakstart = mb_substr($break, 0, 1, $encoding);
-        for ($current = 0; $current < $strlen; $current++) {
+        for ($current = 0; $current < $strlen; ++$current) {
             $char = mb_substr($str, $current, 1, $encoding);
             // Existing line break, copy line and  start a new one
             if ($char === $breakstart
@@ -110,7 +106,7 @@ class Text
                 $current += $breaklen - 1;
                 $laststart = $lastspace = $current + 1;
             } // Keep track of spaces, if line break is necessary, do it
-            elseif ($char === ' ') {
+            elseif (' ' === $char) {
                 if ($current - $laststart >= $width) {
                     $newtext .= mb_substr($str, $laststart, $current - $laststart, $encoding)
                         . $break;
@@ -144,10 +140,9 @@ class Text
 
     /**
      * @param string $string
-     * @param int $length
+     * @param int    $length
      * @param string $separator
-     * @param bool $preserve
-     * @return string
+     * @param bool   $preserve
      */
     public function truncate($string, $length = 30, $separator = '...', $preserve = false): string
     {
@@ -164,9 +159,8 @@ class Text
 
     /**
      * @param string $string
-     * @param int $length
+     * @param int    $length
      * @param string $separator
-     * @return string
      */
     public function truncateHtml($string, $length = 300, $separator = '&hellip;'): string
     {
@@ -181,7 +175,7 @@ class Text
                 break;
             }
             $t = static::substr(strtok($o[0][0], " \t\n\r\0\x0B>"), 1);
-            if ($t[0] !== '/') {
+            if ('/' !== $t[0]) {
                 $tags[] = $t;
             } elseif (end($tags) === static::substr($t, 1)) {
                 array_pop($tags);

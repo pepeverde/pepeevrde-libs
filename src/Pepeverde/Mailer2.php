@@ -3,8 +3,8 @@
 namespace Pepeverde;
 
 use Exception;
-use Soundasleep\Html2Text;
 use Pelago\Emogrifier\CssInliner;
+use Soundasleep\Html2Text;
 use Swift_Attachment;
 use Swift_Mailer;
 use Swift_Message;
@@ -14,7 +14,7 @@ use Twig\Extension\CoreExtension;
 use Twig\Loader\FilesystemLoader;
 
 /**
- * Class Mailer2
+ * Class Mailer2.
  */
 class Mailer2
 {
@@ -42,12 +42,7 @@ class Mailer2
     /** @var array */
     private $attachments = [];
 
-    /**
-     * @param string $template
-     * @param array $templateVars
-     * @param array $swiftOptions
-     */
-    public function __construct($template, array $templateVars, array $swiftOptions)
+    public function __construct(string $template, array $templateVars, array $swiftOptions)
     {
         $this->templateVars = $templateVars;
         $this->mailFromEmail = static::MAIL_FROM_EMAIL;
@@ -58,10 +53,9 @@ class Mailer2
     }
 
     /**
-     * @param string $name
      * @return Mailer2
      */
-    public function setEmailFromName($name): self
+    public function setEmailFromName(string $name): self
     {
         $this->mailFromName = $name;
 
@@ -69,10 +63,9 @@ class Mailer2
     }
 
     /**
-     * @param string $email
      * @return Mailer2
      */
-    public function setEmailFromEmail($email): self
+    public function setEmailFromEmail(string $email): self
     {
         $this->mailFromEmail = $email;
 
@@ -80,10 +73,9 @@ class Mailer2
     }
 
     /**
-     * @param string $email
      * @return Mailer2
      */
-    public function setEmailReplyToEmail($email): self
+    public function setEmailReplyToEmail(string $email): self
     {
         $this->mailReplyToEmail = $email;
 
@@ -91,7 +83,6 @@ class Mailer2
     }
 
     /**
-     * @param array $attachments
      * @return Mailer2
      */
     public function setAttachments(array $attachments): self
@@ -115,7 +106,7 @@ class Mailer2
             $this->swiftMessage->setBcc($bcc);
         }
 
-        $this->swiftMessage->setSubject($subject);
+        $this->swiftMessage->setSubject($this->subject);
 
         $this->swiftMessage->setBody($this->bodyHtml, 'text/html');
         $this->swiftMessage->addPart($this->bodyText, 'text/plain');
@@ -124,14 +115,14 @@ class Mailer2
         return $this->swiftMailer->send($this->swiftMessage);
     }
 
-    private function initializeTemplate($template): void
+    private function initializeTemplate(string $template): void
     {
         try {
             $templatePathParts = pathinfo($template);
 
             $twig_options = [
                 'cache' => false,
-                'auto_reload' => true
+                'auto_reload' => true,
             ];
             $twig_loader = new FilesystemLoader($templatePathParts['dirname']);
             $twig = new Environment($twig_loader, $twig_options);
