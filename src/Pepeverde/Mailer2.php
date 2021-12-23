@@ -110,7 +110,7 @@ class Mailer2
             $twig = new Environment($twig_loader, $twig_options);
 
             /** @var CoreExtension $Twig_Extension_Core */
-            $Twig_Extension_Core = $twig->getExtension('Twig_Extension_Core');
+            $Twig_Extension_Core = $twig->getExtension(\Twig\Extension\CoreExtension::class);
             $Twig_Extension_Core->setTimezone('Europe/Rome');
             $Twig_Extension_Core->setDateFormat('d/m/Y', '%d days');
             $Twig_Extension_Core->setNumberFormat(2, ',', '');
@@ -126,21 +126,21 @@ class Mailer2
 
     private function initializeSwiftMailer(array $sm_config): void
     {
-        $swiftTransport = Swift_SmtpTransport::newInstance($sm_config['host'], $sm_config['port']);
-        if (array_key_exists('username', $sm_config)) {
+        $swiftTransport = new Swift_SmtpTransport($sm_config['host'], $sm_config['port']);
+        if (array_key_exists('username', $sm_config) && null !== $sm_config['username']) {
             $swiftTransport->setUsername($sm_config['username']);
         }
-        if (array_key_exists('password', $sm_config)) {
+        if (array_key_exists('password', $sm_config) && null !== $sm_config['password']) {
             $swiftTransport->setPassword($sm_config['password']);
         }
-        if (array_key_exists('authmode', $sm_config)) {
+        if (array_key_exists('authmode', $sm_config) && null !== $sm_config['authmode']) {
             $swiftTransport->setAuthMode($sm_config['authmode']);
         }
-        if (array_key_exists('encryption', $sm_config)) {
+        if (array_key_exists('encryption', $sm_config) && null !== $sm_config['encryption']) {
             $swiftTransport->setEncryption($sm_config['encryption']);
         }
-        $this->swiftMailer = Swift_Mailer::newInstance($swiftTransport);
-        $this->swiftMessage = Swift_Message::newInstance()
+        $this->swiftMailer = new Swift_Mailer($swiftTransport);
+        $this->swiftMessage = (new Swift_Message())
             ->setFrom([$this->mailFromEmail => $this->mailFromName]);
 
         if (null !== $this->mailReplyToEmail) {
