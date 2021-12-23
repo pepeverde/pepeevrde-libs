@@ -21,14 +21,10 @@ class Mailer2
     public const MAIL_FROM_EMAIL = 'example@example.com';
     public const MAIL_FROM_NAME = 'example@example.com';
 
-    private $subject;
-
     /** @var Swift_Mailer */
     private $swiftMailer;
     /** @var Swift_Message */
     private $swiftMessage;
-    /** @var Swift_SmtpTransport */
-    private $swiftTransport;
     /** @var array */
     private $swiftOptions;
 
@@ -52,9 +48,6 @@ class Mailer2
         $this->initializeTemplate($template);
     }
 
-    /**
-     * @return Mailer2
-     */
     public function setEmailFromName(string $name): self
     {
         $this->mailFromName = $name;
@@ -62,9 +55,6 @@ class Mailer2
         return $this;
     }
 
-    /**
-     * @return Mailer2
-     */
     public function setEmailFromEmail(string $email): self
     {
         $this->mailFromEmail = $email;
@@ -72,9 +62,6 @@ class Mailer2
         return $this;
     }
 
-    /**
-     * @return Mailer2
-     */
     public function setEmailReplyToEmail(string $email): self
     {
         $this->mailReplyToEmail = $email;
@@ -82,9 +69,6 @@ class Mailer2
         return $this;
     }
 
-    /**
-     * @return Mailer2
-     */
     public function setAttachments(array $attachments): self
     {
         $this->attachments = $attachments;
@@ -96,8 +80,6 @@ class Mailer2
     {
         $this->initializeSwiftMailer($this->swiftOptions);
 
-        $this->subject = $subject;
-
         $this->swiftMessage->setTo($to);
         if (null !== $cc) {
             $this->swiftMessage->addCc($cc);
@@ -106,7 +88,7 @@ class Mailer2
             $this->swiftMessage->setBcc($bcc);
         }
 
-        $this->swiftMessage->setSubject($this->subject);
+        $this->swiftMessage->setSubject($subject);
 
         $this->swiftMessage->setBody($this->bodyHtml, 'text/html');
         $this->swiftMessage->addPart($this->bodyText, 'text/plain');
@@ -144,8 +126,20 @@ class Mailer2
 
     private function initializeSwiftMailer(array $sm_config): void
     {
-        $this->swiftTransport = Swift_SmtpTransport::newInstance($sm_config['host'], $sm_config['port']);
-        $this->swiftMailer = Swift_Mailer::newInstance($this->swiftTransport);
+        $swiftTransport = Swift_SmtpTransport::newInstance($sm_config['host'], $sm_config['port']);
+        if (array_key_exists('username', $sm_config)) {
+            $swiftTransport->setUsername($sm_config['username']);
+        }
+        if (array_key_exists('password', $sm_config)) {
+            $swiftTransport->setPassword($sm_config['password']);
+        }
+        if (array_key_exists('authmode', $sm_config)) {
+            $swiftTransport->setAuthMode($sm_config['authmode']);
+        }
+        if (array_key_exists('encryption', $sm_config)) {
+            $swiftTransport->setEncryption($sm_config['encryption']);
+        }
+        $this->swiftMailer = Swift_Mailer::newInstance($swiftTransport);
         $this->swiftMessage = Swift_Message::newInstance()
             ->setFrom([$this->mailFromEmail => $this->mailFromName]);
 
