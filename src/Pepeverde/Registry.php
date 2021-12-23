@@ -75,10 +75,7 @@ class Registry implements Zigra_RegistryInterface
         }
     }
 
-    /**
-     * @return bool
-     */
-    public static function has($key)
+    public static function has($key): bool
     {
         if (is_string($key)) {
             return array_key_exists($key, self::$vars);
@@ -100,10 +97,7 @@ class Registry implements Zigra_RegistryInterface
         return true;
     }
 
-    /**
-     * @return array
-     */
-    public static function getAll()
+    public static function getAll(): array
     {
         if (!empty(self::$vars)) {
             return self::$vars;
@@ -112,10 +106,7 @@ class Registry implements Zigra_RegistryInterface
         return [];
     }
 
-    /**
-     * @return array
-     */
-    public static function getKeys()
+    public static function getKeys(): array
     {
         if (!empty(self::$vars)) {
             return array_keys(self::$vars);
