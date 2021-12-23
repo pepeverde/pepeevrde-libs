@@ -10,8 +10,8 @@ class SeoUtil
 
     /**
      * @param string $lang
+     *
      * @throws RuntimeException
-     * @return array
      */
     private function loadStopWords($lang = 'it'): array
     {
@@ -28,8 +28,7 @@ class SeoUtil
 
     /**
      * @param string $text
-     * @param array $stopwords
-     * @return array
+     * @param array  $stopwords
      */
     private function stripUnwantedCharsFromText($text, $stopwords): array
     {
@@ -62,7 +61,6 @@ class SeoUtil
 
     /**
      * @param string $string
-     * @return string
      */
     private function stripEmoji($string): string
     {
@@ -108,10 +106,10 @@ class SeoUtil
 
     /**
      * @param string $text
-     * @param int $limit
+     * @param int    $limit
      * @param string $lang
+     *
      * @throws RuntimeException
-     * @return array
      */
     public function extractKeywords($text, $limit = 10, $lang = 'it'): array
     {
@@ -127,10 +125,10 @@ class SeoUtil
 
     /**
      * @param string $text
-     * @param int $limit
+     * @param int    $limit
      * @param string $lang
+     *
      * @throws RuntimeException
-     * @return string
      */
     public function extractKeywordsAsString($text, $limit = 10, $lang = 'it'): string
     {

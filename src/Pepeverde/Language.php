@@ -8,29 +8,26 @@ class Language
     protected static $languages = [
         'it_IT' => [
             'name' => 'Italiano',
-            'natural_name' => 'Italiano'
+            'natural_name' => 'Italiano',
         ],
         'en_US' => [
             'name' => 'Inglese',
-            'natural_name' => 'English'
+            'natural_name' => 'English',
         ],
         'de_DE' => [
             'name' => 'Tedesco',
-            'natural_name' => 'Deutsch'
+            'natural_name' => 'Deutsch',
         ],
         'es_ES' => [
             'name' => 'Spagnolo',
-            'natural_name' => 'Español'
+            'natural_name' => 'Español',
         ],
         'fr_FR' => [
             'name' => 'Francese',
-            'natural_name' => 'Français'
-        ]
+            'natural_name' => 'Français',
+        ],
     ];
 
-    /**
-     * @return array
-     */
     public function all(): array
     {
         return self::$languages;
@@ -38,6 +35,7 @@ class Language
 
     /**
      * @param string $language
+     *
      * @return array|false
      */
     public function info($language)

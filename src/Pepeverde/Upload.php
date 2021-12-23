@@ -7,19 +7,20 @@ use Exception;
 use RuntimeException;
 
 /**
- * Class Upload
+ * Class Upload.
  */
 class Upload
 {
     /**
-     * @param array $post_file $_FILES array for single file
-     * @param string $destination path to put file into
-     * @param string|null $name optional new name of uploaded file
+     * @param array       $post_file   $_FILES array for single file
+     * @param string      $destination path to put file into
+     * @param string|null $name        optional new name of uploaded file
+     *
      * @return bool|string
      */
     public static function uploadFile($post_file, $destination, $name = null)
     {
-        if ($post_file['error'] === 0) {
+        if (0 === $post_file['error']) {
             try {
                 if (!@mkdir($destination, 0777, true) && !is_dir($destination)) {
                     throw new RuntimeException('impossibile creare directory: ' . dirname($destination));
@@ -53,7 +54,6 @@ class Upload
 
     /**
      * @param string $name
-     * @return string
      */
     public static function cleanName($name): string
     {
@@ -70,6 +70,7 @@ class Upload
 
     /**
      * @param string $filename
+     *
      * @return mixed|string
      */
     public static function urlify($filename)
@@ -83,7 +84,6 @@ class Upload
 
     /**
      * @param array[] $vector
-     * @return array
      */
     public static function flipArray($vector): array
     {
@@ -99,7 +99,6 @@ class Upload
 
     /**
      * @param string $filepath
-     * @return array
      */
     public static function utf8Pathinfo($filepath): array
     {

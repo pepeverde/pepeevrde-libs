@@ -15,19 +15,17 @@ class FileSystem
 {
     /**
      * @param string $dir
-     * @return bool
      */
     public static function isDirEmpty($dir): bool
     {
         $di = new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS);
 
-        return iterator_count($di) === 0;
+        return 0 === iterator_count($di);
     }
 
     /**
      * @param string $name
-     * @param int $retinaType
-     * @return string|null
+     * @param int    $retinaType
      */
     public static function getRetinaName($name, $retinaType = 2): ?string
     {
@@ -42,6 +40,7 @@ class FileSystem
 
     /**
      * @param string $path
+     *
      * @return bool|string
      */
     public static function getFileTypeFromPath($path)
@@ -55,7 +54,6 @@ class FileSystem
 
     /**
      * @param string $mime
-     * @return string
      */
     private static function getFileTypeFromMime($mime): string
     {
@@ -84,8 +82,7 @@ class FileSystem
 
     /**
      * @param int|float|string|null $size
-     * @param int $precision
-     * @return string
+     * @param int                   $precision
      */
     public static function formatSize($size, $precision = 2): string
     {
@@ -93,7 +90,7 @@ class FileSystem
             return '0';
         }
 
-        if ($size === 0 || $size === '0') {
+        if (0 === $size || '0' === $size) {
             return '0';
         }
 
@@ -134,11 +131,6 @@ class FileSystem
         }
     }
 
-    /**
-     * @param array $uploaded_dimensions
-     * @param array $required_image_dimensions
-     * @return bool
-     */
     public static function checkImageDimensions(array $uploaded_dimensions, array $required_image_dimensions): bool
     {
         if (!isset($uploaded_dimensions['width'], $uploaded_dimensions['height'], $required_image_dimensions['width'], $required_image_dimensions['height'])) {
@@ -148,11 +140,6 @@ class FileSystem
         return ($uploaded_dimensions['width'] >= $required_image_dimensions['width']) && ($uploaded_dimensions['height'] >= $required_image_dimensions['height']);
     }
 
-    /**
-     * @param array $uploaded_dimensions
-     * @param array $required_image_dimensions
-     * @return bool
-     */
     public static function checkFixedImageDimensions(array $uploaded_dimensions, array $required_image_dimensions): bool
     {
         if (!isset($uploaded_dimensions['width'], $uploaded_dimensions['height'], $required_image_dimensions['width'], $required_image_dimensions['height'])) {
@@ -164,8 +151,6 @@ class FileSystem
 
     /**
      * @param string $image_type
-     * @param array $allowed_types
-     * @return bool
      */
     public static function checkIfIsImage($image_type, array $allowed_types): bool
     {
@@ -179,7 +164,6 @@ class FileSystem
     /**
      * @param Image $image
      * @param array $uploaded_dimensions
-     * @return array
      */
     public static function setDimensionsVariables(&$image, $uploaded_dimensions): array
     {
@@ -187,11 +171,11 @@ class FileSystem
             'width' => 0,
             'height' => 0,
         ];
-        if ($uploaded_dimensions['width'] === true) {
+        if (true === $uploaded_dimensions['width']) {
             $uploaded_check['width'] = $image->getWidth();
         }
 
-        if ($uploaded_dimensions['height'] === true) {
+        if (true === $uploaded_dimensions['height']) {
             $uploaded_check['height'] = $image->getHeight();
         }
 
@@ -199,18 +183,12 @@ class FileSystem
     }
 
     /**
-     * @param array $post_files
      * @param string $path_to_upload
-     * @param array $error
-     * @param array $required_dimensions
-     * @param array $uploaded_dimensions
-     * @param array $allowed_types
-     * @return array
      */
     public static function uploadAndVerifyImage(array $post_files, $path_to_upload, array &$error, array $required_dimensions, array $uploaded_dimensions, array $allowed_types): array
     {
         $image_name = null;
-        if ($post_files['error'] !== 4) {
+        if (4 !== $post_files['error']) {
             try {
                 if ($image_name = Upload::uploadFile($post_files, $path_to_upload, $post_files['name'])) {
                     $image = Image::fromFile($path_to_upload . '/' . $image_name);
@@ -241,23 +219,17 @@ class FileSystem
         return [
             'result' => false,
             'image_name' => $image_name,
-            'error' => $error
+            'error' => $error,
         ];
     }
 
     /**
-     * @param array $post_files
      * @param string $path_to_upload
-     * @param array $error
-     * @param array $required_dimensions
-     * @param array $uploaded_dimensions
-     * @param array $allowed_types
-     * @return array
      */
     public static function uploadAndVerifyFixedImage(array $post_files, $path_to_upload, array &$error, array $required_dimensions, array $uploaded_dimensions, array $allowed_types): array
     {
         $image_name = null;
-        if ($post_files['error'] !== 4) {
+        if (4 !== $post_files['error']) {
             try {
                 if ($image_name = Upload::uploadFile($post_files, $path_to_upload, $post_files['name'])) {
                     $image = Image::fromFile($path_to_upload . '/' . $image_name);
@@ -288,16 +260,15 @@ class FileSystem
         return [
             'result' => false,
             'image_name' => $image_name,
-            'error' => $error
+            'error' => $error,
         ];
     }
 
     /**
-     * @param Image $image
-     * @param array $cropdata
+     * @param Image  $image
+     * @param array  $cropdata
      * @param string $savepath
      * @param string $image_name
-     * @return Image
      */
     public static function cropImage($image, $cropdata, $savepath, $image_name): Image
     {

@@ -3,8 +3,8 @@
 namespace Pepeverde;
 
 use Exception;
-use Soundasleep\Html2Text;
 use Pelago\Emogrifier\CssInliner;
+use Soundasleep\Html2Text;
 use Swift_Attachment;
 use Swift_Mailer;
 use Swift_Message;
@@ -14,21 +14,17 @@ use Twig\Extension\CoreExtension;
 use Twig\Loader\FilesystemLoader;
 
 /**
- * Class Mailer2
+ * Class Mailer2.
  */
 class Mailer2
 {
     public const MAIL_FROM_EMAIL = 'example@example.com';
     public const MAIL_FROM_NAME = 'example@example.com';
 
-    private $subject;
-
     /** @var Swift_Mailer */
     private $swiftMailer;
     /** @var Swift_Message */
     private $swiftMessage;
-    /** @var Swift_SmtpTransport */
-    private $swiftTransport;
     /** @var array */
     private $swiftOptions;
 
@@ -42,12 +38,7 @@ class Mailer2
     /** @var array */
     private $attachments = [];
 
-    /**
-     * @param string $template
-     * @param array $templateVars
-     * @param array $swiftOptions
-     */
-    public function __construct($template, array $templateVars, array $swiftOptions)
+    public function __construct(string $template, array $templateVars, array $swiftOptions)
     {
         $this->templateVars = $templateVars;
         $this->mailFromEmail = static::MAIL_FROM_EMAIL;
@@ -57,43 +48,27 @@ class Mailer2
         $this->initializeTemplate($template);
     }
 
-    /**
-     * @param string $name
-     * @return Mailer2
-     */
-    public function setEmailFromName($name): self
+    public function setEmailFromName(string $name): self
     {
         $this->mailFromName = $name;
 
         return $this;
     }
 
-    /**
-     * @param string $email
-     * @return Mailer2
-     */
-    public function setEmailFromEmail($email): self
+    public function setEmailFromEmail(string $email): self
     {
         $this->mailFromEmail = $email;
 
         return $this;
     }
 
-    /**
-     * @param string $email
-     * @return Mailer2
-     */
-    public function setEmailReplyToEmail($email): self
+    public function setEmailReplyToEmail(string $email): self
     {
         $this->mailReplyToEmail = $email;
 
         return $this;
     }
 
-    /**
-     * @param array $attachments
-     * @return Mailer2
-     */
     public function setAttachments(array $attachments): self
     {
         $this->attachments = $attachments;
@@ -104,8 +79,6 @@ class Mailer2
     public function sendMessage(string $to, string $subject, ?string $cc = null, ?string $bcc = null): int
     {
         $this->initializeSwiftMailer($this->swiftOptions);
-
-        $this->subject = $subject;
 
         $this->swiftMessage->setTo($to);
         if (null !== $cc) {
@@ -124,14 +97,14 @@ class Mailer2
         return $this->swiftMailer->send($this->swiftMessage);
     }
 
-    private function initializeTemplate($template): void
+    private function initializeTemplate(string $template): void
     {
         try {
             $templatePathParts = pathinfo($template);
 
             $twig_options = [
                 'cache' => false,
-                'auto_reload' => true
+                'auto_reload' => true,
             ];
             $twig_loader = new FilesystemLoader($templatePathParts['dirname']);
             $twig = new Environment($twig_loader, $twig_options);
@@ -153,8 +126,20 @@ class Mailer2
 
     private function initializeSwiftMailer(array $sm_config): void
     {
-        $this->swiftTransport = Swift_SmtpTransport::newInstance($sm_config['host'], $sm_config['port']);
-        $this->swiftMailer = Swift_Mailer::newInstance($this->swiftTransport);
+        $swiftTransport = Swift_SmtpTransport::newInstance($sm_config['host'], $sm_config['port']);
+        if (array_key_exists('username', $sm_config)) {
+            $swiftTransport->setUsername($sm_config['username']);
+        }
+        if (array_key_exists('password', $sm_config)) {
+            $swiftTransport->setPassword($sm_config['password']);
+        }
+        if (array_key_exists('authmode', $sm_config)) {
+            $swiftTransport->setAuthMode($sm_config['authmode']);
+        }
+        if (array_key_exists('encryption', $sm_config)) {
+            $swiftTransport->setEncryption($sm_config['encryption']);
+        }
+        $this->swiftMailer = Swift_Mailer::newInstance($swiftTransport);
         $this->swiftMessage = Swift_Message::newInstance()
             ->setFrom([$this->mailFromEmail => $this->mailFromName]);
 

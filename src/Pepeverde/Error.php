@@ -25,33 +25,21 @@ class Error
         });
     }
 
-    /**
-     * @param array|null $sentryConfig
-     * @param string     $appVersion
-     * @param string     $environment
-     * @param array      $extra
-     * @param bool       $send_default_pii
-     */
     public static function enableErrorHandler(
-        $sentryConfig = null,
-        $appVersion = 'dev',
-        $environment = 'development',
+        array $sentryConfig = null,
+        string $appVersion = 'dev',
+        string $environment = 'development',
         array $extra = [],
         bool $send_default_pii = false
     ): void {
-        if (null === $sentryConfig) {
+        if (null === $sentryConfig || (is_countable($sentryConfig) && 0 === count($sentryConfig))) {
             throw new \RuntimeException('No Sentry configuration available');
         }
 
         self::configureSentry($sentryConfig, $appVersion, $environment, $extra, $send_default_pii);
     }
 
-    /**
-     * @param \Exception $e
-     * @param bool       $display
-     * @param array      $data
-     */
-    public static function report(\Exception $e, $display = true, array $data = []): void
+    public static function report(\Exception $e, bool $display = true, array $data = []): void
     {
         if (!empty($data)) {
             \Sentry\configureScope(static function (\Sentry\State\Scope $scope) use ($data): void {
@@ -59,11 +47,11 @@ class Error
             });
         }
 
-        $event_id = \Sentry\captureException($e);
+        $eventId = \Sentry\captureException($e);
 
         $message = $e->getMessage();
-        if (null !== $event_id) {
-            $message .= ' [Event-ID: ' . $event_id . ']';
+        if (null !== $eventId) {
+            $message .= ' [Event-ID: ' . $eventId . ']';
         }
         if (true === $display) {
             Zigra_Exception::renderError(
@@ -73,21 +61,22 @@ class Error
         }
     }
 
-    /**
-     * @param string $message
-     */
-    public static function message($message): void
+    public static function message(string $message): void
     {
         \Sentry\captureMessage($message);
     }
 
-    public static function setUser($username, $email = null): void
+    public static function setUser(string $username, string $email = null): void
     {
         \Sentry\configureScope(static function (\Sentry\State\Scope $scope) use ($username, $email): void {
-            $scope->setUser([
-                'username' => $username,
-                'email' => $email
-            ]);
+            $scope->setUser(
+                \Sentry\UserDataBag::createFromArray(
+                    [
+                        'username' => $username,
+                        'email' => $email,
+                    ]
+                )
+            );
         });
     }
 }

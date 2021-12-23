@@ -24,8 +24,6 @@ class LanguageTest extends TestCase
 
     /**
      * @dataProvider languageProvider
-     * @param mixed $languageCode
-     * @param mixed $expectedName
      */
     public function testInfoName($languageCode, $expectedName): void
     {
@@ -34,8 +32,6 @@ class LanguageTest extends TestCase
 
     /**
      * @dataProvider naturalLanguageProvider
-     * @param mixed $languageCode
-     * @param mixed $expectedName
      */
     public function testInfoNaturalName($languageCode, $expectedName): void
     {
@@ -52,24 +48,24 @@ class LanguageTest extends TestCase
         $languages = [
             'it_IT' => [
                 'name' => 'Italiano',
-                'natural_name' => 'Italiano'
+                'natural_name' => 'Italiano',
             ],
             'en_US' => [
                 'name' => 'Inglese',
-                'natural_name' => 'English'
+                'natural_name' => 'English',
             ],
             'de_DE' => [
                 'name' => 'Tedesco',
-                'natural_name' => 'Deutsch'
+                'natural_name' => 'Deutsch',
             ],
             'es_ES' => [
                 'name' => 'Spagnolo',
-                'natural_name' => 'Español'
+                'natural_name' => 'Español',
             ],
             'fr_FR' => [
                 'name' => 'Francese',
-                'natural_name' => 'Français'
-            ]
+                'natural_name' => 'Français',
+            ],
         ];
 
         $this->assertEquals($languages, $this->Language->all());

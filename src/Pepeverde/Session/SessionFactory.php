@@ -17,13 +17,13 @@ class SessionFactory
 
     /**
      * SessionFactory constructor.
-     * @param array  $user_session_config
+     *
      * @param string $sessionName
      */
     public function __construct(array $user_session_config = [], $sessionName = 'PHPSESSID')
     {
         $is_https = false;
-        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
+        if (isset($_SERVER['HTTPS']) && 'on' === $_SERVER['HTTPS']) {
             $is_https = true;
         }
         $this->session_config['secure'] = $is_https;

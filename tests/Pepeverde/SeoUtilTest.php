@@ -49,7 +49,7 @@ $           ♣ nel ¾ abbiamo tutto!#';
             'dimensioni',
             'ambito',
             'nazionale',
-            'internazionale'
+            'internazionale',
         ],
         1 => [
             'servizi',
@@ -71,7 +71,7 @@ $           ♣ nel ¾ abbiamo tutto!#';
             'post',
             'produzione',
             'scatti',
-            'selezionati'
+            'selezionati',
         ],
     ];
 

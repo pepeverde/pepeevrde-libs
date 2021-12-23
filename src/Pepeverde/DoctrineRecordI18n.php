@@ -7,9 +7,7 @@ use Doctrine_Record;
 class DoctrineRecordI18n
 {
     /**
-     * @param Doctrine_Record $record
      * @param string $name
-     * @return string|null
      */
     public static function get(Doctrine_Record $record, $name): ?string
     {
@@ -23,9 +21,7 @@ class DoctrineRecordI18n
     }
 
     /**
-     * @param Doctrine_Record $record
      * @param string $name
-     * @return bool
      */
     public static function exists(Doctrine_Record $record, $name): bool
     {
