@@ -192,8 +192,8 @@ class Text
         return static::substr($string, 0, $length = min(strlen($string), $length + $i)) . (count(
             $tags = array_reverse($tags)
         ) ? '</' . implode(
-                '></',
-                $tags
-            ) . '>' : '') . (mb_strlen($string) > $length ? $separator : '');
+            '></',
+            $tags
+        ) . '>' : '') . (mb_strlen($string) > $length ? $separator : '');
     }
 }
