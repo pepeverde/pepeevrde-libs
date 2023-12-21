@@ -75,6 +75,9 @@ class Registry implements Zigra_RegistryInterface
         }
     }
 
+    /**
+     * @param ?string $key
+     */
     public static function has($key): bool
     {
         if (is_string($key)) {

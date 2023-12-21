@@ -35,7 +35,16 @@ class Mailer2
     private $templateVars;
     private $bodyHtml;
     private $bodyText;
-    /** @var array */
+
+    /**
+     * @var array<array-key, array{
+     *       name: string,
+     *       type: string,
+     *       tmp_name: string,
+     *       error: int,
+     *       size: int
+     *  }>
+     */
     private $attachments = [];
 
     public function __construct(string $template, array $templateVars, array $swiftOptions)
@@ -152,11 +161,13 @@ class Mailer2
     {
         try {
             if (!empty($this->attachments)) {
-                foreach ($this->attachments as $id => $file_path) {
-                    if (!is_file($file_path)) {
+                foreach ($this->attachments as $id => $attachment) {
+                    if (!is_file($attachment['tmp_name'])) {
                         unset($this->attachments[$id]);
                     } else {
-                        $this->swiftMessage->attach(Swift_Attachment::fromPath($file_path));
+                        $swiftAttachment = Swift_Attachment::fromPath($attachment['tmp_name']);
+                        $swiftAttachment->setFilename($attachment['name']);
+                        $this->swiftMessage->attach($swiftAttachment);
                     }
                 }
             }
