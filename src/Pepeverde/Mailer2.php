@@ -23,17 +23,29 @@ class Mailer2
 
     /** @var Swift_Mailer */
     private $swiftMailer;
+
     /** @var Swift_Message */
     private $swiftMessage;
-    /** @var array */
+
+    /** @var array<string, mixed> */
     private $swiftOptions;
 
+    /** @var string */
     private $mailFromEmail;
+
+    /** @var string */
     private $mailFromName;
+
+    /** @var string */
     private $mailReplyToEmail;
 
+    /** @var array<string, mixed> */
     private $templateVars;
+
+    /** @var string */
     private $bodyHtml;
+
+    /** @var string */
     private $bodyText;
 
     /**
@@ -47,6 +59,10 @@ class Mailer2
      */
     private $attachments = [];
 
+    /**
+     * @param array<string, mixed> $templateVars
+     * @param array<string, mixed> $swiftOptions
+     */
     public function __construct(string $template, array $templateVars, array $swiftOptions)
     {
         $this->templateVars = $templateVars;
@@ -78,6 +94,15 @@ class Mailer2
         return $this;
     }
 
+    /**
+     * @param array<array-key, array{
+     *        name: string,
+     *        type: string,
+     *        tmp_name: string,
+     *        error: int,
+     *        size: int
+     *   }> $attachments
+     */
     public function setAttachments(array $attachments): self
     {
         $this->attachments = $attachments;
@@ -133,6 +158,9 @@ class Mailer2
         }
     }
 
+    /**
+     * @param array<string, mixed> $sm_config
+     */
     private function initializeSwiftMailer(array $sm_config): void
     {
         $swiftTransport = new Swift_SmtpTransport($sm_config['host'], $sm_config['port']);
