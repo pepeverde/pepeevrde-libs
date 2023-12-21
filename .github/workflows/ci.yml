@@ -1,50 +1,53 @@
 name: CI
 
 on:
-    pull_request:
-    push:
-        branches:
-            - master
-            - develop
+  pull_request:
+  push:
+    branches:
+      - master
+      - develop
 jobs:
-    build:
-        runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-20.04
 
-        strategy:
-            fail-fast: true
-            matrix:
-                os:
-                    - ubuntu-latest
-                php:
-                    - '7.4'
+    strategy:
+      fail-fast: true
+      matrix:
+        os:
+          - ubuntu-20.04
+        php:
+          - '7.4'
 
-        steps:
-            -   name: Checkout
-                uses: actions/checkout@v2
-                with:
-                    fetch-depth: 2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
 
-            -   name: Setup PHP
-                uses: shivammathur/setup-php@v2
-                with:
-                    php-version: ${{ matrix.php }}
-                    extensions: imagick, fileinfo, mbstring
-                    coverage: xdebug
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: imagick, fileinfo, mbstring
+          coverage: xdebug
 
-            -   name: Determine Composer cache directory
-                id: composer-cache
-                run: echo "::set-output name=directory::$(composer config cache-dir)"
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-${{ matrix.php }}-composer-${{ matrix.dependencies }}-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-${{ matrix.php }}-${{ matrix.dependencies }}-composer-
 
-            -   name: Cache Composer dependencies
-                uses: actions/cache@v2
-                with:
-                    path: ${{ steps.composer-cache.outputs.directory }}
-                    key: ${{ runner.os }}-${{ matrix.php }}-composer-${{ matrix.dependencies }}-${{ hashFiles('**/composer.lock') }}
-                    restore-keys: ${{ runner.os }}-${{ matrix.php }}-${{ matrix.dependencies }}-composer-
+      - name: Install dependencies
+        if: steps.composer-cache.outputs.cache-hit != 'true'
+        run: composer install --prefer-dist --no-progress
 
-            -   name: Install dependencies
-                if: steps.composer-cache.outputs.cache-hit != 'true'
-                run: composer install --prefer-dist --no-progress
+      - name: Start MailHog
+        run: |
+          docker run -d -p 1025:1025 -p 8025:8025 mailhog/mailhog
 
-            -   name: Run tests
-                run: vendor/bin/phpunit --coverage-clover=build/coverage-report.xml
+      - name: Run tests
+        run: vendor/bin/phpunit --coverage-clover=build/coverage-report.xml
