@@ -6,10 +6,14 @@ use Zigra_Exception;
 
 class Error
 {
+    /**
+     * @param array<string, mixed> $sentryConfig
+     * @param array<string, mixed> $extra
+     */
     private static function configureSentry(
         array $sentryConfig,
-        $appVersion,
-        $environment,
+        string $appVersion,
+        string $environment,
         array $extra,
         bool $send_default_pii
     ): void {
@@ -25,6 +29,10 @@ class Error
         });
     }
 
+    /**
+     * @param array<string, mixed>|null $sentryConfig
+     * @param array<string, mixed>      $extra
+     */
     public static function enableErrorHandler(
         array $sentryConfig = null,
         string $appVersion = 'dev',
@@ -39,6 +47,9 @@ class Error
         self::configureSentry($sentryConfig, $appVersion, $environment, $extra, $send_default_pii);
     }
 
+    /**
+     * @param array<string, mixed> $data
+     */
     public static function report(\Exception $e, bool $display = true, array $data = []): void
     {
         if (!empty($data)) {

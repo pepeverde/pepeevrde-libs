@@ -4,6 +4,12 @@ namespace Pepeverde;
 
 class Helper
 {
+    /**
+     * @param ?string $key
+     * @param ?mixed  $default
+     *
+     * @return array|bool|mixed|string|null
+     */
     public static function env($key, $default = null)
     {
         $value = getenv($key);
