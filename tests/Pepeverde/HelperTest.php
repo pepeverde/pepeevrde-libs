@@ -11,7 +11,7 @@ class HelperTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $dotenv = new Dotenv(__DIR__ . '/../resources/env/');
+        $dotenv = Dotenv::createUnsafeImmutable(__DIR__ . '/../resources/env/');
         $dotenv->load();
     }
 
