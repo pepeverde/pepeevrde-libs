@@ -128,6 +128,11 @@ class FileSystem
         return false;
     }
 
+    /**
+     * @param array{width: int, height: int} $uploaded_dimensions
+     *
+     * @return array{width: int, height: int}
+     */
     public static function setDimensionsVariables(Image $image, array $uploaded_dimensions): array
     {
         $uploaded_check = [
@@ -146,8 +151,8 @@ class FileSystem
     }
 
     /**
-     * @param array<string, int> $required_dimensions
-     * @param array<string, int> $uploaded_dimensions
+     * @param array{width: int, height: int} $required_dimensions
+     * @param array{width: int, height: int} $uploaded_dimensions
      */
     public static function uploadAndVerifyImage(
         array $post_files,
@@ -199,6 +204,10 @@ class FileSystem
         ];
     }
 
+    /**
+     * @param array{width: int, height: int} $required_dimensions
+     * @param array{width: int, height: int} $uploaded_dimensions
+     */
     public static function uploadAndVerifyFixedImage(
         array $post_files,
         string $path_to_upload,
