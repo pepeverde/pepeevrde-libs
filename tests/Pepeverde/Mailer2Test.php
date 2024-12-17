@@ -51,7 +51,6 @@ class Mailer2Test extends TestCase
             'tmp_name' => __DIR__ . '/../resources/mail-template/mail.html.twig',
             'error' => 0,
             'size' => 72,
-
         ];
         $mailer->setAttachments([$attachment]);
         $count = $mailer->sendMessage(

@@ -2,8 +2,6 @@
 
 namespace Pepeverde;
 
-use RuntimeException;
-
 class SeoUtil
 {
     private $stopWordFilePath = __DIR__ . '/../../resources/stopword/';
@@ -11,7 +9,7 @@ class SeoUtil
     /**
      * @param string $lang
      *
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     private function loadStopWords($lang = 'it'): array
     {
@@ -23,7 +21,7 @@ class SeoUtil
             return $stopwords;
         }
 
-        throw new RuntimeException('stop word file not found');
+        throw new \RuntimeException('stop word file not found');
     }
 
     /**
@@ -48,10 +46,10 @@ class SeoUtil
         // remove any remaining non alphanum chars
         $tmp_string = preg_replace("/[^\p{L}]/u", '|', $tmp_string);
 
-        //replace multiple pipe with single pipe
+        // replace multiple pipe with single pipe
         $tmp_string = preg_replace('/(\|)+/', '|', $tmp_string);
 
-        //remove pipes at beginning or end of string
+        // remove pipes at beginning or end of string
         $tmp_string = trim($tmp_string, '|');
 
         $tmp_array = explode('|', $tmp_string);
@@ -109,7 +107,7 @@ class SeoUtil
      * @param int    $limit
      * @param string $lang
      *
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     public function extractKeywords($text, $limit = 10, $lang = 'it'): array
     {
@@ -128,7 +126,7 @@ class SeoUtil
      * @param int    $limit
      * @param string $lang
      *
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     public function extractKeywordsAsString($text, $limit = 10, $lang = 'it'): string
     {

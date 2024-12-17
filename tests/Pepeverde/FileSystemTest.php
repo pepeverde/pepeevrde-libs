@@ -4,11 +4,10 @@ namespace Pepeverde\Test;
 
 use Pepeverde\FileSystem;
 use PHPUnit\Framework\TestCase;
-use UnexpectedValueException;
 
 class FileSystemTest extends TestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         if (!is_dir(__DIR__ . '/../../build/emptydir')) {
@@ -16,7 +15,7 @@ class FileSystemTest extends TestCase
         }
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         parent::tearDown();
         if (is_dir(__DIR__ . '/../../build/emptydir')) {
@@ -36,7 +35,7 @@ class FileSystemTest extends TestCase
 
     public function testWrongDir(): void
     {
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(\UnexpectedValueException::class);
         FileSystem::isDirEmpty(__DIR__ . '/iDontExist');
     }
 

@@ -2,19 +2,14 @@
 
 namespace Pepeverde;
 
-use Zigra_RegistryInterface;
-
 /**
  * Class Registry.
  */
-class Registry implements Zigra_RegistryInterface
+class Registry implements \Zigra_RegistryInterface
 {
     private static $instance;
     private static $vars = [];
 
-    /**
-     * @return Registry
-     */
     public static function getRegistry(): self
     {
         if (null === self::$instance) {
@@ -84,7 +79,7 @@ class Registry implements Zigra_RegistryInterface
             return array_key_exists($key, self::$vars);
         }
 
-        //throw new Exception('Key must be a string')
+        // throw new Exception('Key must be a string')
         return false;
     }
 

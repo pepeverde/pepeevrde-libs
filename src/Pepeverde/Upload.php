@@ -3,8 +3,6 @@
 namespace Pepeverde;
 
 use Behat\Transliterator\Transliterator;
-use Exception;
-use RuntimeException;
 
 /**
  * Class Upload.
@@ -23,9 +21,9 @@ class Upload
         if (0 === $post_file['error']) {
             try {
                 if (!@mkdir($destination, 0777, true) && !is_dir($destination)) {
-                    throw new RuntimeException('impossibile creare directory: ' . dirname($destination));
+                    throw new \RuntimeException('impossibile creare directory: ' . dirname($destination));
                 }
-            } catch (RuntimeException $e) {
+            } catch (\RuntimeException $e) {
                 Error::report($e);
             }
             if (null === $name) {
@@ -35,14 +33,14 @@ class Upload
 
             $name = self::cleanName($name_fileinfo['filename']);
             $fullname = $name . '.' . $name_fileinfo['extension'];
-            $destination = rtrim($destination, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+            $destination = rtrim($destination, \DIRECTORY_SEPARATOR) . \DIRECTORY_SEPARATOR;
             try {
                 if (move_uploaded_file($post_file['tmp_name'], $destination . $fullname)) {
                     return $fullname;
                 }
 
                 return false;
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 Error::report($e);
             }
 

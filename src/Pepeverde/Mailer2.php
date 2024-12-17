@@ -2,13 +2,8 @@
 
 namespace Pepeverde;
 
-use Exception;
 use Pelago\Emogrifier\CssInliner;
 use Soundasleep\Html2Text;
-use Swift_Attachment;
-use Swift_Mailer;
-use Swift_Message;
-use Swift_SmtpTransport;
 use Twig\Environment;
 use Twig\Extension\CoreExtension;
 use Twig\Loader\FilesystemLoader;
@@ -21,10 +16,10 @@ class Mailer2
     public const MAIL_FROM_EMAIL = 'example@example.com';
     public const MAIL_FROM_NAME = 'example@example.com';
 
-    /** @var Swift_Mailer */
+    /** @var \Swift_Mailer */
     private $swiftMailer;
 
-    /** @var Swift_Message */
+    /** @var \Swift_Message */
     private $swiftMessage;
 
     /** @var array<string, mixed> */
@@ -144,7 +139,7 @@ class Mailer2
             $twig = new Environment($twig_loader, $twig_options);
 
             /** @var CoreExtension $Twig_Extension_Core */
-            $Twig_Extension_Core = $twig->getExtension(\Twig\Extension\CoreExtension::class);
+            $Twig_Extension_Core = $twig->getExtension(CoreExtension::class);
             $Twig_Extension_Core->setTimezone('Europe/Rome');
             $Twig_Extension_Core->setDateFormat('d/m/Y', '%d days');
             $Twig_Extension_Core->setNumberFormat(2, ',', '');
@@ -153,7 +148,7 @@ class Mailer2
             $this->bodyHtml = $twig_template->render($this->templateVars);
             $this->bodyHtml = CssInliner::fromHtml($this->bodyHtml)->inlineCss()->render();
             $this->bodyText = Html2Text::convert($this->bodyHtml);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             Error::report($e);
         }
     }
@@ -163,7 +158,7 @@ class Mailer2
      */
     private function initializeSwiftMailer(array $sm_config): void
     {
-        $swiftTransport = new Swift_SmtpTransport($sm_config['host'], $sm_config['port']);
+        $swiftTransport = new \Swift_SmtpTransport($sm_config['host'], $sm_config['port']);
         if (array_key_exists('username', $sm_config) && null !== $sm_config['username']) {
             $swiftTransport->setUsername($sm_config['username']);
         }
@@ -176,8 +171,8 @@ class Mailer2
         if (array_key_exists('encryption', $sm_config) && null !== $sm_config['encryption']) {
             $swiftTransport->setEncryption($sm_config['encryption']);
         }
-        $this->swiftMailer = new Swift_Mailer($swiftTransport);
-        $this->swiftMessage = (new Swift_Message())
+        $this->swiftMailer = new \Swift_Mailer($swiftTransport);
+        $this->swiftMessage = (new \Swift_Message())
             ->setFrom([$this->mailFromEmail => $this->mailFromName]);
 
         if (null !== $this->mailReplyToEmail) {
@@ -193,13 +188,13 @@ class Mailer2
                     if (!is_file($attachment['tmp_name'])) {
                         unset($this->attachments[$id]);
                     } else {
-                        $swiftAttachment = Swift_Attachment::fromPath($attachment['tmp_name']);
+                        $swiftAttachment = \Swift_Attachment::fromPath($attachment['tmp_name']);
                         $swiftAttachment->setFilename($attachment['name']);
                         $this->swiftMessage->attach($swiftAttachment);
                     }
                 }
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             Error::report($e);
         }
     }

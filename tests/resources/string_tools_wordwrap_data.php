@@ -71,7 +71,7 @@ return [
         "This is\n ä string which is lönger thän 80 chäräcters büt döes nöt cöntäin UTF-8-encöded\nchäräcters. Sö whät?",
     ],
 
-// -----------------
+    // -----------------
 
     // Custom width, no UTF-8, single line, no wrapping
     7 => [
@@ -127,7 +127,7 @@ return [
         "This is ä string which is lönger thän 80 chäräcters büt döes nöt cöntäin\nUTF-8-encöded chäräcters. Sö whät?",
     ],
 
-// -----------------
+    // -----------------
 
     // Preserve, single line, non UTF-8
     12 => [
@@ -181,7 +181,7 @@ return [
         "This\nis ä string which is lönger thän 75 chäräcters büt döes nöt cöntäin\nUTF-8-encöded chäräcters. Sö whät?",
     ],
 
-// -----------------
+    // -----------------
 
     // Default width, no UTF-8, single line, wrapping, custom wrap char
     16 => [
@@ -219,9 +219,9 @@ return [
         "This is ä string which is lönger thän 75 \nchäräcters büt döes nöt cöntäin---UTF-8-encöded\n chäräcters. Sö whät?",
     ],
 
-// ---------- PHP tests to ensure compatibility ------------
+    // ---------- PHP tests to ensure compatibility ------------
 
-// ext/standard/tests/strings/wordwrap.phpt
+    // ext/standard/tests/strings/wordwrap.phpt
 
     19 => [
         [
@@ -383,7 +383,7 @@ return [
         '123|==1234567890|==123',
     ],
 
-// ext/standard/tests/strings/wordwrap_basic.phpt
+    // ext/standard/tests/strings/wordwrap_basic.phpt
 
     39 => [
         [
@@ -429,7 +429,7 @@ return [
         'The quick<br />\nbrown<br />\nfoooooooooox<br />\njummmmmmmmmmmmped<br />\nover the<br />\nlazzzzzzzzzzzy<br />\ndoooooooooooooooooooooog.',
     ],
 
-// ext/standard/tests/strings/wordwrap_variation5.phpt
+    // ext/standard/tests/strings/wordwrap_variation5.phpt
 
     44 => [
         [

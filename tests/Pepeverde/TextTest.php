@@ -7,20 +7,19 @@ use PHPUnit\Framework\TestCase;
 
 class TextTest extends TestCase
 {
-    /** @var Text */
-    private $Text;
-    private $text_br = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br>Mauris volutpat, velit interdum sagittis vestibulum, velit nulla vehicula nulla, nec faucibus est diam sed orci.<br />Phasellus finibus, felis vel posuere dictum, elit arcu vestibulum dolor, non auctor ligula neque eu ante.<br    >';
-    private $text_10chars = 'Lorem ipsu';
+    private Text $Text;
+    private string $text_br = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br>Mauris volutpat, velit interdum sagittis vestibulum, velit nulla vehicula nulla, nec faucibus est diam sed orci.<br />Phasellus finibus, felis vel posuere dictum, elit arcu vestibulum dolor, non auctor ligula neque eu ante.<br    >';
+    private string $text_10chars = 'Lorem ipsu';
 
-    private static $provideTestWordWrap;
+    private static array $provideTestWordWrap = [];
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->Text = new Text();
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         parent::tearDown();
         unset($this->Text);
@@ -62,10 +61,8 @@ class TextTest extends TestCase
     */
 
     /**
-     * @param $input
-     * @param $expected
-     *
      * @dataProvider provideTestWordWrap
+     *
      * @small
      */
     public function testWordwrap($input, $expected)
@@ -84,8 +81,6 @@ class TextTest extends TestCase
     }
 
     /**
-     * @param $input
-     * @param $expected
      * @dataProvider provideExceptionData
      */
     public function testLimitCase($input, $exceptionClass)
@@ -100,7 +95,7 @@ class TextTest extends TestCase
         );
     }
 
-    public function provideTestWordWrap()
+    public function provideTestWordWrap(): array
     {
         if (!isset(self::$provideTestWordWrap)) {
             self::$provideTestWordWrap = require __DIR__ . '/../resources/string_tools_wordwrap_data.php';
@@ -109,7 +104,7 @@ class TextTest extends TestCase
         return self::$provideTestWordWrap;
     }
 
-    public function provideExceptionData()
+    public function provideExceptionData(): array
     {
         return [
             38 => [

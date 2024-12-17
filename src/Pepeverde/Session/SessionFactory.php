@@ -3,7 +3,6 @@
 namespace Pepeverde\Session;
 
 use Aura\Session\Session;
-use RuntimeException;
 
 class SessionFactory
 {
@@ -50,7 +49,7 @@ class SessionFactory
             case 'redis':
                 return $this->getRedisSession();
             default:
-                throw new RuntimeException('Session type can be "filesystem" or "redis" only');
+                throw new \RuntimeException('Session type can be "filesystem" or "redis" only');
         }
     }
 
@@ -61,7 +60,7 @@ class SessionFactory
         $session = $this->commonFactory();
 
         if (!@is_dir($this->savePath)) {
-            throw new RuntimeException('Invalid filesystem savepath');
+            throw new \RuntimeException('Invalid filesystem savepath');
         }
         $session->setSavePath($this->savePath);
 
@@ -78,16 +77,16 @@ class SessionFactory
 
         // throw exception if scheme and host are not present
         if (!isset($redisPardesUri['scheme'], $redisPardesUri['host'])) {
-            throw new RuntimeException('Invalid Redis savepath');
+            throw new \RuntimeException('Invalid Redis savepath');
         }
 
         $this->savePath = $redisPardesUri['scheme'] . '://' . $redisPardesUri['host'];
         // check if port is specified
         if (
-            isset($redisPardesUri['port']) &&
-            filter_var(
+            isset($redisPardesUri['port'])
+            && filter_var(
                 $redisPardesUri['port'],
-                FILTER_VALIDATE_INT,
+                \FILTER_VALIDATE_INT,
                 [
                     'options' => [
                         'min_range' => 1,
