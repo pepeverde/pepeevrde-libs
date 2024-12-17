@@ -4,21 +4,15 @@ namespace Pepeverde;
 
 class Text
 {
-    /**
-     * @param string   $string
-     * @param int      $start
-     * @param int|null $length
-     */
-    public static function substr($string, $start, $length = null): string
+    public static function substr(string $string, int $start, ?int $length = null): string
     {
         return mb_substr($string, $start, $length, 'UTF-8');
     }
 
     /**
-     * @param string       $haystack
-     * @param array|string $needles
+     * @param string[]|string $needles
      */
-    public static function startsWith($haystack, $needles): bool
+    public static function startsWith(string $haystack, array|string $needles): bool
     {
         foreach ((array)$needles as $needle) {
             if ('' !== $needle && static::substr($haystack, 0, strlen($needle)) === (string)$needle) {
@@ -30,10 +24,9 @@ class Text
     }
 
     /**
-     * @param string       $haystack
-     * @param array|string $needles
+     * @param string[]|string $needles
      */
-    public static function endsWith($haystack, $needles): bool
+    public static function endsWith(string $haystack, array|string $needles): bool
     {
         foreach ((array)$needles as $needle) {
             if (static::substr($haystack, -strlen($needle)) === (string)$needle) {
@@ -45,13 +38,12 @@ class Text
     }
 
     /**
-     * @param string       $haystack
-     * @param array|string $needles
+     * @param string[]|string $needles
      */
-    public static function contains($haystack, $needles): bool
+    public static function contains(string $haystack, array|string $needles): bool
     {
         foreach ((array)$needles as $needle) {
-            if ('' !== $needle && false !== mb_strpos($haystack, $needle)) {
+            if ('' !== $needle && str_contains($haystack, $needle)) {
                 return true;
             }
         }
@@ -69,15 +61,13 @@ class Text
         return preg_replace('#<br\s*?/?>#i', "\n", $string);
     }
 
-    /**
-     * @param string $str
-     * @param int    $width
-     * @param string $break
-     * @param bool   $cut
-     * @param string $encoding
-     */
-    public function wordwrap($str, $width = 80, $break = "\n", $cut = false, $encoding = 'UTF-8'): string
-    {
+    public function wordwrap(
+        string $str,
+        int $width = 80,
+        string $break = "\n",
+        bool $cut = false,
+        string $encoding = 'UTF-8',
+    ): string {
         $strlen = mb_strlen($str, $encoding);
         $breaklen = mb_strlen($break, $encoding);
         $newtext = '';
@@ -169,7 +159,7 @@ class Text
         $tags = [];
         $m = [];
 
-        preg_match_all('/<[^>]+>([^<]*)/', $string, $m, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
+        preg_match_all('/<[^>]+>([^<]*)/', $string, $m, \PREG_OFFSET_CAPTURE | \PREG_SET_ORDER);
         foreach ($m as $o) {
             if ($o[0][1] - $i >= $length) {
                 break;

@@ -15,7 +15,7 @@ class FileInfoTest extends TestCase
         $this->fileinfo = new FileInfo(__FILE__);
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         parent::tearDown();
         unset($this->fileinfo);

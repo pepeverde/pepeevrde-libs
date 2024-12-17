@@ -4,12 +4,11 @@ namespace Pepeverde\Test;
 
 use Pepeverde\SeoUtil;
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
 
 class SeoUtilTest extends TestCase
 {
     private $text = 'Avendo avuto troppe 💩 visite nel sito, abbiamo provveduto à chiuderlo tutto!';
-    private $textWillBeEmpty = 'Avendo 💩 avuto troppe ♻, ® <br> <p class="test">€</p> 
+    private $textWillBeEmpty = 'Avendo 💩 avuto troppe ♻, ® <br> <p class="test">€</p>
 $           ♣ nel ¾ abbiamo tutto!#';
     private $problematicText = [
         0 => 'PermasteelisaCampus è un programma completamente gratuito indirizzato a coloro che mirano a diventare dei professionisti nel settore industriale e dei servizi di ingegneria e che saranno progressivamente in grado di gestire - da un punto di vista tecnico e gestionale - progetti complessi, dando il proprio supporto in tutte le fasi di studio, realizzazione, implementazione e produzione di commesse di medie e grandi dimensioni in ambito nazionale ed internazionale.',
@@ -120,7 +119,7 @@ $           ♣ nel ¾ abbiamo tutto!#';
 
     public function testMissingStopWordFile(): void
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
         $seoUtil = new SeoUtil();
         $seoUtil->extractKeywords($this->text, 10, 'ja');
     }

@@ -16,7 +16,7 @@ class LanguageTest extends TestCase
         $this->Language = new Language();
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         parent::tearDown();
         unset($this->Language);

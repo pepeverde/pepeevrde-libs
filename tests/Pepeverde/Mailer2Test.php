@@ -45,7 +45,14 @@ class Mailer2Test extends TestCase
         $mailer->setEmailFromName('Jane Doe');
         $mailer->setEmailFromEmail('janedoe@example.com');
         $mailer->setEmailReplyToEmail('johndoe@example.com');
-        $mailer->setAttachments([__DIR__ . '/../resources/mail-template/mail.html.twig']);
+        $attachment = [
+            'name' => 'mail.html.twig',
+            'type' => 'text/html',
+            'tmp_name' => __DIR__ . '/../resources/mail-template/mail.html.twig',
+            'error' => 0,
+            'size' => 72,
+        ];
+        $mailer->setAttachments([$attachment]);
         $count = $mailer->sendMessage(
             'noreplay@example.com',
             'Subject of email'

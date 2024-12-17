@@ -3,25 +3,21 @@
 namespace Pepeverde\Session;
 
 use Aura\Session\Session;
-use RuntimeException;
 
 class SessionFactory
 {
-    protected $session_config = [
+    protected array $session_config = [
         'lifetime' => 24 * 60 * 60,  // 24 hours
         'httponly' => true,
     ];
 
-    private $sessionName;
-    private $savePath;
+    private string $sessionName;
+    private string $savePath;
 
-    /**
-     * SessionFactory constructor.
-     *
-     * @param string $sessionName
-     */
-    public function __construct(array $user_session_config = [], $sessionName = 'PHPSESSID')
-    {
+    public function __construct(
+        array $user_session_config = [],
+        string $sessionName = 'PHPSESSID',
+    ) {
         $is_https = false;
         if (isset($_SERVER['HTTPS']) && 'on' === $_SERVER['HTTPS']) {
             $is_https = true;
@@ -32,26 +28,23 @@ class SessionFactory
         $this->sessionName = $sessionName;
     }
 
-    public function setName($name): void
+    public function setName(string $name): void
     {
         $this->sessionName = $name;
     }
 
-    public function setSavePath($savePath): void
+    public function setSavePath(string $savePath): void
     {
         $this->savePath = $savePath;
     }
 
     public function getSession(string $type): Session
     {
-        switch ($type) {
-            case 'filesystem':
-                return $this->getFilesystemSession();
-            case 'redis':
-                return $this->getRedisSession();
-            default:
-                throw new RuntimeException('Session type can be "filesystem" or "redis" only');
-        }
+        return match ($type) {
+            'filesystem' => $this->getFilesystemSession(),
+            'redis' => $this->getRedisSession(),
+            default => throw new \RuntimeException('Session type can be "filesystem" or "redis" only'),
+        };
     }
 
     private function getFilesystemSession(): Session
@@ -61,7 +54,7 @@ class SessionFactory
         $session = $this->commonFactory();
 
         if (!@is_dir($this->savePath)) {
-            throw new RuntimeException('Invalid filesystem savepath');
+            throw new \RuntimeException('Invalid filesystem savepath');
         }
         $session->setSavePath($this->savePath);
 
@@ -74,20 +67,20 @@ class SessionFactory
 
         $session = $this->commonFactory();
 
-        $redisPardesUri = parse_url($this->savePath);
+        $redisParsedUri = parse_url($this->savePath);
 
         // throw exception if scheme and host are not present
-        if (!isset($redisPardesUri['scheme'], $redisPardesUri['host'])) {
-            throw new RuntimeException('Invalid Redis savepath');
+        if (!isset($redisParsedUri['scheme'], $redisParsedUri['host'])) {
+            throw new \RuntimeException('Invalid Redis savepath');
         }
 
-        $this->savePath = $redisPardesUri['scheme'] . '://' . $redisPardesUri['host'];
+        $this->savePath = $redisParsedUri['scheme'] . '://' . $redisParsedUri['host'];
         // check if port is specified
         if (
-            isset($redisPardesUri['port']) &&
-            filter_var(
-                $redisPardesUri['port'],
-                FILTER_VALIDATE_INT,
+            isset($redisParsedUri['port'])
+            && filter_var(
+                $redisParsedUri['port'],
+                \FILTER_VALIDATE_INT,
                 [
                     'options' => [
                         'min_range' => 1,
@@ -96,12 +89,12 @@ class SessionFactory
                 ]
             )
         ) {
-            $this->savePath .= ':' . (int)$redisPardesUri['port'];
+            $this->savePath .= ':' . (int)$redisParsedUri['port'];
         }
 
-        if (isset($redisPardesUri['query'])) {
-            $redisPardesUri['query'] = str_replace('auth=&', '', $redisPardesUri['query']);
-            $this->savePath .= '?' . $redisPardesUri['query'];
+        if (isset($redisParsedUri['query'])) {
+            $redisParsedUri['query'] = str_replace('auth=&', '', $redisParsedUri['query']);
+            $this->savePath .= '?' . $redisParsedUri['query'];
         }
 
         $session->setSavePath($this->savePath);

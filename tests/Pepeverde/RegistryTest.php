@@ -7,12 +7,12 @@ use PHPUnit\Framework\TestCase;
 
 class RegistryTest extends TestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         Registry::clear();
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         Registry::clear();
     }
