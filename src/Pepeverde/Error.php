@@ -38,7 +38,7 @@ class Error
         array $extra = [],
         bool $send_default_pii = false,
     ): void {
-        if (null === $sentryConfig || (is_countable($sentryConfig) && 0 === count($sentryConfig))) {
+        if (null === $sentryConfig || 0 === count($sentryConfig)) {
             throw new \RuntimeException('No Sentry configuration available');
         }
 

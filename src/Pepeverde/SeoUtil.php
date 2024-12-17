@@ -4,14 +4,12 @@ namespace Pepeverde;
 
 class SeoUtil
 {
-    private $stopWordFilePath = __DIR__ . '/../../resources/stopword/';
+    private string $stopWordFilePath = __DIR__ . '/../../resources/stopword/';
 
     /**
-     * @param string $lang
-     *
      * @throws \RuntimeException
      */
-    private function loadStopWords($lang = 'it'): array
+    private function loadStopWords(string $lang = 'it'): array
     {
         $stopWordFile = $this->stopWordFilePath . $lang . '.php';
         if (is_file($stopWordFile)) {
@@ -24,11 +22,7 @@ class SeoUtil
         throw new \RuntimeException('stop word file not found');
     }
 
-    /**
-     * @param string $text
-     * @param array  $stopwords
-     */
-    private function stripUnwantedCharsFromText($text, $stopwords): array
+    private function stripUnwantedCharsFromText(string $text, array $stopwords): array
     {
         // strip html tags
         $tmp_string = strip_tags(mb_strtolower($text));
@@ -54,13 +48,12 @@ class SeoUtil
 
         $tmp_array = explode('|', $tmp_string);
 
-        return array_unique(array_filter($tmp_array, 'mb_strlen'));
+        return array_unique(array_filter($tmp_array, static function($value) {
+            return '' !== $value;
+        }));
     }
 
-    /**
-     * @param string $string
-     */
-    private function stripEmoji($string): string
+    private function stripEmoji(string $string): string
     {
         // Match Emoticons
         $regexEmoticons = '/[\x{1F600}-\x{1F64F}]/u';
@@ -103,15 +96,11 @@ class SeoUtil
     }
 
     /**
-     * @param string $text
-     * @param int    $limit
-     * @param string $lang
-     *
      * @throws \RuntimeException
      */
-    public function extractKeywords($text, $limit = 10, $lang = 'it'): array
+    public function extractKeywords(string $text, int $limit = 10, string $lang = 'it'): array
     {
-        if (is_int($limit) && $limit > 0) {
+        if ($limit > 0) {
             $stopWords = $this->loadStopWords($lang);
             $cleanTextAsArray = $this->stripUnwantedCharsFromText($text, $stopWords);
 
@@ -122,13 +111,9 @@ class SeoUtil
     }
 
     /**
-     * @param string $text
-     * @param int    $limit
-     * @param string $lang
-     *
      * @throws \RuntimeException
      */
-    public function extractKeywordsAsString($text, $limit = 10, $lang = 'it'): string
+    public function extractKeywordsAsString(string $text, int $limit = 10, string $lang = 'it'): string
     {
         return implode(',', $this->extractKeywords($text, $limit, $lang));
     }

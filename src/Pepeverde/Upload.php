@@ -4,21 +4,22 @@ namespace Pepeverde;
 
 use Behat\Transliterator\Transliterator;
 
-/**
- * Class Upload.
- */
 class Upload
 {
     /**
      * @param array       $post_file   $_FILES array for single file
      * @param string      $destination path to put file into
      * @param string|null $name        optional new name of uploaded file
-     *
-     * @return bool|string
      */
-    public static function uploadFile($post_file, $destination, $name = null)
-    {
-        if (0 === $post_file['error']) {
+    public static function uploadFile(
+        array $post_file,
+        string $destination,
+        ?string $name = null,
+        ?FileMover $fileMover = null,
+    ): bool|string {
+        $fileMover = $fileMover ?? new FileMover();
+
+        if (\UPLOAD_ERR_OK === $post_file['error']) {
             try {
                 if (!@mkdir($destination, 0777, true) && !is_dir($destination)) {
                     throw new \RuntimeException('impossibile creare directory: ' . dirname($destination));
@@ -26,6 +27,7 @@ class Upload
             } catch (\RuntimeException $e) {
                 Error::report($e);
             }
+
             if (null === $name) {
                 $name = $post_file['name'];
             }
@@ -34,56 +36,60 @@ class Upload
             $name = self::cleanName($name_fileinfo['filename']);
             $fullname = $name . '.' . $name_fileinfo['extension'];
             $destination = rtrim($destination, \DIRECTORY_SEPARATOR) . \DIRECTORY_SEPARATOR;
+
             try {
-                if (move_uploaded_file($post_file['tmp_name'], $destination . $fullname)) {
+                if ($fileMover->move($post_file['tmp_name'], $destination . $fullname)) {
                     return $fullname;
                 }
-
-                return false;
             } catch (\Exception $e) {
                 Error::report($e);
             }
-
-            return false;
         }
 
         return false;
     }
 
-    /**
-     * @param string $name
-     */
-    public static function cleanName($name): string
+    public static function cleanName(string $name): string
     {
-        $remove_pattern = '/[^_\-.\-a-zA-Z0-9\s]/u';
+        $remove_pattern = '/[^a-zA-Z0-9\s.\-_]/u';
 
-        $name = preg_replace($remove_pattern, '', $name); // remove unneeded chars
-        $name = str_replace('_', ' ', $name); // treat underscores as spaces
-        $name = trim($name); // trim leading/trailing spaces
-        $name = preg_replace('/[-\s]+/', '-', $name); // convert spaces to hyphens
-        $name = strtolower($name); // convert to lowercase
+        // Rimuove caratteri indesiderati ma lascia spazi, punti, trattini e underscore
+        $name = preg_replace($remove_pattern, '', $name);
+
+        // Tratta gli underscore come spazi e rimuove spazi iniziali/finali
+        $name = str_replace('_', ' ', $name);
+        $name = trim($name);
+
+        // Converte spazi multipli in trattini
+        $name = preg_replace('/\s+/', '-', $name);
+
+        // Rimuove trattini subito prima del punto
+        $name = preg_replace('/-\./', '.', $name);
+
+        // Riduce puntini consecutivi a un singolo punto
+        $name = preg_replace('/\.{2,}/', '.', $name);
+
+        // Converte tutto in minuscolo
+        $name = strtolower($name);
 
         return $name;
     }
 
-    /**
-     * @param string $filename
-     *
-     * @return mixed|string
-     */
-    public static function urlify($filename)
+    public static function urlify(string $filename): string
     {
-        $sluggableText = Transliterator::transliterate($filename);
-        $urlized = strtolower(trim(preg_replace("/[^a-zA-Z0-9\/_|+ -]/", '', $sluggableText), '-'));
-        $urlized = preg_replace("/[\/_|+ -]+/", '-', $urlized);
+        $pathInfo = self::utf8Pathinfo($filename); // Usa utf8Pathinfo per ottenere le parti del file
 
-        return $urlized;
+        $name = Transliterator::transliterate($pathInfo['filename']);
+        $name = strtolower(trim(preg_replace("/[^a-zA-Z0-9\/_|+ -]/", '', $name), '-'));
+        $name = preg_replace("/[\/_|+ -]+/", '-', $name);
+
+        return isset($pathInfo['extension']) ? $name . '.' . $pathInfo['extension'] : $name;
     }
 
     /**
      * @param array[] $vector
      */
-    public static function flipArray($vector): array
+    public static function flipArray(array $vector): array
     {
         $result = [];
         foreach ($vector as $key1 => $value1) {
@@ -95,10 +101,7 @@ class Upload
         return $result;
     }
 
-    /**
-     * @param string $filepath
-     */
-    public static function utf8Pathinfo($filepath): array
+    public static function utf8Pathinfo(string $filepath): array
     {
         preg_match('%^(.*?)[\\\\/]*(([^/\\\\]*?)(\.([^\.\\\\/]+?)|))[\\\\/\.]*$%im', $filepath, $m);
         $ret = [];

@@ -2,13 +2,14 @@
 
 namespace Pepeverde;
 
-/**
- * Class Registry.
- */
 class Registry implements \Zigra_RegistryInterface
 {
-    private static $instance;
-    private static $vars = [];
+    private static ?self $instance = null;
+
+    /**
+     * @var array<string, mixed>
+     */
+    private static array $vars = [];
 
     public static function getRegistry(): self
     {
@@ -28,25 +29,18 @@ class Registry implements \Zigra_RegistryInterface
     }
 
     /**
-     * @param string $key
-     *
      * @return mixed|null
      */
-    public static function get($key, $alt = null)
+    public static function get(string $key, mixed $default = null): mixed
     {
         if (self::has($key)) {
             return self::$vars[$key];
         }
 
-        return $alt;
+        return $default;
     }
 
-    /**
-     * @param string $key
-     *
-     * @return bool
-     */
-    public static function set($key, $value)
+    public static function set(string $key, $value): bool
     {
         if (!self::has($key)) {
             self::$vars[$key] = $value;
@@ -63,17 +57,14 @@ class Registry implements \Zigra_RegistryInterface
      * @param string $key   the variable's name
      * @param string $value the variable's value
      */
-    public static function add($key, $value)
+    public static function add(string $key, string $value): void
     {
         if (self::has($key) && is_array(self::$vars[$key])) {
             self::$vars[$key][] = $value;
         }
     }
 
-    /**
-     * @param ?string $key
-     */
-    public static function has($key): bool
+    public static function has(?string $key): bool
     {
         if (is_string($key)) {
             return array_key_exists($key, self::$vars);
@@ -83,10 +74,7 @@ class Registry implements \Zigra_RegistryInterface
         return false;
     }
 
-    /**
-     * @param string $key
-     */
-    public static function remove($key): bool
+    public static function remove(string $key): bool
     {
         if (self::has($key)) {
             unset(self::$vars[$key]);
@@ -113,35 +101,22 @@ class Registry implements \Zigra_RegistryInterface
         return [];
     }
 
-    public static function clear()
+    public static function clear(): void
     {
         self::$vars = [];
     }
 
-    /**
-     * @param string $key
-     *
-     * @return mixed|null
-     */
-    public function __get($key)
+    public function __get(string $key): mixed
     {
         return self::get($key);
     }
 
-    /**
-     * @param string $key
-     */
-    public function __set($key, $value)
+    public function __set(string $key, mixed $value)
     {
         self::set($key, $value);
     }
 
-    /**
-     * @param string $key
-     *
-     * @return bool
-     */
-    public function __isset($key)
+    public function __isset(string $key): bool
     {
         return self::has($key);
     }

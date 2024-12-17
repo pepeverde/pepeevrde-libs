@@ -52,7 +52,7 @@ class Mailer2
      *       size: int
      *  }>
      */
-    private $attachments = [];
+    private array $attachments = [];
 
     /**
      * @param array<string, mixed> $templateVars
@@ -105,8 +105,12 @@ class Mailer2
         return $this;
     }
 
-    public function sendMessage(string $to, string $subject, ?string $cc = null, ?string $bcc = null): int
-    {
+    public function sendMessage(
+        string $to,
+        string $subject,
+        ?string $cc = null,
+        ?string $bcc = null,
+    ): int {
         $this->initializeSwiftMailer($this->swiftOptions);
 
         $this->swiftMessage->setTo($to);
